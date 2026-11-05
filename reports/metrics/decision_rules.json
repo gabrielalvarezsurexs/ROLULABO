@@ -1,0 +1,70 @@
+{
+  "umbral_score": 0.365787236120668,
+  "semaforo_2017": [
+    {
+      "semaforo": "Rojo",
+      "lineas": 925,
+      "lineas_pct": 0.2792874396135266,
+      "lineas_por_mes": 77.08333333333333,
+      "lineas_con_perdida": 602,
+      "tasa_perdida": 0.6508108108108108,
+      "monto_perdida": 53411.107,
+      "monto_perdida_pct": 0.9921040777002632
+    },
+    {
+      "semaforo": "Amarillo",
+      "lineas": 13,
+      "lineas_pct": 0.00392512077294686,
+      "lineas_por_mes": 1.0833333333333333,
+      "lineas_con_perdida": 5,
+      "tasa_perdida": 0.38461538461538464,
+      "monto_perdida": 64.867,
+      "monto_perdida_pct": 0.0012048957384122928
+    },
+    {
+      "semaforo": "Verde",
+      "lineas": 2374,
+      "lineas_pct": 0.7167874396135265,
+      "lineas_por_mes": 197.83333333333334,
+      "lineas_con_perdida": 13,
+      "tasa_perdida": 0.005475989890480202,
+      "monto_perdida": 360.2194,
+      "monto_perdida_pct": 0.006691026561324449
+    }
+  ],
+  "decisiones_humanas_por_mes": 78.16666666666667,
+  "decisiones_humanas_pct": 0.2832125603864734,
+  "perdida_cubierta_por_revision_pct": 0.9933089734386755,
+  "reglas": [
+    {
+      "nivel": "Línea de venta",
+      "score": "Probabilidad de pérdida del modelo",
+      "regla": "Rojo si el descuento supera el tope de la subcategoría. Amarillo si está dentro del tope pero el score supera el umbral. Verde en otro caso",
+      "decide": "Gerente comercial en rojo y amarillo, vendedor en verde"
+    },
+    {
+      "nivel": "Política de descuento",
+      "score": "Utilidad simulada por subcategoría y estado",
+      "regla": "Tope igual al menor entre el percentil 10 del descuento de equilibrio y el tope del modelo",
+      "decide": "Director de finanzas aprueba la tabla"
+    },
+    {
+      "nivel": "Promesa de entrega",
+      "score": "Percentil 95 de días por modalidad",
+      "regla": "La promesa publicada es el percentil 95 redondeado hacia arriba",
+      "decide": "Gerente de operaciones"
+    },
+    {
+      "nivel": "Cliente",
+      "score": "Grupo asignado por K-Means",
+      "regla": "Acción sugerida por grupo (proteger, corregir, crecer, reactivar)",
+      "decide": "Gerente de marketing asigna presupuesto"
+    },
+    {
+      "nivel": "Estrategia",
+      "score": "Resultados de la ola 1 contra el grupo de control",
+      "regla": "Extender si se cumplen los criterios de éxito, revisar si se activa el criterio de alto",
+      "decide": "Dirección general"
+    }
+  ]
+}

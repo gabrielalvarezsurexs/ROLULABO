@@ -1,0 +1,38 @@
+{
+  "filas_crudas": 9994,
+  "columnas_esperadas_ok": true,
+  "nulos_totales": 0,
+  "duplicados_exactos_eliminados": 1,
+  "envio_antes_de_pedido": 0,
+  "ventas_no_positivas": 0,
+  "cantidad_no_positiva": 0,
+  "descuento_fuera_de_rango": 0,
+  "paises": [
+    "United States"
+  ],
+  "pedidos_inconsistentes": 0,
+  "product_id_reutilizados": 32,
+  "combinaciones_estado_subcategoria": 656,
+  "combinaciones_con_un_solo_descuento": 656,
+  "filas_limpias": 9993,
+  "periodo": [
+    "2014-01-03",
+    "2017-12-30"
+  ],
+  "productos_costo_no_constante": 0,
+  "regla_equilibrio_exactitud": 1.0,
+  "modelo_estrella": {
+    "fact_lineas": 9993,
+    "dim_geografia": 632,
+    "dim_producto": 1894,
+    "dim_cliente": 793,
+    "dim_fecha": 1464
+  },
+  "pedidos": 5009,
+  "clientes": 793,
+  "lineas_con_perdida_pct": 0.18713099169418593,
+  "pedidos_con_perdida_pct": 0.20403274106608105,
+  "ventas_totales": 2296919.4883000003,
+  "utilidad_total": 286409.0805,
+  "monto_perdidas": 156119.2269
+}

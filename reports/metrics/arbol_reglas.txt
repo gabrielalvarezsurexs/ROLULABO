@@ -1,0 +1,19 @@
+|--- num__discount <= 0.250
+|   |--- num__discount <= 0.125
+|   |   |--- num__discount <= 0.050
+|   |   |   |--- class: 0
+|   |   |--- num__discount >  0.050
+|   |   |   |--- class: 0
+|   |--- num__discount >  0.125
+|   |   |--- cat__sub_category_Storage <= 0.500
+|   |   |   |--- class: 0
+|   |   |--- cat__sub_category_Storage >  0.500
+|   |   |   |--- class: 1
+|--- num__discount >  0.250
+|   |--- cat__sub_category_Copiers <= 0.500
+|   |   |--- num__discount <= 0.425
+|   |   |   |--- class: 1
+|   |   |--- num__discount >  0.425
+|   |   |   |--- class: 1
+|   |--- cat__sub_category_Copiers >  0.500
+|   |   |--- class: 0

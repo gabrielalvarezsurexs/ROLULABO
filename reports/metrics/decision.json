@@ -1,0 +1,52 @@
+{
+  "estados": [
+    "Arizona",
+    "Colorado",
+    "Florida",
+    "Illinois",
+    "North Carolina",
+    "Ohio",
+    "Oregon",
+    "Pennsylvania",
+    "Tennessee",
+    "Texas"
+  ],
+  "por_grupo": [
+    {
+      "grupo": "10 estados de descuento alto",
+      "utilidad_real": -36671.0652,
+      "utilidad_con_topes": 44769.6126,
+      "lineas_afectadas": 815,
+      "ventas": 224061.8357,
+      "delta": 81440.6778,
+      "delta_pct_del_total": 0.912803823492679
+    },
+    {
+      "grupo": "Resto del país",
+      "utilidad_real": 130110.3348,
+      "utilidad_con_topes": 137890.0083,
+      "lineas_afectadas": 110,
+      "ventas": 509153.4195,
+      "delta": 7779.67349999999,
+      "delta_pct_del_total": 0.08719617650732105
+    }
+  ],
+  "opciones": [
+    {
+      "opcion": "A. Mantener la política actual",
+      "utilidad_2017": 93439.26960000001,
+      "riesgo": "Sigue perdiendo dinero en 10 estados"
+    },
+    {
+      "opcion": "B. Topes en todo el país de inmediato",
+      "utilidad_2017": 182659.62089999998,
+      "riesgo": "No mide el efecto real en volumen antes de escalar"
+    },
+    {
+      "opcion": "C. Topes en los 10 estados en dos olas, el resto después",
+      "utilidad_2017": 174879.9474,
+      "riesgo": "Bajo. La primera ola sirve de experimento contra la segunda"
+    }
+  ],
+  "recomendada": "C"
+}

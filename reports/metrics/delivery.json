@@ -1,0 +1,430 @@
+{
+  "promesa_supuesta": {
+    "Same Day": 0,
+    "First Class": 2,
+    "Second Class": 3,
+    "Standard Class": 5
+  },
+  "descripcion": {
+    "Same Day": {
+      "pedidos": 264,
+      "promesa_dias": 0,
+      "fuera_de_tiempo_pct": 0.045454545454545456,
+      "dias_mediana": 0.0,
+      "dias_p90": 0.0,
+      "dias_p95": 0.0,
+      "dias_max": 1,
+      "distribucion": {
+        "0": 0.9545454545454546,
+        "1": 0.045454545454545456
+      }
+    },
+    "First Class": {
+      "pedidos": 787,
+      "promesa_dias": 2,
+      "fuera_de_tiempo_pct": 0.40152477763659467,
+      "dias_mediana": 2.0,
+      "dias_p90": 3.0,
+      "dias_p95": 3.0,
+      "dias_max": 4,
+      "distribucion": {
+        "1": 0.21473951715374842,
+        "2": 0.38373570520965694,
+        "3": 0.40025412960609913,
+        "4": 0.0012706480304955528
+      }
+    },
+    "Second Class": {
+      "pedidos": 964,
+      "promesa_dias": 3,
+      "fuera_de_tiempo_pct": 0.4118257261410788,
+      "dias_mediana": 3.0,
+      "dias_p90": 5.0,
+      "dias_p95": 5.0,
+      "dias_max": 5,
+      "distribucion": {
+        "1": 0.001037344398340249,
+        "2": 0.3869294605809129,
+        "3": 0.20020746887966806,
+        "4": 0.20228215767634855,
+        "5": 0.2095435684647303
+      }
+    },
+    "Standard Class": {
+      "pedidos": 2994,
+      "promesa_dias": 5,
+      "fuera_de_tiempo_pct": 0.301937207748831,
+      "dias_mediana": 5.0,
+      "dias_p90": 7.0,
+      "dias_p95": 7.0,
+      "dias_max": 7,
+      "distribucion": {
+        "3": 0.00033400133600534405,
+        "4": 0.4031396125584502,
+        "5": 0.29458917835671344,
+        "6": 0.19906479625918505,
+        "7": 0.10287241148964596
+      }
+    },
+    "global_fuera_de_tiempo_pct": 0.3252146136953484
+  },
+  "sensibilidad_promesa": [
+    {
+      "modalidad": "Same Day",
+      "escenario": "actual",
+      "promesa_dias": 0,
+      "cumplimiento": 0.9545454545454546
+    },
+    {
+      "modalidad": "Same Day",
+      "escenario": "actual + 1",
+      "promesa_dias": 1,
+      "cumplimiento": 1.0
+    },
+    {
+      "modalidad": "Same Day",
+      "escenario": "p95",
+      "promesa_dias": 0,
+      "cumplimiento": 0.9545454545454546
+    },
+    {
+      "modalidad": "First Class",
+      "escenario": "actual",
+      "promesa_dias": 2,
+      "cumplimiento": 0.5984752223634053
+    },
+    {
+      "modalidad": "First Class",
+      "escenario": "actual + 1",
+      "promesa_dias": 3,
+      "cumplimiento": 0.9987293519695044
+    },
+    {
+      "modalidad": "First Class",
+      "escenario": "p95",
+      "promesa_dias": 3,
+      "cumplimiento": 0.9987293519695044
+    },
+    {
+      "modalidad": "Second Class",
+      "escenario": "actual",
+      "promesa_dias": 3,
+      "cumplimiento": 0.5881742738589212
+    },
+    {
+      "modalidad": "Second Class",
+      "escenario": "actual + 1",
+      "promesa_dias": 4,
+      "cumplimiento": 0.7904564315352697
+    },
+    {
+      "modalidad": "Second Class",
+      "escenario": "p95",
+      "promesa_dias": 5,
+      "cumplimiento": 1.0
+    },
+    {
+      "modalidad": "Standard Class",
+      "escenario": "actual",
+      "promesa_dias": 5,
+      "cumplimiento": 0.698062792251169
+    },
+    {
+      "modalidad": "Standard Class",
+      "escenario": "actual + 1",
+      "promesa_dias": 6,
+      "cumplimiento": 0.897127588510354
+    },
+    {
+      "modalidad": "Standard Class",
+      "escenario": "p95",
+      "promesa_dias": 7,
+      "cumplimiento": 1.0
+    }
+  ],
+  "pruebas_chi2": [
+    {
+      "modalidad": "Same Day",
+      "variable": "region",
+      "chi2": 7.938726892695721,
+      "gl": 3,
+      "p_valor": 0.047295155698821645,
+      "v_cramer": 0.17340973213636252,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Same Day",
+      "variable": "segment",
+      "chi2": 1.8286199233858775,
+      "gl": 2,
+      "p_valor": 0.40079309328094226,
+      "v_cramer": 0.08322614143936928,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Same Day",
+      "variable": "main_category",
+      "chi2": 0.7665798246748148,
+      "gl": 2,
+      "p_valor": 0.6816152619648173,
+      "v_cramer": 0.05388609706688332,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Same Day",
+      "variable": "month",
+      "chi2": 3.9222165022165023,
+      "gl": 11,
+      "p_valor": 0.9721373158586281,
+      "v_cramer": 0.121888804613935,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Same Day",
+      "variable": "dow",
+      "chi2": 1.958354937152882,
+      "gl": 6,
+      "p_valor": 0.9234885421467752,
+      "v_cramer": 0.08612787658812388,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Same Day",
+      "variable": "year",
+      "chi2": 1.0996158868217374,
+      "gl": 3,
+      "p_valor": 0.7771668108765805,
+      "v_cramer": 0.06453845127136676,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "region",
+      "chi2": 12.76767090987779,
+      "gl": 6,
+      "p_valor": 0.046877341722971366,
+      "v_cramer": 0.0901217402168794,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "segment",
+      "chi2": 4.15943133603509,
+      "gl": 4,
+      "p_valor": 0.38485894406783905,
+      "v_cramer": 0.051438785823979385,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "main_category",
+      "chi2": 5.577397840624923,
+      "gl": 4,
+      "p_valor": 0.2330094535764249,
+      "v_cramer": 0.05956477988662481,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "month",
+      "chi2": 20.569841787975836,
+      "gl": 22,
+      "p_valor": 0.5474407841652231,
+      "v_cramer": 0.11439030154037808,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "dow",
+      "chi2": 11.762262664194887,
+      "gl": 12,
+      "p_valor": 0.46495668576644233,
+      "v_cramer": 0.08650060915593538,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "First Class",
+      "variable": "year",
+      "chi2": 5.17802932871496,
+      "gl": 6,
+      "p_valor": 0.5211908682754391,
+      "v_cramer": 0.05739261090693079,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "region",
+      "chi2": 9.393184468048739,
+      "gl": 9,
+      "p_valor": 0.4017993162987373,
+      "v_cramer": 0.05702071447173986,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "segment",
+      "chi2": 6.556253531513205,
+      "gl": 6,
+      "p_valor": 0.36383815792277513,
+      "v_cramer": 0.05834447393178324,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "main_category",
+      "chi2": 15.72479152496785,
+      "gl": 6,
+      "p_valor": 0.015309878250322578,
+      "v_cramer": 0.09035752088775008,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "month",
+      "chi2": 29.600663343880512,
+      "gl": 33,
+      "p_valor": 0.6371410273795863,
+      "v_cramer": 0.101222474721153,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "dow",
+      "chi2": 14.321103722406562,
+      "gl": 18,
+      "p_valor": 0.7079317893485026,
+      "v_cramer": 0.07040677862557057,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Second Class",
+      "variable": "year",
+      "chi2": 4.54925445622689,
+      "gl": 9,
+      "p_valor": 0.8717002598907291,
+      "v_cramer": 0.03968225500759343,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "region",
+      "chi2": 8.404412837016137,
+      "gl": 9,
+      "p_valor": 0.49395986980506124,
+      "v_cramer": 0.03059424237410892,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "segment",
+      "chi2": 4.108058990020755,
+      "gl": 6,
+      "p_valor": 0.6620557316804665,
+      "v_cramer": 0.026196904649869214,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "main_category",
+      "chi2": 6.563661214804112,
+      "gl": 6,
+      "p_valor": 0.36308845741414636,
+      "v_cramer": 0.033113472191269776,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "month",
+      "chi2": 37.43857428884834,
+      "gl": 33,
+      "p_valor": 0.2726181348883941,
+      "v_cramer": 0.06457221217894797,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "dow",
+      "chi2": 12.80922519623353,
+      "gl": 18,
+      "p_valor": 0.8027794589010802,
+      "v_cramer": 0.03777003999435739,
+      "significativo_bonferroni": false
+    },
+    {
+      "modalidad": "Standard Class",
+      "variable": "year",
+      "chi2": 10.054226252487558,
+      "gl": 9,
+      "p_valor": 0.3461131587993399,
+      "v_cramer": 0.03346265079066886,
+      "significativo_bonferroni": false
+    }
+  ],
+  "alpha_bonferroni": 0.0020833333333333333,
+  "pruebas_significativas": 0,
+  "modelos": [
+    {
+      "modalidad": "Same Day",
+      "modelo": "Regresion logistica",
+      "auc_prueba": 0.5785714285714286,
+      "pedidos_prueba": 89,
+      "positivos_prueba": 5
+    },
+    {
+      "modalidad": "Same Day",
+      "modelo": "Gradient boosting",
+      "auc_prueba": 0.17619047619047618,
+      "pedidos_prueba": 89,
+      "positivos_prueba": 5
+    },
+    {
+      "modalidad": "First Class",
+      "modelo": "Regresion logistica",
+      "auc_prueba": 0.4567354214413038,
+      "pedidos_prueba": 284,
+      "positivos_prueba": 119
+    },
+    {
+      "modalidad": "First Class",
+      "modelo": "Gradient boosting",
+      "auc_prueba": 0.4903488668194551,
+      "pedidos_prueba": 284,
+      "positivos_prueba": 119
+    },
+    {
+      "modalidad": "Second Class",
+      "modelo": "Regresion logistica",
+      "auc_prueba": 0.5230484588434436,
+      "pedidos_prueba": 324,
+      "positivos_prueba": 133
+    },
+    {
+      "modalidad": "Second Class",
+      "modelo": "Gradient boosting",
+      "auc_prueba": 0.5212770145258434,
+      "pedidos_prueba": 324,
+      "positivos_prueba": 133
+    },
+    {
+      "modalidad": "Standard Class",
+      "modelo": "Regresion logistica",
+      "auc_prueba": 0.46249810906890554,
+      "pedidos_prueba": 990,
+      "positivos_prueba": 312
+    },
+    {
+      "modalidad": "Standard Class",
+      "modelo": "Gradient boosting",
+      "auc_prueba": 0.49589667952499805,
+      "pedidos_prueba": 990,
+      "positivos_prueba": 312
+    },
+    {
+      "modalidad": "Todas (incluye modalidad)",
+      "modelo": "Gradient boosting",
+      "auc_prueba": 0.5552321651455178,
+      "pedidos_prueba": 1687,
+      "positivos_prueba": 569
+    }
+  ]
+}

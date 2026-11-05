@@ -1,0 +1,76 @@
+{
+  "estados_alto_descuento": [
+    "Arizona",
+    "Colorado",
+    "Florida",
+    "Illinois",
+    "North Carolina",
+    "Ohio",
+    "Oregon",
+    "Pennsylvania",
+    "Tennessee",
+    "Texas"
+  ],
+  "lineas_en_estados_alto_descuento_pct": 0.38797158010607424,
+  "perdida_en_estados_alto_descuento_pct": 0.9326760181388011,
+  "diferencia_retraso_entre_grupos_pp": 0.06394285164054786,
+  "chi2_retraso_vs_grupo_p": 0.1856476330438292,
+  "tabla": [
+    {
+      "cluster_name": "Alto valor rentable",
+      "lineas": 5569,
+      "ventas": 1486820.227,
+      "utilidad": 290110.3593,
+      "perdidas": 45277.7611,
+      "lineas_perdida_pct": 0.13898365954390376,
+      "descuento_prom": 0.12672113485365416,
+      "compras_en_estados_alto_descuento_pct": 0.31172562398994436,
+      "fuera_de_tiempo_pct": 0.3344346549192364,
+      "ventas_pct": 0.6473105542329775,
+      "utilidad_pct": 1.012923049763431,
+      "perdidas_pct": 0.2900204029898383
+    },
+    {
+      "cluster_name": "Cazadores de descuento",
+      "lineas": 2564,
+      "ventas": 522807.2926,
+      "utilidad": -45511.2836,
+      "perdidas": 97049.50769999999,
+      "lineas_perdida_pct": 0.3291731669266771,
+      "descuento_prom": 0.24108424336973477,
+      "compras_en_estados_alto_descuento_pct": 0.5998439937597504,
+      "fuera_de_tiempo_pct": 0.31677953348382243,
+      "ventas_pct": 0.22761237181497426,
+      "utilidad_pct": -0.15890307500219078,
+      "perdidas_pct": 0.6216371271308159
+    },
+    {
+      "cluster_name": "Compradores ocasionales",
+      "lineas": 1356,
+      "ventas": 187844.776,
+      "utilidad": 38473.9248,
+      "perdidas": 3361.5144,
+      "lineas_perdida_pct": 0.08849557522123894,
+      "descuento_prom": 0.09820058997050148,
+      "compras_en_estados_alto_descuento_pct": 0.24410029498525074,
+      "fuera_de_tiempo_pct": 0.324438202247191,
+      "ventas_pct": 0.08178117559489559,
+      "utilidad_pct": 0.13433207052246374,
+      "perdidas_pct": 0.021531713080754435
+    },
+    {
+      "cluster_name": "Inactivos",
+      "lineas": 504,
+      "ventas": 99447.1927,
+      "utilidad": 3336.0799999999995,
+      "perdidas": 10430.4437,
+      "lineas_perdida_pct": 0.2619047619047619,
+      "descuento_prom": 0.2059126984126984,
+      "compras_en_estados_alto_descuento_pct": 0.5396825396825397,
+      "fuera_de_tiempo_pct": 0.27049180327868855,
+      "ventas_pct": 0.04329589835715271,
+      "utilidad_pct": 0.011647954716296082,
+      "perdidas_pct": 0.06681075679859134
+    }
+  ]
+}

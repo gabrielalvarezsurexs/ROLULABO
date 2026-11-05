@@ -1,0 +1,197 @@
+{
+  "estabilidad_alternativas": {
+    "3": {
+      "ari_semillas_media": 0.9812263483446306,
+      "ari_semillas_min": 0.9289714470170496,
+      "ari_bootstrap_media": 0.6306419302663141,
+      "ari_bootstrap_p05": 0.23385756324081994
+    },
+    "5": {
+      "ari_semillas_media": 0.9538135275877508,
+      "ari_semillas_min": 0.8596205074874328,
+      "ari_bootstrap_media": 0.7600482160468061,
+      "ari_bootstrap_p05": 0.5139704497917712
+    }
+  },
+  "features": [
+    "recency",
+    "log_frequency",
+    "log_monetary",
+    "margin",
+    "avg_discount"
+  ],
+  "seleccion_k": [
+    {
+      "k": 2,
+      "inercia": 3020.013366477237,
+      "silueta": 0.3124785432940955,
+      "davies_bouldin": 1.5875536819516776
+    },
+    {
+      "k": 3,
+      "inercia": 2495.5408992707817,
+      "silueta": 0.2776112886599351,
+      "davies_bouldin": 1.3864301769593999
+    },
+    {
+      "k": 4,
+      "inercia": 2141.218936781125,
+      "silueta": 0.22209814547300877,
+      "davies_bouldin": 1.33549365139607
+    },
+    {
+      "k": 5,
+      "inercia": 1910.6480972555592,
+      "silueta": 0.21024820487112644,
+      "davies_bouldin": 1.3304168579207447
+    },
+    {
+      "k": 6,
+      "inercia": 1762.4502615562353,
+      "silueta": 0.18626635781826825,
+      "davies_bouldin": 1.3921865548925252
+    },
+    {
+      "k": 7,
+      "inercia": 1624.7186425967345,
+      "silueta": 0.19031876162156994,
+      "davies_bouldin": 1.3291934664520737
+    },
+    {
+      "k": 8,
+      "inercia": 1521.0952076982603,
+      "silueta": 0.18048774368647094,
+      "davies_bouldin": 1.3434884712671815
+    }
+  ],
+  "k_elegido": 4,
+  "silueta_k": 0.2220649866809693,
+  "estabilidad": {
+    "ari_semillas_media": 0.9762112637692233,
+    "ari_semillas_min": 0.9390496744108362,
+    "ari_bootstrap_media": 0.7152891536732368,
+    "ari_bootstrap_p05": 0.3464644400686865
+  },
+  "perfiles": [
+    {
+      "cluster": 0,
+      "clientes": 347,
+      "recency": 90.61671469740634,
+      "frequency": 7.85014409221902,
+      "monetary": 4284.784515850144,
+      "profit": 836.0529086455332,
+      "margin": 0.18358455222491274,
+      "avg_discount": 0.12380233461393651,
+      "loss_line_share": 0.13395954643260446,
+      "late_rate": 0.33195530477696944,
+      "nombre": "Alto valor rentable",
+      "ventas_pct": 0.6473105542329775,
+      "utilidad_pct": 1.012923049763431,
+      "perdidas_pct": 0.2900204029898383,
+      "clientes_pct": 0.43757881462799497
+    },
+    {
+      "cluster": 1,
+      "clientes": 201,
+      "recency": 87.56716417910448,
+      "frequency": 6.611940298507463,
+      "monetary": 2601.0313064676616,
+      "profit": -226.42429651741296,
+      "margin": -0.054081350650644525,
+      "avg_discount": 0.2435687693184642,
+      "loss_line_share": 0.3359509174179953,
+      "late_rate": 0.31870217952307506,
+      "nombre": "Cazadores de descuento",
+      "ventas_pct": 0.22761237181497426,
+      "utilidad_pct": -0.15890307500219078,
+      "perdidas_pct": 0.6216371271308159,
+      "clientes_pct": 0.25346784363177804
+    },
+    {
+      "cluster": 2,
+      "clientes": 73,
+      "recency": 595.3972602739726,
+      "frequency": 3.3424657534246576,
+      "monetary": 1362.290310958904,
+      "profit": 45.699726027397254,
+      "margin": -0.0016215502339401414,
+      "avg_discount": 0.21589917815054588,
+      "loss_line_share": 0.2666839639760459,
+      "late_rate": 0.27899543378995434,
+      "nombre": "Inactivos",
+      "ventas_pct": 0.04329589835715271,
+      "utilidad_pct": 0.011647954716296082,
+      "perdidas_pct": 0.06681075679859134,
+      "clientes_pct": 0.09205548549810845
+    },
+    {
+      "cluster": 3,
+      "clientes": 172,
+      "recency": 143.59302325581396,
+      "frequency": 4.1395348837209305,
+      "monetary": 1092.1207906976745,
+      "profit": 223.6856093023256,
+      "margin": 0.21047170357492814,
+      "avg_discount": 0.10001682020509867,
+      "loss_line_share": 0.08949904474690275,
+      "late_rate": 0.3235188261351052,
+      "nombre": "Compradores ocasionales",
+      "ventas_pct": 0.08178117559489559,
+      "utilidad_pct": 0.13433207052246374,
+      "perdidas_pct": 0.021531713080754435,
+      "clientes_pct": 0.21689785624211855
+    }
+  ],
+  "mezcla_segmento": {
+    "Alto valor rentable": {
+      "Consumer": 0.51,
+      "Corporate": 0.303,
+      "Home Office": 0.187
+    },
+    "Cazadores de descuento": {
+      "Consumer": 0.522,
+      "Corporate": 0.318,
+      "Home Office": 0.159
+    },
+    "Compradores ocasionales": {
+      "Consumer": 0.541,
+      "Corporate": 0.25,
+      "Home Office": 0.209
+    },
+    "Inactivos": {
+      "Consumer": 0.466,
+      "Corporate": 0.329,
+      "Home Office": 0.205
+    }
+  },
+  "centroides_escalados": {
+    "0": {
+      "recency": -0.307,
+      "log_frequency": 0.606,
+      "log_monetary": 0.598,
+      "margin": 0.396,
+      "avg_discount": -0.378
+    },
+    "1": {
+      "recency": -0.324,
+      "log_frequency": 0.172,
+      "log_monetary": 0.031,
+      "margin": -0.921,
+      "avg_discount": 0.967
+    },
+    "2": {
+      "recency": 2.405,
+      "log_frequency": -1.339,
+      "log_monetary": -0.928,
+      "margin": -0.63,
+      "avg_discount": 0.656
+    },
+    "3": {
+      "recency": -0.023,
+      "log_frequency": -0.856,
+      "log_monetary": -0.849,
+      "margin": 0.545,
+      "avg_discount": -0.646
+    }
+  }
+}

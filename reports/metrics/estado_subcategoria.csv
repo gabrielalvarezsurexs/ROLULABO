@@ -1,0 +1,657 @@
+state,sub_category,descuento,utilidad,lineas
+Alabama,Accessories,0.0,816.4345999999999,6
+Alabama,Appliances,0.0,56.2032,1
+Alabama,Art,0.0,88.5344,7
+Alabama,Binders,0.0,227.7688,10
+Alabama,Chairs,0.0,660.9664,5
+Alabama,Copiers,0.0,314.9895,1
+Alabama,Envelopes,0.0,52.62479999999999,2
+Alabama,Fasteners,0.0,1.1946,1
+Alabama,Furnishings,0.0,14.3488,3
+Alabama,Labels,0.0,247.7319,2
+Alabama,Machines,0.0,1459.2,1
+Alabama,Paper,0.0,424.2124,8
+Alabama,Phones,0.0,707.1788,6
+Alabama,Storage,0.0,147.8564,3
+Alabama,Supplies,0.0,11.5077,2
+Alabama,Tables,0.0,556.073,3
+Arizona,Accessories,0.2,224.7694,22
+Arizona,Appliances,0.2,83.25479999999999,6
+Arizona,Art,0.2,140.9434,14
+Arizona,Binders,0.7,-1646.7484,35
+Arizona,Bookcases,0.7,-869.2072999999999,3
+Arizona,Chairs,0.2,121.6049,16
+Arizona,Envelopes,0.2,75.1514,7
+Arizona,Fasteners,0.2,2.0993000000000004,6
+Arizona,Furnishings,0.2,284.54970000000003,21
+Arizona,Labels,0.2,9.125599999999999,3
+Arizona,Machines,0.7,-930.941,3
+Arizona,Paper,0.2,842.0394,31
+Arizona,Phones,0.2,818.6727999999999,23
+Arizona,Storage,0.2,-271.1709,21
+Arizona,Supplies,0.2,-30.1976,4
+Arizona,Tables,0.5,-2281.8701,9
+Arkansas,Accessories,0.0,683.6698,11
+Arkansas,Art,0.0,23.7318,6
+Arkansas,Binders,0.0,1356.2051999999999,10
+Arkansas,Bookcases,0.0,172.4814,1
+Arkansas,Chairs,0.0,369.549,2
+Arkansas,Envelopes,0.0,148.6074,3
+Arkansas,Fasteners,0.0,18.9612,2
+Arkansas,Furnishings,0.0,194.1308,5
+Arkansas,Labels,0.0,3.4357,1
+Arkansas,Paper,0.0,382.7626,12
+Arkansas,Phones,0.0,577.7686,4
+Arkansas,Storage,0.0,32.089600000000004,2
+Arkansas,Tables,0.0,45.294,1
+California,Accessories,0.0,11095.656500000001,147
+California,Appliances,0.0,6992.2318,94
+California,Art,0.0,1614.8365,165
+California,Binders,0.2,10002.1537,276
+California,Bookcases,0.15,1418.9915,52
+California,Chairs,0.2,2435.9715,130
+California,Copiers,0.2,7889.8519,17
+California,Envelopes,0.0,1529.4161,46
+California,Fasteners,0.0,195.7505,42
+California,Furnishings,0.0,5611.5606,191
+California,Labels,0.0,1370.1191000000001,83
+California,Machines,0.2,4175.4087,23
+California,Paper,0.0,7977.5395,289
+California,Phones,0.2,6309.1197,172
+California,Storage,0.0,7204.1372,160
+California,Supplies,0.0,862.2003,43
+California,Tables,0.2,-303.558,71
+Colorado,Accessories,0.2,224.5594,15
+Colorado,Appliances,0.2,141.4207,9
+Colorado,Art,0.2,25.0943,11
+Colorado,Binders,0.7,-379.4919,28
+Colorado,Bookcases,0.7,-2408.9163,9
+Colorado,Chairs,0.2,556.5216,14
+Colorado,Copiers,0.2,164.997,1
+Colorado,Envelopes,0.2,27.0597,5
+Colorado,Fasteners,0.2,12.6054,4
+Colorado,Furnishings,0.2,144.13590000000002,24
+Colorado,Labels,0.2,5.9832,2
+Colorado,Machines,0.7,-4384.2554,3
+Colorado,Paper,0.2,298.58820000000003,19
+Colorado,Phones,0.2,523.1145,16
+Colorado,Storage,0.2,-212.69979999999998,13
+Colorado,Supplies,0.2,-291.69899999999996,5
+Colorado,Tables,0.5,-974.8754,4
+Connecticut,Accessories,0.0,193.7547,5
+Connecticut,Appliances,0.0,471.86969999999997,5
+Connecticut,Art,0.0,70.4846,8
+Connecticut,Binders,0.0,176.28,14
+Connecticut,Bookcases,0.0,456.677,2
+Connecticut,Chairs,0.0,696.257,3
+Connecticut,Envelopes,0.0,5.1042,1
+Connecticut,Furnishings,0.0,92.9611,6
+Connecticut,Labels,0.0,15.6968,3
+Connecticut,Paper,0.0,378.83279999999996,12
+Connecticut,Phones,0.0,587.1789,6
+Connecticut,Storage,0.0,355.6081,11
+Connecticut,Supplies,0.0,30.401500000000002,4
+Connecticut,Tables,0.3,-19.6146,2
+Delaware,Accessories,0.0,175.7004,5
+Delaware,Appliances,0.0,44.3646,2
+Delaware,Art,0.0,159.6312,11
+Delaware,Binders,0.0,1159.597,16
+Delaware,Bookcases,0.0,476.9343,4
+Delaware,Chairs,0.0,342.1382,2
+Delaware,Copiers,0.0,5039.9856,1
+Delaware,Envelopes,0.0,138.33769999999998,4
+Delaware,Fasteners,0.0,0.5236,1
+Delaware,Furnishings,0.0,137.531,10
+Delaware,Labels,0.0,34.7388,5
+Delaware,Machines,0.0,31.0059,1
+Delaware,Paper,0.0,211.0402,12
+Delaware,Phones,0.0,992.3589,13
+Delaware,Storage,0.0,1119.3837,7
+Delaware,Tables,0.3,-85.8963,2
+District of Columbia,Art,0.0,22.0974,2
+District of Columbia,Binders,0.0,4.4344,1
+District of Columbia,Chairs,0.0,316.8825,1
+District of Columbia,Furnishings,0.0,33.201,2
+District of Columbia,Machines,0.0,648.5624,1
+District of Columbia,Paper,0.0,34.4116,3
+Florida,Accessories,0.2,750.0683,27
+Florida,Appliances,0.2,349.75640000000004,18
+Florida,Art,0.2,77.9391,29
+Florida,Binders,0.7,-2760.7304,67
+Florida,Bookcases,0.2,-116.0706,8
+Florida,Chairs,0.2,-37.558599999999984,19
+Florida,Copiers,0.2,401.9918,2
+Florida,Envelopes,0.2,72.5689,9
+Florida,Fasteners,0.2,16.5085,5
+Florida,Furnishings,0.2,391.7596,47
+Florida,Labels,0.2,136.5696,18
+Florida,Machines,0.5,-1976.0110000000002,6
+Florida,Paper,0.2,833.0004,51
+Florida,Phones,0.2,1354.7557,34
+Florida,Storage,0.2,-203.1068,25
+Florida,Supplies,0.2,-197.63150000000002,7
+Florida,Tables,0.45,-2493.1111,11
+Georgia,Accessories,0.0,887.8451,19
+Georgia,Appliances,0.0,1058.5832,9
+Georgia,Art,0.0,159.71280000000002,17
+Georgia,Binders,0.0,5717.3075,24
+Georgia,Bookcases,0.0,883.262,5
+Georgia,Chairs,0.0,414.3629,6
+Georgia,Copiers,0.0,1439.976,1
+Georgia,Envelopes,0.0,211.0561,8
+Georgia,Fasteners,0.0,0.3024,2
+Georgia,Furnishings,0.0,613.8860999999999,19
+Georgia,Labels,0.0,116.0168,7
+Georgia,Machines,0.0,190.08,1
+Georgia,Paper,0.0,1417.8822,31
+Georgia,Phones,0.0,1881.7586,16
+Georgia,Storage,0.0,1109.9142,15
+Georgia,Supplies,0.0,10.1504,2
+Georgia,Tables,0.0,137.947,2
+Idaho,Accessories,0.0,37.7874,1
+Idaho,Appliances,0.0,66.0736,1
+Idaho,Binders,0.2,24.634700000000002,5
+Idaho,Chairs,0.2,4.2294,1
+Idaho,Furnishings,0.0,110.03080000000001,3
+Idaho,Paper,0.0,81.322,4
+Idaho,Phones,0.2,54.3099,3
+Idaho,Storage,0.0,28.629,1
+Idaho,Tables,0.0,419.7063,2
+Illinois,Accessories,0.2,981.8644,33
+Illinois,Appliances,0.8,-2482.4187,20
+Illinois,Art,0.2,138.9541,37
+Illinois,Binders,0.8,-7204.3242,80
+Illinois,Bookcases,0.3,-555.8726,10
+Illinois,Chairs,0.3,-1578.6955,38
+Illinois,Copiers,0.2,1831.9666,4
+Illinois,Envelopes,0.2,132.5294,8
+Illinois,Fasteners,0.2,43.9949,13
+Illinois,Furnishings,0.6,-2631.9766,57
+Illinois,Labels,0.2,77.4622,13
+Illinois,Machines,0.3,326.0395,5
+Illinois,Paper,0.2,1183.6766,60
+Illinois,Phones,0.2,1682.6887,42
+Illinois,Storage,0.2,-257.4584,47
+Illinois,Supplies,0.2,13.427299999999999,7
+Illinois,Tables,0.5,-4309.7447,18
+Indiana,Accessories,0.0,570.2304,13
+Indiana,Appliances,0.0,1259.8645,10
+Indiana,Art,0.0,123.6134,12
+Indiana,Binders,0.0,1827.1562,19
+Indiana,Chairs,0.0,1587.5621,7
+Indiana,Copiers,0.0,8849.967,2
+Indiana,Envelopes,0.0,412.1747,7
+Indiana,Fasteners,0.0,0.1008,2
+Indiana,Furnishings,0.0,180.7914,13
+Indiana,Labels,0.0,134.2083,5
+Indiana,Machines,0.0,22.653,1
+Indiana,Paper,0.0,888.3797,27
+Indiana,Phones,0.0,1558.0269,13
+Indiana,Storage,0.0,555.2861,15
+Indiana,Tables,0.0,412.9218,3
+Iowa,Art,0.0,45.4938,3
+Iowa,Binders,0.0,118.7179,8
+Iowa,Chairs,0.0,394.268,1
+Iowa,Envelopes,0.0,6.3708,2
+Iowa,Fasteners,0.0,21.5824,1
+Iowa,Furnishings,0.0,19.145699999999998,2
+Iowa,Paper,0.0,149.7355,7
+Iowa,Phones,0.0,318.3682,4
+Iowa,Storage,0.0,3.5048,1
+Iowa,Tables,0.0,106.6248,1
+Kansas,Accessories,0.0,26.284,2
+Kansas,Appliances,0.0,22.9488,1
+Kansas,Art,0.0,45.9516,4
+Kansas,Binders,0.0,279.4432,3
+Kansas,Fasteners,0.0,10.9211,2
+Kansas,Furnishings,0.0,36.9696,2
+Kansas,Labels,0.0,8.694,1
+Kansas,Paper,0.0,147.6816,3
+Kansas,Phones,0.0,148.70260000000002,3
+Kansas,Storage,0.0,101.6884,2
+Kansas,Supplies,0.0,7.1586,1
+Kentucky,Accessories,0.0,703.4852,8
+Kentucky,Appliances,0.0,371.1852,8
+Kentucky,Art,0.0,98.606,12
+Kentucky,Binders,0.0,1740.0312,22
+Kentucky,Bookcases,0.0,41.9136,1
+Kentucky,Chairs,0.0,2552.2605,16
+Kentucky,Copiers,0.0,629.991,1
+Kentucky,Envelopes,0.0,48.0766,4
+Kentucky,Fasteners,0.0,21.8478,4
+Kentucky,Furnishings,0.0,456.66049999999996,12
+Kentucky,Labels,0.0,176.8009,6
+Kentucky,Machines,0.0,1416.8,1
+Kentucky,Paper,0.0,502.2111,13
+Kentucky,Phones,0.0,1406.3602,13
+Kentucky,Storage,0.0,855.3874,14
+Kentucky,Supplies,0.0,17.9208,3
+Kentucky,Tables,0.0,160.1586,1
+Louisiana,Accessories,0.0,593.5582,7
+Louisiana,Appliances,0.0,4.6818,1
+Louisiana,Art,0.0,36.992000000000004,2
+Louisiana,Binders,0.0,290.5414,6
+Louisiana,Bookcases,0.0,57.192800000000005,2
+Louisiana,Chairs,0.0,228.7888,3
+Louisiana,Envelopes,0.0,30.809199999999997,2
+Louisiana,Furnishings,0.0,31.618599999999997,4
+Louisiana,Labels,0.0,5.2029,1
+Louisiana,Machines,0.0,239.985,1
+Louisiana,Paper,0.0,49.896,5
+Louisiana,Phones,0.0,181.47199999999998,3
+Louisiana,Storage,0.0,43.6568,2
+Louisiana,Supplies,0.0,33.3124,1
+Louisiana,Tables,0.0,368.3944,2
+Maine,Accessories,0.0,119.6778,2
+Maine,Appliances,0.0,27.5292,1
+Maine,Binders,0.0,17.310200000000002,2
+Maine,Furnishings,0.0,33.9388,1
+Maine,Paper,0.0,124.6752,1
+Maine,Phones,0.0,131.355,1
+Maryland,Accessories,0.0,415.45550000000003,5
+Maryland,Appliances,0.0,494.2302,6
+Maryland,Art,0.0,132.7864,12
+Maryland,Binders,0.0,1595.5108,14
+Maryland,Bookcases,0.0,105.6054,3
+Maryland,Chairs,0.0,969.691,8
+Maryland,Envelopes,0.0,153.09,2
+Maryland,Fasteners,0.0,10.4704,2
+Maryland,Furnishings,0.0,901.648,15
+Maryland,Labels,0.0,82.5024,6
+Maryland,Machines,0.0,209.2365,1
+Maryland,Paper,0.0,504.9161,13
+Maryland,Phones,0.0,698.1856,8
+Maryland,Storage,0.0,822.4623,7
+Maryland,Supplies,0.0,6.5052,1
+Maryland,Tables,0.3,-71.117,2
+Massachusetts,Accessories,0.0,271.6026,6
+Massachusetts,Appliances,0.0,999.7393,6
+Massachusetts,Art,0.0,66.80969999999999,11
+Massachusetts,Binders,0.0,1000.7748,17
+Massachusetts,Bookcases,0.0,414.09360000000004,6
+Massachusetts,Chairs,0.0,962.1228,6
+Massachusetts,Copiers,0.0,467.9922,1
+Massachusetts,Fasteners,0.0,23.8116,3
+Massachusetts,Furnishings,0.0,259.151,14
+Massachusetts,Labels,0.0,76.66579999999999,5
+Massachusetts,Paper,0.0,831.8217,27
+Massachusetts,Phones,0.0,1016.1552999999999,12
+Massachusetts,Storage,0.0,933.1969,12
+Massachusetts,Supplies,0.0,6.859,2
+Massachusetts,Tables,0.3,-545.2947,7
+Michigan,Accessories,0.0,1655.0608,15
+Michigan,Appliances,0.1,1086.0808,16
+Michigan,Art,0.0,301.3652,25
+Michigan,Binders,0.0,11079.505,43
+Michigan,Bookcases,0.0,150.6456,4
+Michigan,Chairs,0.0,3001.6506,21
+Michigan,Copiers,0.0,484.988,2
+Michigan,Envelopes,0.0,141.62900000000002,5
+Michigan,Fasteners,0.0,42.7554,5
+Michigan,Furnishings,0.0,435.3779,18
+Michigan,Labels,0.0,430.9921,8
+Michigan,Machines,0.1,832.0843,2
+Michigan,Paper,0.0,961.3904,31
+Michigan,Phones,0.0,1810.1694,27
+Michigan,Storage,0.0,940.4052,24
+Michigan,Supplies,0.0,21.2104,2
+Michigan,Tables,0.0,1087.8775,7
+Minnesota,Accessories,0.0,556.7236,8
+Minnesota,Appliances,0.0,863.8521,6
+Minnesota,Art,0.0,36.5706,6
+Minnesota,Binders,0.0,6041.276,16
+Minnesota,Chairs,0.0,1703.9146999999998,6
+Minnesota,Copiers,0.0,274.995,1
+Minnesota,Envelopes,0.0,14.9744,2
+Minnesota,Fasteners,0.0,19.328,2
+Minnesota,Furnishings,0.0,49.5342,5
+Minnesota,Labels,0.0,76.8852,6
+Minnesota,Paper,0.0,155.5074,11
+Minnesota,Phones,0.0,187.0822,3
+Minnesota,Storage,0.0,561.3062,14
+Minnesota,Supplies,0.0,10.7996,1
+Minnesota,Tables,0.0,270.4382,2
+Mississippi,Accessories,0.0,754.6503,8
+Mississippi,Appliances,0.0,176.9454,3
+Mississippi,Art,0.0,162.55560000000003,5
+Mississippi,Binders,0.0,457.6871,9
+Mississippi,Bookcases,0.0,126.225,1
+Mississippi,Chairs,0.0,225.264,1
+Mississippi,Envelopes,0.0,43.490899999999996,2
+Mississippi,Fasteners,0.0,5.4894,2
+Mississippi,Furnishings,0.0,182.163,5
+Mississippi,Labels,0.0,6.8714,1
+Mississippi,Paper,0.0,344.0696,7
+Mississippi,Phones,0.0,231.7521,3
+Mississippi,Storage,0.0,44.644800000000004,4
+Mississippi,Tables,0.0,411.1676,2
+Missouri,Accessories,0.0,254.97930000000002,8
+Missouri,Appliances,0.0,1226.0318,7
+Missouri,Art,0.0,66.1596,2
+Missouri,Binders,0.0,898.4064,11
+Missouri,Bookcases,0.0,53.235,1
+Missouri,Chairs,0.0,15.2225,1
+Missouri,Copiers,0.0,2536.9631999999997,2
+Missouri,Envelopes,0.0,33.4546,3
+Missouri,Furnishings,0.0,195.236,7
+Missouri,Labels,0.0,6.8724,1
+Missouri,Paper,0.0,144.0062,11
+Missouri,Phones,0.0,222.7843,2
+Missouri,Storage,0.0,322.2778,6
+Missouri,Supplies,0.0,99.058,2
+Missouri,Tables,0.0,361.52340000000004,2
+Montana,Accessories,0.0,91.3248,1
+Montana,Binders,0.2,157.3984,3
+Montana,Copiers,0.0,1379.977,1
+Montana,Furnishings,0.0,21.7532,1
+Montana,Labels,0.0,6.8714,1
+Montana,Paper,0.0,19.321199999999997,2
+Montana,Phones,0.2,51.733599999999996,2
+Montana,Storage,0.0,104.94890000000001,4
+Nebraska,Accessories,0.0,69.8835,2
+Nebraska,Appliances,0.0,170.17780000000002,4
+Nebraska,Art,0.0,5.0596,1
+Nebraska,Binders,0.0,60.4036,5
+Nebraska,Chairs,0.0,112.788,1
+Nebraska,Fasteners,0.0,10.384599999999999,3
+Nebraska,Furnishings,0.0,405.64840000000004,3
+Nebraska,Labels,0.0,7.056,1
+Nebraska,Paper,0.0,160.3182,8
+Nebraska,Phones,0.0,891.6315000000001,6
+Nebraska,Storage,0.0,138.673,3
+Nebraska,Supplies,0.0,5.07,1
+Nevada,Accessories,0.0,89.4291,2
+Nevada,Appliances,0.0,27.212600000000002,2
+Nevada,Art,0.0,59.5788,4
+Nevada,Binders,0.2,1768.4430000000002,7
+Nevada,Bookcases,0.0,41.1684,1
+Nevada,Chairs,0.2,-109.5822,1
+Nevada,Fasteners,0.0,0.0,1
+Nevada,Furnishings,0.0,155.7951,5
+Nevada,Labels,0.0,6.8724,1
+Nevada,Machines,0.2,179.73,1
+Nevada,Paper,0.0,153.59199999999998,7
+Nevada,Phones,0.2,243.6865,3
+Nevada,Storage,0.0,238.653,1
+Nevada,Supplies,0.0,24.998,1
+Nevada,Tables,0.0,437.1892,2
+New Hampshire,Accessories,0.0,655.2223,4
+New Hampshire,Appliances,0.0,9.3184,1
+New Hampshire,Art,0.0,80.3052,2
+New Hampshire,Binders,0.0,359.0648,3
+New Hampshire,Fasteners,0.0,6.9654,1
+New Hampshire,Furnishings,0.0,259.2534,5
+New Hampshire,Labels,0.0,19.4264,2
+New Hampshire,Paper,0.0,132.9606,4
+New Hampshire,Phones,0.0,247.485,1
+New Hampshire,Storage,0.0,33.718,2
+New Hampshire,Supplies,0.0,8.0997,1
+New Hampshire,Tables,0.3,-105.3164,1
+New Jersey,Accessories,0.0,349.6286,9
+New Jersey,Appliances,0.0,1203.438,13
+New Jersey,Art,0.0,203.29289999999997,11
+New Jersey,Binders,0.0,1649.0788,15
+New Jersey,Bookcases,0.0,141.39200000000002,2
+New Jersey,Chairs,0.0,530.9126,8
+New Jersey,Envelopes,0.0,72.1862,4
+New Jersey,Fasteners,0.0,15.110800000000001,5
+New Jersey,Furnishings,0.0,311.3153,14
+New Jersey,Labels,0.0,32.1345,5
+New Jersey,Machines,0.0,2709.9522,3
+New Jersey,Paper,0.0,683.3578,18
+New Jersey,Phones,0.0,1110.6172,9
+New Jersey,Storage,0.0,779.1128,9
+New Jersey,Supplies,0.0,32.6747,3
+New Jersey,Tables,0.3,-51.2906,2
+New Mexico,Accessories,0.0,264.3373,5
+New Mexico,Art,0.0,119.3198,4
+New Mexico,Binders,0.2,45.084,5
+New Mexico,Chairs,0.2,119.5878,2
+New Mexico,Envelopes,0.0,13.348,1
+New Mexico,Furnishings,0.0,132.0039,2
+New Mexico,Labels,0.0,8.6715,1
+New Mexico,Paper,0.0,298.9394,7
+New Mexico,Phones,0.2,72.9455,4
+New Mexico,Storage,0.0,78.1557,4
+New Mexico,Supplies,0.0,4.7232,2
+New York,Accessories,0.0,5627.5702,76
+New York,Appliances,0.0,3807.7645,44
+New York,Art,0.0,902.0926,90
+New York,Binders,0.2,11096.026,179
+New York,Bookcases,0.2,350.87440000000004,32
+New York,Chairs,0.1,7111.0119,76
+New York,Copiers,0.2,5839.95,7
+New York,Envelopes,0.0,831.0267,32
+New York,Fasteners,0.0,116.6671,21
+New York,Furnishings,0.0,2931.4346,100
+New York,Labels,0.0,611.1723000000001,45
+New York,Machines,0.0,17320.0762,16
+New York,Paper,0.0,4023.0799,150
+New York,Phones,0.0,13399.1892,109
+New York,Storage,0.0,4338.2179,98
+New York,Supplies,0.0,268.0359,25
+New York,Tables,0.4,-4535.6408,28
+North Carolina,Accessories,0.2,821.0744,19
+North Carolina,Appliances,0.2,485.6746,17
+North Carolina,Art,0.2,78.9165,26
+North Carolina,Binders,0.7,-2007.8254000000002,36
+North Carolina,Bookcases,0.2,-97.97800000000001,4
+North Carolina,Chairs,0.2,142.7239,11
+North Carolina,Copiers,0.2,119.996,1
+North Carolina,Envelopes,0.2,139.7061,6
+North Carolina,Fasteners,0.2,21.8637,4
+North Carolina,Furnishings,0.2,153.0447,19
+North Carolina,Labels,0.2,75.86840000000001,9
+North Carolina,Machines,0.5,-5384.8086,4
+North Carolina,Paper,0.2,898.8403,36
+North Carolina,Phones,0.2,860.4342,27
+North Carolina,Storage,0.2,-86.20880000000001,16
+North Carolina,Supplies,0.2,-27.980300000000003,6
+North Carolina,Tables,0.4,-3684.2539,8
+North Dakota,Art,0.0,51.8812,4
+North Dakota,Binders,0.0,12.691,1
+North Dakota,Fasteners,0.0,3.4827,1
+North Dakota,Storage,0.0,162.0948,1
+Ohio,Accessories,0.2,1452.8700999999999,43
+Ohio,Appliances,0.2,486.2553,23
+Ohio,Art,0.2,103.2376,39
+Ohio,Binders,0.7,-1400.6681,73
+Ohio,Bookcases,0.5,-1359.0516,8
+Ohio,Chairs,0.3,-637.2954,22
+Ohio,Copiers,0.4,446.9923,4
+Ohio,Envelopes,0.2,194.6051,12
+Ohio,Fasteners,0.2,61.1197,14
+Ohio,Furnishings,0.2,517.4191,46
+Ohio,Labels,0.2,55.5222,13
+Ohio,Machines,0.7,-11770.9447,8
+Ohio,Paper,0.2,744.0522,56
+Ohio,Phones,0.4,-2778.8577999999998,47
+Ohio,Storage,0.2,-276.3364,37
+Ohio,Supplies,0.2,-82.9029,7
+Ohio,Tables,0.4,-2715.3345,16
+Oklahoma,Accessories,0.0,395.6859,5
+Oklahoma,Appliances,0.0,471.5795,4
+Oklahoma,Art,0.0,19.0864,4
+Oklahoma,Binders,0.0,209.7537,11
+Oklahoma,Bookcases,0.0,54.7136,1
+Oklahoma,Chairs,0.0,1106.7992,5
+Oklahoma,Envelopes,0.0,188.2194,2
+Oklahoma,Furnishings,0.0,412.46639999999996,5
+Oklahoma,Labels,0.0,31.185200000000002,3
+Oklahoma,Paper,0.0,92.84819999999999,7
+Oklahoma,Phones,0.0,1185.2144,9
+Oklahoma,Storage,0.0,100.3723,5
+Oklahoma,Supplies,0.0,6.1488,1
+Oklahoma,Tables,0.0,579.883,4
+Oregon,Accessories,0.2,152.1385,10
+Oregon,Appliances,0.2,54.0856,6
+Oregon,Art,0.2,65.276,14
+Oregon,Binders,0.7,-198.74110000000002,14
+Oregon,Bookcases,0.7,-616.8158000000001,3
+Oregon,Chairs,0.2,106.10999999999999,8
+Oregon,Envelopes,0.2,18.0268,2
+Oregon,Fasteners,0.2,0.1695000000000002,2
+Oregon,Furnishings,0.2,72.026,5
+Oregon,Labels,0.2,320.3328,6
+Oregon,Machines,0.7,-273.93240000000003,2
+Oregon,Paper,0.2,324.058,21
+Oregon,Phones,0.2,248.15030000000002,15
+Oregon,Storage,0.2,-410.7729,7
+Oregon,Supplies,0.2,-1.6846999999999999,4
+Oregon,Tables,0.5,-1048.8971,5
+Pennsylvania,Accessories,0.2,898.9687,45
+Pennsylvania,Appliances,0.2,694.215,23
+Pennsylvania,Art,0.2,137.7581,40
+Pennsylvania,Binders,0.7,-4570.975,98
+Pennsylvania,Bookcases,0.5,-2896.7601,10
+Pennsylvania,Chairs,0.3,-1993.418,36
+Pennsylvania,Copiers,0.4,1735.9829,5
+Pennsylvania,Envelopes,0.2,417.1003,18
+Pennsylvania,Fasteners,0.2,29.3222,14
+Pennsylvania,Furnishings,0.2,282.212,64
+Pennsylvania,Labels,0.2,201.4208,23
+Pennsylvania,Machines,0.7,-2219.2456,7
+Pennsylvania,Paper,0.2,813.0179,66
+Pennsylvania,Phones,0.4,-3606.9276,62
+Pennsylvania,Storage,0.2,-1434.3118,49
+Pennsylvania,Supplies,0.2,-1459.5663,12
+Pennsylvania,Tables,0.4,-2588.7538,15
+Rhode Island,Accessories,0.0,924.7621999999999,4
+Rhode Island,Appliances,0.0,0.666,1
+Rhode Island,Art,0.0,18.715,1
+Rhode Island,Binders,0.0,138.0673,6
+Rhode Island,Bookcases,0.0,129.4762,2
+Rhode Island,Chairs,0.0,892.7268,4
+Rhode Island,Copiers,0.0,3491.9388,2
+Rhode Island,Furnishings,0.0,121.3418,6
+Rhode Island,Paper,0.0,270.4294,13
+Rhode Island,Phones,0.0,181.3113,3
+Rhode Island,Storage,0.0,1311.6043,9
+Rhode Island,Supplies,0.0,34.758,1
+Rhode Island,Tables,0.3,-230.1678,4
+South Carolina,Accessories,0.0,40.8828,2
+South Carolina,Art,0.0,9.909600000000001,2
+South Carolina,Binders,0.0,246.6088,8
+South Carolina,Chairs,0.0,543.076,3
+South Carolina,Envelopes,0.0,149.8595,3
+South Carolina,Fasteners,0.0,17.994,2
+South Carolina,Furnishings,0.0,69.7679,3
+South Carolina,Paper,0.0,159.8973,6
+South Carolina,Phones,0.0,412.7047,4
+South Carolina,Storage,0.0,118.356,9
+South Dakota,Accessories,0.0,133.8966,2
+South Dakota,Appliances,0.0,112.4064,1
+South Dakota,Binders,0.0,55.6446,3
+South Dakota,Bookcases,0.0,39.7488,1
+South Dakota,Chairs,0.0,27.441,1
+South Dakota,Fasteners,0.0,2.6814,1
+South Dakota,Labels,0.0,16.3795,2
+South Dakota,Supplies,0.0,6.63,1
+Tennessee,Accessories,0.2,35.2185,9
+Tennessee,Appliances,0.2,203.1673,10
+Tennessee,Art,0.2,62.7135,17
+Tennessee,Binders,0.7,-3635.9181,29
+Tennessee,Bookcases,0.2,-6.323599999999999,2
+Tennessee,Chairs,0.2,150.4254,13
+Tennessee,Envelopes,0.2,62.2686,5
+Tennessee,Fasteners,0.2,28.8941,3
+Tennessee,Furnishings,0.2,310.6829,22
+Tennessee,Labels,0.2,41.4712,8
+Tennessee,Machines,0.5,-274.4095,2
+Tennessee,Paper,0.2,363.8583,26
+Tennessee,Phones,0.2,305.2247,9
+Tennessee,Storage,0.2,-333.5739,18
+Tennessee,Supplies,0.2,8.0208,2
+Tennessee,Tables,0.4,-2663.4138000000003,8
+Texas,Accessories,0.2,1105.8500999999999,81
+Texas,Appliances,0.8,-6147.2225,47
+Texas,Art,0.2,316.3538,71
+Texas,Binders,0.8,-14705.0738,153
+Texas,Bookcases,0.32,-2391.1376999999998,27
+Texas,Chairs,0.3,-2515.649,61
+Texas,Copiers,0.2,1629.9615,5
+Texas,Envelopes,0.2,848.176,30
+Texas,Fasteners,0.2,80.7357,24
+Texas,Furnishings,0.6,-3312.6785999999997,81
+Texas,Labels,0.2,200.40200000000002,30
+Texas,Machines,0.4,-2666.8433999999997,13
+Texas,Paper,0.2,2422.9703,147
+Texas,Phones,0.2,3222.4608000000003,80
+Texas,Storage,0.2,-763.7054,83
+Texas,Supplies,0.2,-837.2795,19
+Texas,Tables,0.3,-2216.6766,33
+Utah,Accessories,0.0,41.322300000000006,2
+Utah,Appliances,0.0,305.13,1
+Utah,Art,0.0,28.8803,4
+Utah,Binders,0.2,262.25780000000003,12
+Utah,Bookcases,0.0,218.2624,2
+Utah,Copiers,0.0,449.985,1
+Utah,Fasteners,0.0,2.5328,2
+Utah,Furnishings,0.0,54.570899999999995,3
+Utah,Labels,0.0,14.616,2
+Utah,Paper,0.0,553.4284,11
+Utah,Phones,0.2,90.42779999999999,4
+Utah,Storage,0.0,153.7654,6
+Utah,Supplies,0.0,12.432,1
+Utah,Tables,0.0,358.92240000000004,2
+Vermont,Accessories,0.0,110.65129999999999,2
+Vermont,Appliances,0.0,152.0232,1
+Vermont,Art,0.0,2.7336,1
+Vermont,Bookcases,0.0,1013.127,1
+Vermont,Chairs,0.0,178.8,1
+Vermont,Envelopes,0.0,0.9588,1
+Vermont,Paper,0.0,43.333999999999996,2
+Vermont,Phones,0.0,336.635,1
+Vermont,Storage,0.0,406.7154,1
+Virginia,Accessories,0.0,917.6552,12
+Virginia,Appliances,0.0,1417.7425,14
+Virginia,Art,0.0,258.9753,19
+Virginia,Binders,0.0,2268.9879,25
+Virginia,Bookcases,0.0,278.7892,4
+Virginia,Chairs,0.0,1362.231,9
+Virginia,Copiers,0.0,751.9624,1
+Virginia,Envelopes,0.0,506.40889999999996,10
+Virginia,Fasteners,0.0,40.6624,4
+Virginia,Furnishings,0.0,1024.6200000000001,26
+Virginia,Labels,0.0,230.80349999999999,12
+Virginia,Machines,0.0,2890.2711,2
+Virginia,Paper,0.0,570.4312,26
+Virginia,Phones,0.0,2847.8657,21
+Virginia,Storage,0.0,545.2808,20
+Virginia,Supplies,0.0,146.577,6
+Virginia,Tables,0.0,2538.6863,13
+Washington,Accessories,0.0,4263.2735999999995,53
+Washington,Appliances,0.0,591.8608,17
+Washington,Art,0.0,320.16790000000003,34
+Washington,Binders,0.2,6061.8114000000005,86
+Washington,Bookcases,0.0,570.0054,10
+Washington,Chairs,0.2,692.9453,34
+Washington,Copiers,0.0,9442.4242,5
+Washington,Envelopes,0.0,245.7604,6
+Washington,Fasteners,0.0,62.033199999999994,15
+Washington,Furnishings,0.0,1054.8443,49
+Washington,Labels,0.0,560.5303,17
+Washington,Machines,0.2,615.0637,7
+Washington,Paper,0.0,1570.4083,59
+Washington,Phones,0.2,698.582,35
+Washington,Storage,0.0,1731.6766,49
+Washington,Supplies,0.0,45.274300000000004,9
+Washington,Tables,0.0,4875.99,21
+West Virginia,Binders,0.0,43.4336,2
+West Virginia,Paper,0.0,219.4416,1
+West Virginia,Tables,0.3,-76.9536,1
+Wisconsin,Accessories,0.0,1501.172,14
+Wisconsin,Appliances,0.0,778.0820000000001,7
+Wisconsin,Art,0.0,44.6698,7
+Wisconsin,Binders,0.0,282.7635,13
+Wisconsin,Bookcases,0.0,650.763,6
+Wisconsin,Chairs,0.0,2737.4205,12
+Wisconsin,Fasteners,0.0,0.6516,1
+Wisconsin,Furnishings,0.0,303.2688,12
+Wisconsin,Labels,0.0,82.9425,6
+Wisconsin,Paper,0.0,665.3864,9
+Wisconsin,Phones,0.0,1095.8977,11
+Wisconsin,Storage,0.0,105.3917,9
+Wisconsin,Supplies,0.0,5.8887,1
+Wisconsin,Tables,0.0,147.5022,2
+Wyoming,Chairs,0.2,100.196,1
