@@ -1,0 +1,19 @@
+{
+  "_nota": "Números de referencia generados con las versiones de uv.lock. Si cambian a propósito, regenerar este archivo y los entregables.",
+  "modelo_elegido": "Gradient boosting",
+  "umbral": 0.45,
+  "f1": 0.8893,
+  "pr_auc": 0.9669,
+  "f1_regla_costo": 0.9952,
+  "semaforo_2017": {
+    "Rojo": 925,
+    "Amarillo": 4,
+    "Verde": 2383
+  },
+  "utilidad_opciones": [
+    93439,
+    182660,
+    174880
+  ],
+  "k_elegido": 4
+}

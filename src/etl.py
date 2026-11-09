@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 
 from config import METRICS, PROCESSED, RAW_CSV, REFERENCE_DATE, SLA_DAYS
+from config import read_csv
 
 EXPECTED_COLUMNS = [
     "Row ID", "Order ID", "Order Date", "Ship Date", "Ship Mode",
@@ -39,7 +40,7 @@ RENAME = {
 
 def extract() -> pd.DataFrame:
     # El archivo original viene en latin-1 (nombres con acentos).
-    return pd.read_csv(RAW_CSV, encoding="latin-1")
+    return read_csv(RAW_CSV, encoding="latin-1")
 
 
 def validate_and_clean(raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
@@ -115,6 +116,33 @@ def add_features(df: pd.DataFrame, q: dict) -> pd.DataFrame:
     rule = (df["discount"] > df["breakeven_discount"] + 1e-9).astype(int)
     q["regla_equilibrio_exactitud"] = float((rule == df["is_loss"]).mean())
     return df
+
+
+def outliers_and_bias(df: pd.DataFrame) -> dict:
+    """Valores atipicos y sesgos de representatividad.
+
+    Atipicos con la regla de Tukey (fuera de 1.5 veces el rango
+    intercuartilico). No se eliminan porque son ventas reales y no errores de
+    captura. El tratamiento es de modelado, el precio entra en logaritmo, los
+    modelos de arboles son robustos a escala y en la segmentacion el margen se
+    recorta en los percentiles 1 y 99.
+    """
+    atip = {}
+    for c in ["sales", "quantity", "list_price", "profit"]:
+        q1, q3 = df[c].quantile([0.25, 0.75])
+        iqr = q3 - q1
+        m = (df[c] < q1 - 1.5 * iqr) | (df[c] > q3 + 1.5 * iqr)
+        atip[c] = {"atipicos": int(m.sum()), "atipicos_pct": float(m.mean()),
+                   "min": float(df[c].min()), "max": float(df[c].max()), "mediana": float(df[c].median())}
+    top1 = df["sales"].nlargest(max(1, int(len(df) * 0.01))).sum() / df["sales"].sum()
+    dist = lambda c: {str(k): float(v) for k, v in df[c].value_counts(normalize=True).sort_index().items()}
+    return {
+        "atipicos_iqr": atip,
+        "ventas_top_1pct_lineas": float(top1),
+        "tratamiento": "No se eliminan. Precio en logaritmo, modelos de árboles y margen recortado en p1 y p99 para la segmentación",
+        "representatividad": {"region": dist("region"), "segmento": dist("segment"), "anio": dist("year"),
+                              "categoria": dist("category")},
+    }
 
 
 def build_orders(lines: pd.DataFrame) -> pd.DataFrame:
@@ -207,6 +235,7 @@ def run() -> dict:
     lines = add_features(df, q)
     orders = build_orders(lines)
     customers = build_customers(lines, orders)
+    q["atipicos_y_sesgos"] = outliers_and_bias(lines)
     q["modelo_estrella"] = build_star_schema(lines)
     assert q["modelo_estrella"]["fact_lineas"] == len(lines), "la tabla de hechos perdió filas en los joins"
 

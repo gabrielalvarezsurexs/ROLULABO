@@ -1,9 +1,10 @@
-"""Genera el reporte de Rolulabo a partir de las métricas del pipeline.
+"""Genera el reporte técnico de Rolulabo a partir de las métricas del pipeline.
 
-Un solo modelo de contenido con dos salidas.
+El reporte técnico es el anexo completo. El reporte ejecutivo de cuatro
+páginas que pide la rúbrica sale de build_executive.py con este mismo formato.
 
-    python reports/build_report.py          Word (entregables/Reporte_Rolulabo.docx)
-    python reports/build_report.py --html   HTML para importar como Google Doc
+    uv run python reports/build_report.py          Word (entregables/Reporte_Tecnico_Rolulabo.docx)
+    uv run python reports/build_report.py --html   HTML para importar como Google Doc
 
 Todas las cifras se leen de reports/metrics, así que el reporte siempre
 coincide con la última ejecución de src/run_all.py.
@@ -36,7 +37,13 @@ CAPS = rows("topes_descuento.csv")
 SIMSUB = {r["sub_category"]: r for r in rows("simulacion_por_subcategoria.csv")}
 SIM = L["simulacion_2017"]
 MOD = L["modelos"]
-GB, RULE = MOD["Gradient boosting"], MOD["Regla descuento > 20%"]
+BEST = L["modelo_elegido"]
+GB, RULE = MOD[BEST], MOD["Regla descuento > 20%"]
+COST = MOD["Regla costo histórico"]
+CH = L["costo_historico"]
+ERR = L["analisis_errores"]
+THR_SENS = L["sensibilidad_umbral"]
+ATS = Q["atipicos_y_sesgos"]
 PROF = {p["nombre"]: p for p in S["perfiles"]}
 GROUPS = ["Alto valor rentable", "Cazadores de descuento", "Compradores ocasionales", "Inactivos"]
 CZ, AV = PROF["Cazadores de descuento"], PROF["Alto valor rentable"]
@@ -57,7 +64,7 @@ def f3(v):
 
 
 def money(v):
-    return ("-$" if v < 0 else "$") + f"{round(abs(v)):,}"
+    return ("-$" if v < 0 and round(abs(v)) > 0 else "$") + f"{round(abs(v)):,}"
 
 
 def sens(m, e):
@@ -105,12 +112,21 @@ def days_table():
 
 
 HYP = j("hypotheses.json")
+HY = {h["id"]: h for h in HYP["hipotesis"]}
+AUC_RANGE = f"{HY['H5']['stats']['auc_min']:.2f} a {HY['H5']['stats']['auc_max']:.2f}"
 RULES = j("decision_rules.json")
 AUTOR = "Gabriel Álvarez Mendoza"
 DEC = j("decision.json")
 DEC_HIGH = next(g for g in DEC["por_grupo"] if g["grupo"].startswith("10"))
 SIM_MARGIN = SIM["escenarios"][0]["utilidad"] / SIM["escenarios"][0]["ventas"]
 REAL_MARGIN = SIM["utilidad_actual"] / SIM["ventas_actuales"]
+SEM = {r["semaforo"]: r for r in RULES["semaforo_2017"]}
+REP = ATS["representatividad"]
+ODS_TEXT = ("El proyecto se relaciona con el ODS 8, Trabajo decente y crecimiento económico, en particular con la meta 8.2, "
+            "que busca elevar la productividad económica mediante la modernización tecnológica y la innovación. La relación es concreta "
+            "pero indirecta. El análisis eleva la utilidad por transacción de la empresa con el mismo volumen de venta, usando datos que ya "
+            "tiene, y una empresa más productiva sostiene mejor su operación y sus empleos. No se vincula con ODS ambientales, como el 12, "
+            "porque los datos no traen información de consumo de recursos o residuos que permita sostener esa relación.")
 
 
 def _base_content():
@@ -125,6 +141,7 @@ def _base_content():
           f"**El descuento no compra volumen.** La cantidad por línea es la misma con 0% que con 80% de descuento (rho = {HYP['hipotesis'][1]['stats']['rho']:.3f}). Quitar descuento donde pierde dinero tiene poco riesgo comercial.",
           "**Vender mucho no es ser rentable.** El grupo Cazadores de descuento compra casi tan seguido como el de mayor valor, pero su margen es negativo y genera el " + pct(CZ["perdidas_pct"], 0) + " de las pérdidas."),
         P(f"Tres modelos sostienen la decisión. Un gradient boosting detecta las líneas que van a perder dinero con F1 de {f3(GB['f1'])} contra {f3(RULE['f1'])} de la regla actual. Un análisis de entregas demuestra que el retraso no se puede predecir con los datos disponibles, así que el ajuste es en la promesa. Un K-Means separa cuatro grupos de clientes con estrategias distintas."),
+        P(f"Un hallazgo acota el papel del clasificador. Como la pérdida depende del costo de cada producto, una regla sin aprendizaje de máquina que usa el costo histórico llega a F1 de {f3(COST['f1'])}. Cuando el sistema conoce el costo, esa regla es la mejor herramienta para detectar pérdidas. El modelo aporta donde no hay costo y como segundo método para fijar los topes. La decisión recomendada no depende del clasificador."),
         P(f"Ningún modelo decide solo. Cada resultado sigue el esquema score, regla y decisión. El modelo calcula un score, una regla explícita lo convierte en recomendación y una persona con nombre de puesto acepta, ajusta o rechaza. En 2017 el semáforo habría mandado a revisión humana {pct(RULES['decisiones_humanas_pct'], 0)} de las líneas, unas {RULES['decisiones_humanas_por_mes']:.0f} al mes, que concentran el {pct(RULES['perdida_cubierta_por_revision_pct'])} del monto perdido."),
     ]
     # ------------------------------------------------------------ 2
@@ -198,9 +215,10 @@ def _base_content():
     c += [
         H1("5. Hipótesis iniciales"),
         P(f"Las hipótesis se escribieron como el negocio las diría y se probaron antes de modelar. Una hipótesis refutada vale tanto como una confirmada, porque evita invertir en la solución equivocada. De ocho, {HYP['refutadas']} se refutaron y {HYP['confirmadas']} se confirmó."),
-        T(["", "Creencia del negocio", "Prueba y evidencia", "Resultado"],
-          [[h["id"], h["creencia"], f"{h['prueba']}. {h['evidencia']}", "**" + h["resultado"] + "**"] for h in HYP["hipotesis"]],
-          [0.35, 1.9, 3.35, 0.9], numeric=False, size=8),
+        P("Cada hipótesis tiene un criterio de decisión escrito antes de ver el resultado, y el veredicto sale del estadístico, no de un texto fijo. El nivel de significancia es 0.05. H6 se prueba con una cola porque la creencia es direccional."),
+        T(["", "Creencia del negocio", "Prueba, criterio y evidencia", "Resultado"],
+          [[h["id"], h["creencia"], f"{h['prueba']}. {h['criterio']}. {h['evidencia']}", "**" + h["resultado"] + "**"] for h in HYP["hipotesis"]],
+          [0.35, 1.75, 3.5, 0.9], numeric=False, size=8),
         P("Qué cambió con cada refutación."),
         B(*[f"**{h['id']}.** {h['implicacion']}" for h in HYP["hipotesis"]]),
     ]
@@ -234,23 +252,35 @@ def _base_content():
           [1.5, 3.2, 1.8], numeric=False),
         H2("6.4 Modelo estrella para BI"),
         P(f"Además de las tablas analíticas, el ETL publica un modelo estrella en data/processed/bi, listo para conectarse a Power BI, Looker Studio o Tableau. La tabla de hechos fact_lineas tiene {Q['modelo_estrella']['fact_lineas']:,} filas y se une a cuatro dimensiones con llaves sustitutas, dim_cliente ({Q['modelo_estrella']['dim_cliente']}), dim_producto ({Q['modelo_estrella']['dim_producto']:,}), dim_geografia ({Q['modelo_estrella']['dim_geografia']}) y dim_fecha ({Q['modelo_estrella']['dim_fecha']:,} días). El ETL verifica que los joins no pierdan filas."),
+        H2("6.5 Valores atípicos y sesgos"),
+        P(f"**Atípicos.** Se midieron con la regla de Tukey, valores fuera de 1.5 veces el rango intercuartílico. Son ventas reales y no errores de captura, así que no se eliminan. El 1% de las líneas con mayor venta concentra el {pct(ATS['ventas_top_1pct_lineas'], 0)} de las ventas. El tratamiento es de modelado. El precio entra en logaritmo, los modelos de árboles no dependen de la escala y en la segmentación el margen se recorta en los percentiles 1 y 99."),
+        T(["Variable", "Atípicos", "% de líneas", "Mediana", "Máximo"],
+          [[lab, f"{ATS['atipicos_iqr'][k]['atipicos']:,}", pct(ATS['atipicos_iqr'][k]['atipicos_pct']),
+            money(ATS['atipicos_iqr'][k]['mediana']) if k != "quantity" else f"{ATS['atipicos_iqr'][k]['mediana']:.0f}",
+            money(ATS['atipicos_iqr'][k]['max']) if k != "quantity" else f"{ATS['atipicos_iqr'][k]['max']:.0f}"]
+           for k, lab in [("sales", "Venta por línea"), ("list_price", "Precio de lista"), ("quantity", "Cantidad"), ("profit", "Utilidad por línea")]],
+          [2.0, 1.0, 1.1, 1.1, 1.3]),
+        P(f"**Sesgos.** Cuatro sesgos condicionan la lectura. El primero es de representatividad. West tiene {pct(REP['region']['West'], 0)} de las líneas y South {pct(REP['region']['South'], 0)}, y 2017 aporta {pct(REP['anio']['2017'], 0)} por el crecimiento, así que las métricas pesan más lo reciente y lo occidental. El segundo es de confusión. El descuento es fijo por estado y subcategoría, por lo que no se puede separar el efecto del estado del efecto del descuento. El tercero es de selección. Solo hay ventas cerradas, no cotizaciones perdidas, y por eso la elasticidad al precio no se puede estimar. El cuarto es que los datos son sintéticos y la utilidad sale de una fórmula con costo fijo."),
     ]
     # ------------------------------------------------------------ 7
     caps_sorted = sorted(CAPS, key=lambda r: -float(SIMSUB[r["sub_category"]]["delta"]))
     c += [
         H1("7. Modelado y evaluación"),
         H2("7.1 Líneas con pérdida"),
-        P("**Técnica.** Clasificación binaria con desbalance moderado, 18.7% de positivos. Se compararon cuatro modelos de complejidad creciente, regresión logística, árbol de decisión, random forest y gradient boosting, contra dos líneas base, la proporción de la clase y la regla de negocio descuento mayor a 20%. La regla es la comparación relevante, porque un modelo solo aporta si supera lo que el negocio haría con una regla simple."),
+        P("**Técnica.** Clasificación binaria con desbalance moderado, 18.7% de positivos. Se compararon cuatro modelos de complejidad creciente, regresión logística, árbol de decisión, random forest y gradient boosting, contra tres líneas base. La proporción de la clase, la regla de negocio descuento mayor a 20% y una regla informada que usa el costo histórico de cada producto. La regla actual es la comparación relevante para el negocio, porque un modelo solo aporta si supera lo que ya se hace. La regla de costo es la referencia honesta de lo que se logra sin aprendizaje de máquina cuando el costo existe. Los cuatro modelos van de menor a mayor complejidad. La regresión logística es lineal e interpretable, el árbol produce reglas legibles, y random forest y gradient boosting capturan la interacción entre descuento y subcategoría que explica la pérdida."),
         P("**Variables.** Descuento, subcategoría, categoría, región, segmento, modalidad de envío, cantidad, logaritmo del precio de lista y mes. Se excluyen utilidad, margen y costo unitario porque el vendedor no los conoce al capturar el pedido y su inclusión sería fuga de información."),
-        P("**Validación.** Partición temporal, entrenamiento con 2014 a 2016 (6,681 líneas) y prueba con 2017 (3,312 líneas). Dentro de entrenamiento, validación cruzada de ventana creciente (2014 predice 2015, 2014 a 2015 predicen 2016) para elegir hiperparámetros y el umbral que maximiza F1. El modelo final se elige por PR-AUC de validación sin mirar la prueba. Intervalos de 95% por bootstrap con 1,000 remuestreos."),
+        P(f"**Validación.** Partición temporal, entrenamiento con 2014 a 2016 ({L['particion']['lineas_entrenamiento']:,} líneas) y prueba con 2017 ({L['particion']['lineas_prueba']:,} líneas). Dentro de entrenamiento, validación cruzada de ventana creciente (2014 predice 2015, 2014 a 2015 predicen 2016) para elegir hiperparámetros y el umbral que maximiza F1, buscado en una rejilla de 0.05 para que sea estable. El modelo final se elige por PR-AUC de validación sin mirar la prueba. Intervalos de 95% por bootstrap con 1,000 remuestreos."),
         T(["Modelo", "ROC-AUC", "PR-AUC", "F1", "Precisión", "Recall", "Pérdida detectada"], [
             ["Proporción de la clase", "0.500", f3(MOD["Linea base sin modelo"]["pr_auc"]), "0.000", "0.000", "0.000", "0%"],
             mrow("Regla descuento > 20%"), mrow("Regresion logistica", "Regresión logística"),
             mrow("Arbol de decision", "Árbol de decisión"), mrow("Random forest"),
-            mrow("Gradient boosting", "**Gradient boosting**")],
+            mrow("Gradient boosting", "**Gradient boosting**"), mrow("Regla costo histórico", "Regla costo histórico, referencia sin ML")],
           [1.8, 0.75, 0.75, 0.7, 0.8, 0.7, 1.0]),
         P(f"El gradient boosting (tasa de aprendizaje 0.05, profundidad 6, umbral {GB['umbral']:.2f}) tuvo el mejor PR-AUC en validación ({f3(GB['cv_pr_auc'])}) y en prueba ({f3(GB['pr_auc'])}), sin señales de sobreajuste. Su F1 es {f3(GB['f1'])} con intervalo de {f3(L['ic95_modelo_elegido']['f1_ic95'][0])} a {f3(L['ic95_modelo_elegido']['f1_ic95'][1])}, contra {f3(L['ic95_regla']['f1_ic95'][0])} a {f3(L['ic95_regla']['f1_ic95'][1])} de la regla. En 2017 detectó {L['matriz_confusion']['tp']} pérdidas, dejó pasar {L['matriz_confusion']['fn']} y dio {L['matriz_confusion']['fp']} falsas alarmas."),
         P(f"**Dónde aporta.** La regla no ve las pérdidas con descuento de exactamente 20%. En 2017 hubo {L['descuento_20']['lineas']:,} líneas con ese descuento y {L['descuento_20']['perdidas']} perdieron dinero. El modelo detecta {L['descuento_20']['modelo_detecta']} con {L['descuento_20']['modelo_falsos_positivos']} falsas alarmas, porque aprende que con 20% pierden Storage, Bookcases, Supplies y Tables pero no Paper, Binders ni Art. La importancia por permutación lo confirma. Descuento {L['importancia_permutacion']['discount']:.2f}, subcategoría {L['importancia_permutacion']['sub_category']:.2f}, precio {L['importancia_permutacion']['log_list_price']:.2f}, y región, segmento y envío cerca de cero."),
+        P(f"**Análisis de errores.** En 2017 el modelo dejó pasar {ERR['falsos_negativos']} pérdidas. El {pct(ERR['falsos_negativos_en_20_pct'], 0)} tenía exactamente 20% de descuento, la zona donde el resultado depende del producto, y suman {money(ERR['falsos_negativos_monto'])}, el {pct(ERR['falsos_negativos_monto_pct'])} del monto perdido. Son pérdidas chicas en subcategorías con margen cercano al equilibrio, sobre todo " + ", ".join(list(ERR['falsos_negativos_por_subcategoria'])[:3]) + f". Las {ERR['falsos_positivos']} falsas alarmas tenían {money(ERR['falsos_positivos_utilidad'])} de utilidad, el costo de revisarlas es bajo frente a lo que se recupera."),
+        P(f"**Robustez del umbral.** El F1 en prueba se mueve entre {f3(THR_SENS['f1_min_umbral_mas_menos_010'])} y {f3(THR_SENS['f1_max_umbral_mas_menos_010'])} si el umbral cambia 0.10 hacia arriba o hacia abajo. La conclusión no depende de un umbral exacto. Por eso se eligió en una rejilla de 0.05 y no como el máximo exacto de la curva, que brincaba entre 0.37 y 0.45 en distintos entornos de ejecución."),
+        P(f"**Línea base con costo.** La pérdida es determinista, así que basta conocer el costo del producto para anticiparla. El {pct(CH['lineas_con_historial_pct'])} de las líneas de 2017 son de productos que ya se vendieron en 2014 a 2016, y para ellas la regla de costo histórico " + ("acierta en todos los casos" if CH['f1_regla_costo_con_historial'] == 1 else f"llega a F1 de {f3(CH['f1_regla_costo_con_historial'])}") + f". En toda la prueba llega a F1 de {f3(COST['f1'])}, contra {f3(GB['f1'])} del modelo. La lectura correcta es que el clasificador no es la mejor herramienta cuando el sistema expone el costo. Su valor está en tres usos. Evalúa una línea cuando el costo no está disponible para quien captura el pedido, sirve como segundo método independiente para fijar los topes y confirma, sin usar costo, que la pérdida depende del descuento y la subcategoría. En productos sin historial hubo {CH['lineas_sin_historial']} líneas y {CH['perdidas_sin_historial']} pérdidas, muestra muy chica para afirmar que el modelo supere a la regla ahí (F1 {f3(CH['f1_modelo_sin_historial'])} contra {f3(CH['f1_regla20_sin_historial'])})."),
         P("**Topes de descuento.** El entregable para el negocio es la tabla de topes, calculada con dos métodos independientes y solo con 2014 a 2016. Por costo, el percentil 10 del descuento de equilibrio de cada subcategoría, que deja rentables al 90% de las líneas. Por modelo, el mayor descuento con probabilidad de pérdida bajo el umbral. Se toma el menor, y que ambos coincidan en orden de magnitud es una prueba de consistencia."),
         T(["Subcategoría", "Desc. prom.", "Desc. máx.", "Líneas con pérdida", "Tope costo", "Tope modelo", "Tope", "Utilidad recuperada 2017"],
           [[r["sub_category"], pct(float(r["descuento_prom_actual"]), 0), pct(float(r["descuento_max_actual"]), 0),
@@ -270,7 +300,7 @@ def _base_content():
           [[m, f"{DD[m]['pedidos']:,}", pct(DD[m]["fuera_de_tiempo_pct"]), f"{DD[m]['dias_p95']:.0f}",
             auc(m, "Regresion logistica"), auc(m, "Gradient boosting")] for m in MODES],
           [1.6, 0.8, 1.2, 0.8, 1.0, 1.1]),
-        P(f"Ninguna prueba es significativa. El p-valor mínimo es {min(t['p_valor'] for t in DL['pruebas_chi2']):.3f} y la V de Cramér máxima {max(t['v_cramer'] for t in DL['pruebas_chi2']):.2f}. Los modelos obtienen AUC entre 0.46 y 0.52, equivalente a adivinar. Same Day tiene solo 5 pedidos tarde en 2017 y su AUC no es interpretable. El problema real es la promesa. Second Class entrega en 4 o 5 días el 41% de las veces, lo que hoy se espera de Standard Class."),
+        P(f"Ninguna prueba es significativa. El p-valor mínimo es {min(t['p_valor'] for t in DL['pruebas_chi2']):.3f} y la V de Cramér máxima {max(t['v_cramer'] for t in DL['pruebas_chi2']):.2f}. Los modelos obtienen AUC entre {AUC_RANGE}, equivalente a adivinar. Same Day tiene solo {next(m['positivos_prueba'] for m in DL['modelos'] if m['modalidad'] == 'Same Day')} pedidos tarde en 2017 y su AUC no es interpretable. El problema real es la promesa. Second Class entrega en 4 o 5 días el 41% de las veces, lo que hoy se espera de Standard Class."),
         FIGURE("f4_dias_envio.png", "**Figura 3.** Distribución de días de envío por modalidad. En gris oscuro los pedidos dentro de la promesa supuesta, en gris claro los que la exceden.", 6.2,
                ["Modalidad"] + [("1 día" if d == 1 else f"{d} días") for d in range(8)], days_table()),
         T(["Modalidad", "Promesa actual", "Cumplimiento actual", "Promesa p95", "Cumplimiento p95"],
@@ -344,22 +374,25 @@ def _base_content():
     c += [
         H1("12. Limitaciones"),
         B("**Datos sintéticos.** La utilidad sale de una fórmula con costo fijo por producto. En datos reales habría fletes, devoluciones y cambios de costo, y las métricas del modelo serían menores. El método se puede trasladar, el nivel de desempeño no.",
+          f"**El costo explica la pérdida.** Con el costo de cada producto una regla sin aprendizaje de máquina llega a F1 de {f3(COST['f1'])}. El clasificador no es indispensable cuando el costo está en el sistema, y así se reporta.",
+          "**Sensibilidad al entorno.** Con otras versiones de scikit-learn el umbral óptimo cambia aunque el F1 no. Las versiones quedan fijas en uv.lock y una prueba automática verifica que los números de referencia se reproduzcan.",
           "**Volumen observado solo por línea.** H2 muestra que la cantidad por línea no depende del descuento, pero el dataset no registra a los clientes que no compraron. Por eso la decisión incluye un piloto con grupo de control.",
           "**Promesa de entrega supuesta.** La tasa de retraso depende de la promesa definida. La recomendación se basa en la distribución real de días, no en la tasa.",
           "**Topes por subcategoría.** Dentro de una subcategoría hay productos con márgenes muy distintos. Un tope por producto, que el dashboard ya muestra, es más preciso pero más difícil de operar.",
           "**Separación moderada de grupos.** La silueta de 0.22 indica clientes en la frontera entre grupos. Los perfiles describen tendencias, no categorías rígidas.",
           "**Un solo país y cuatro años.** No se puede validar el modelo en otro mercado ni capturar cambios de largo plazo."),
         H1("13. Reproducibilidad"),
-        P("Todo el proyecto está escrito en Python y se regenera desde el CSV original con un solo comando. La configuración, la semilla 42 y los supuestos de negocio viven en src/config.py."),
+        P("Todo el proyecto está escrito en Python y se regenera desde el CSV original con un solo comando. La configuración, la semilla 42 y los supuestos de negocio viven en src/config.py. Las versiones de las librerías quedan fijas en uv.lock, y la prueba test_resultados_reproducibles compara cada corrida contra los números de referencia que citan los entregables. La integración continua corre el pipeline y las pruebas en cada cambio."),
         T(["Paso", "Comando"], [
             ["Instalar dependencias", "uv sync (versiones fijas en uv.lock)"],
             ["Ejecutar el pipeline completo", "uv run python src/run_all.py"],
+            ["Verificar resultados", "uv run pytest -q"],
             ["Abrir el dashboard", "uv run streamlit run app/dashboard.py"],
-            ["Generar reporte y presentación", "uv run python reports/build_entregables.py"],
-            ["Ver evidencia ejecutada", "notebooks/rolulabo_analisis.ipynb"]],
+            ["Generar los entregables", "uv run python reports/build_entregables.py"],
+            ["Notebook en Google Colab", "notebooks/rolulabo_analisis.ipynb, la primera celda clona el repositorio e instala las versiones fijas"]],
           [2.2, 4.3], numeric=False),
         H1("14. Declaración de uso de inteligencia artificial"),
-        P("El equipo usó Claude, de Anthropic, como asistente en tres tareas. Estructurar el código del pipeline y del dashboard, revisar la metodología de validación y redactar borradores de este reporte. El equipo definió el problema, eligió el alcance, ejecutó y revisó cada resultado, y es responsable de las interpretaciones, la decisión y las recomendaciones. Todas las cifras provienen de la ejecución del código incluido."),
+        P("El equipo usó Claude, de Anthropic, como asistente para estructurar el código del pipeline y del dashboard, revisar la metodología de validación, auditar el proyecto contra la rúbrica y redactar borradores de los documentos. El equipo definió el problema, eligió el alcance, ejecutó y revisó cada resultado, y es responsable de las interpretaciones, la decisión y las recomendaciones. Todas las cifras provienen de la ejecución del código incluido. El detalle de herramientas y verificaciones está en el documento Declaración de herramientas."),
         H1("15. Referencias"),
         P("Chapman, P. et al. (2000). CRISP-DM 1.0. Step-by-step data mining guide. SPSS."),
         P("Chowdhury, V. (2022). Superstore Dataset. Kaggle. https://www.kaggle.com/datasets/vivek468/superstore-dataset-final"),
@@ -452,6 +485,8 @@ def content():
         P("El reporte busca tres cosas. Responder con evidencia tres preguntas analíticas sobre pérdidas, entregas y clientes. Probar las creencias que el negocio daba por ciertas antes de construir sobre ellas. Y traducir los resultados en una decisión concreta, con opciones, impacto, responsables y criterios de éxito."),
         H2("1.4 Audiencia objetivo"),
         P("El documento está dirigido al profesor y al grupo de Aprendizaje de Máquina, que conocen las técnicas de clasificación, validación y clustering. Al mismo tiempo está escrito como lo leería la dirección de Rolulabo. El resumen ejecutivo, los insights, la decisión y las recomendaciones se pueden leer sin conocimientos técnicos. Las secciones de metodología, datos y modelado documentan el detalle para quien quiera reproducir o auditar el trabajo."),
+        H2("1.5 Relación con los Objetivos de Desarrollo Sostenible"),
+        P(ODS_TEXT),
         H1("2 Revisión de fuentes de información"),
         P("La fuente de datos es la versión completa del dataset Sample Superstore publicada en Kaggle, que incluye descuento, cantidad y utilidad por línea. Es un dataset sintético y público, usado ampliamente para enseñanza, lo que garantiza que no contiene información personal real."),
         P("La metodología se apoya en cinco referencias. La guía CRISP-DM 1.0 de Chapman y colaboradores define las fases del proyecto. El Scrum Guide de Schwaber y Sutherland da el marco de iteraciones y backlog. The Data Warehouse Toolkit de Kimball y Ross sustenta el modelo estrella de la capa de BI. El artículo de Saito y Rehmsmeier justifica usar PR-AUC en lugar de ROC-AUC con clases desbalanceadas, y el de Rousseeuw define el coeficiente de silueta usado para evaluar los grupos. La implementación usa scikit-learn, documentado por Pedregosa y colaboradores."),
@@ -473,7 +508,7 @@ def content():
     c += [H1("5 Metodología"), H2("5.1 CRISP-DM con iteraciones ágiles")] + _fix(_renum(met, {"2.1": "5.2", "2.2": "5.3"}), "Secciones 3 y 4", "Secciones 1 y 6")
     c += [H1("6 Comprensión del negocio")] + _renum(_without(neg, ["Planteamiento", "Objetivo de negocio"]), {"3.3": "6.1", "3.4": "6.2"})
     c += [H1("7 Datos recogidos y preparación")] + _renum(sec["4. Comprensión de los datos"], {"4.1": "7.1", "4.2": "7.2"}) \
-        + _fix(_renum(sec["6. Preparación de datos"], {"6.1": "7.3", "6.2": "7.4", "6.3": "7.5", "6.4": "7.6"}), "(sección 12)", "(sección 3.2)")
+        + _fix(_renum(sec["6. Preparación de datos"], {"6.1": "7.3", "6.2": "7.4", "6.3": "7.5", "6.4": "7.6", "6.5": "7.7"}), "(sección 12)", "(sección 3.2)")
     c += [H1("8 Hipótesis iniciales")] + sec["5. Hipótesis iniciales"]
     c += [H1("9 Modelado y evaluación")] + _renum(sec["7. Modelado y evaluación"], {"7.1": "9.1", "7.2": "9.2", "7.3": "9.3"})
     c += [H1("10 Insights")] + sec["8. Insights"]
@@ -483,9 +518,9 @@ def content():
     lates = [r["fuera_de_tiempo_pct"] for r in X["tabla"]]
     c += [
         H1("14 Conclusiones"),
-        P(f"La primera pregunta analítica tiene respuesta positiva. Con la información disponible al capturar un pedido se puede anticipar si una línea perderá dinero, y un gradient boosting lo hace mejor que la regla actual (F1 de {f3(GB['f1'])} contra {f3(RULE['f1'])}). Su mayor aporte está en la zona gris del 20% de descuento, donde la regla no ve nada. De ahí se derivan topes por subcategoría que, aplicados a 2017, habrían llevado la utilidad de {money(SIM['utilidad_actual'])} a {money(SIM['escenarios'][0]['utilidad'])}."),
+        P(f"La primera pregunta analítica tiene respuesta positiva. Con la información disponible al capturar un pedido se puede anticipar si una línea perderá dinero, y un gradient boosting lo hace mejor que la regla actual (F1 de {f3(GB['f1'])} contra {f3(RULE['f1'])}). Su mayor aporte está en la zona gris del 20% de descuento, donde la regla no ve nada. De ahí se derivan topes por subcategoría que, aplicados a 2017, habrían llevado la utilidad de {money(SIM['utilidad_actual'])} a {money(SIM['escenarios'][0]['utilidad'])}. El matiz importante es que una regla con el costo histórico del producto detecta las pérdidas mejor que cualquier modelo (F1 {f3(COST['f1'])}), así que en operación conviene usar el costo donde exista y el modelo donde no."),
         P("La segunda pregunta tiene respuesta negativa y es igual de útil. Con los datos actuales el retraso no se puede predecir dentro de cada modalidad. El problema de Operaciones no es priorizar pedidos sino prometer tiempos que no se cumplen."),
-        P(f"La tercera pregunta tiene respuesta positiva. Existen cuatro grupos de clientes estables con rentabilidades muy distintas, y la segmentación oficial no los distingue. El grupo Cazadores de descuento resta utilidad y el de Alto valor rentable la genera toda."),
+        P(f"La tercera pregunta tiene respuesta positiva. Existen cuatro grupos de clientes con rentabilidades muy distintas, estables entre semillas (índice de Rand ajustado {S['estabilidad']['ari_semillas_media']:.2f}) y moderadamente estables en remuestreo ({S['estabilidad']['ari_bootstrap_media']:.2f}), y la segmentación oficial no los distingue. El grupo Cazadores de descuento resta utilidad y el de Alto valor rentable la genera toda."),
         P(f"Las tres respuestas apuntan a la misma causa. La pérdida se concentra en 10 estados con descuento alto ({pct(X['perdida_en_estados_alto_descuento_pct'], 0)} del monto perdido), no depende del tipo de cliente y no se relaciona con la logística (el retraso va de {pct(min(lates), 0)} a {pct(max(lates), 0)} entre grupos). Siete de ocho creencias del negocio resultaron falsas, lo que confirma el valor de probar antes de construir."),
         H1("15 Recomendaciones"),
         P("Cada recomendación cumple los criterios de la sección 4.2 y tiene un responsable que decide."),
@@ -493,8 +528,8 @@ def content():
             ["Dirección", "Aprobar la opción C, topes en los 10 estados de descuento alto en dos olas, y decidir en la semana 15 si se extiende al resto del país.", f"{pct(DEC_HIGH['delta_pct_del_total'], 0)} del beneficio posible con riesgo bajo"],
             ["Finanzas", "Reemplazar la tabla de descuentos por estado con los topes por subcategoría, empezando por Binders, Tables, Machines y Chairs.", f"+{money(SIM['escenarios'][0]['delta_utilidad'])} en 2017, +{money(WORST['delta_utilidad'])} en el peor caso"],
             ["Comercial", "Usar el semáforo del dashboard en cada línea con descuento y registrar en bitácora toda excepción con su justificación.", f"Unas {RULES['decisiones_humanas_por_mes']:.0f} revisiones al mes cubren el {pct(RULES['perdida_cubierta_por_revision_pct'])} del monto perdido"],
-            ["Operaciones", "Publicar la promesa de 3, 5 y 7 días y empezar a registrar transportista, almacén y fecha real de entrega.", "Retraso no predecible, AUC de 0.46 a 0.52"],
-            ["Marketing", "Lealtad sin descuento para Alto valor rentable, servicio en vez de precio para Cazadores, recompra para Compradores ocasionales.", f"Cuatro grupos estables, ARI bootstrap {S['estabilidad']['ari_bootstrap_media']:.2f}"]],
+            ["Operaciones", "Publicar la promesa de 3, 5 y 7 días y empezar a registrar transportista, almacén y fecha real de entrega.", f"Retraso no predecible, AUC de {AUC_RANGE}"],
+            ["Marketing", "Lealtad sin descuento para Alto valor rentable, servicio en vez de precio para Cazadores, recompra para Compradores ocasionales.", f"Cuatro grupos, ARI bootstrap {S['estabilidad']['ari_bootstrap_media']:.2f} y silueta {SEGK[4]['silueta']:.2f}"]],
           [1.0, 3.4, 2.1], numeric=False),
     ]
     repro = sec["13. Reproducibilidad"]
@@ -528,7 +563,8 @@ def parts(text):
 
 
 # ---------------------------------------------------------------- Word
-def build_docx(out: Path):
+def build_docx(out: Path, blocks=None, index=True, title=TITLE, actividad=None):
+    """Word con portada de la Facultad. blocks por omisión es el reporte técnico."""
     from docx import Document
     from docx.enum.section import WD_SECTION
     from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -640,22 +676,23 @@ def build_docx(out: Path):
         par.paragraph_format.space_after = Pt(0)
         par.paragraph_format.left_indent = Inches(1.5)
         mono(par, name)
-    cover_line("Nombre de actividad:", PORTADA["actividad"], 44)
+    cover_line("Nombre de actividad:", actividad or PORTADA["actividad"], 44)
     cover_line("Fecha de entrega:", PORTADA["fecha"], 40)
     doc.add_page_break()
 
     # Índice.
-    blocks = content()
-    p = doc.add_paragraph()
-    p.paragraph_format.space_after = Pt(14)
-    add_runs(p, "Índice", size=13, bold_all=True)
-    for kind, title in [("h0", "Portada")] + [(b[0], b[1]) for b in blocks if b[0] in ("h1", "h1u", "h2")]:
-        par = doc.add_paragraph()
-        par.paragraph_format.space_after = Pt(1.5)
-        par.paragraph_format.line_spacing = 1.0
-        par.paragraph_format.left_indent = Inches(0.25 if kind != "h2" else 0.55)
-        add_runs(par, title, size=9, bold_all=(kind != "h2"))
-    doc.add_page_break()
+    blocks = content() if blocks is None else blocks
+    if index:
+        p = doc.add_paragraph()
+        p.paragraph_format.space_after = Pt(14)
+        add_runs(p, "Índice", size=13, bold_all=True)
+        for kind, ttl in [("h0", "Portada")] + [(b[0], b[1]) for b in blocks if b[0] in ("h1", "h1u", "h2")]:
+            par = doc.add_paragraph()
+            par.paragraph_format.space_after = Pt(1.5)
+            par.paragraph_format.line_spacing = 1.0
+            par.paragraph_format.left_indent = Inches(0.25 if kind != "h2" else 0.55)
+            add_runs(par, ttl, size=9, bold_all=(kind != "h2"))
+        doc.add_page_break()
 
     for blk in blocks:
         kind = blk[0]
@@ -745,8 +782,8 @@ def build_docx(out: Path):
             par.paragraph_format.keep_with_next = True
             par.add_run().add_picture(str(FIG / file), width=Inches(width))
             add_runs(doc.add_paragraph(), caption, size=8.5)
-    doc.core_properties.title = TITLE
-    doc.core_properties.author = "Equipo Rolulabo"
+    doc.core_properties.title = title
+    doc.core_properties.author = "Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna, Rodrigo Naranjo"
     doc.save(out)
 
 
@@ -803,5 +840,5 @@ if __name__ == "__main__":
         print("HTML listo")
     else:
         (HERE.parent / "entregables").mkdir(exist_ok=True)
-        build_docx(HERE.parent / "entregables" / "Reporte_Rolulabo.docx")
-        print("Word listo")
+        build_docx(HERE.parent / "entregables" / "Reporte_Tecnico_Rolulabo.docx", title="Rolulabo, reporte técnico")
+        print("Reporte técnico listo")

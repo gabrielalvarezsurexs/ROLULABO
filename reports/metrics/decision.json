@@ -15,10 +15,10 @@
     {
       "grupo": "10 estados de descuento alto",
       "utilidad_real": -36671.0652,
-      "utilidad_con_topes": 44769.6126,
+      "utilidad_con_topes": 44769.61259999999,
       "lineas_afectadas": 815,
       "ventas": 224061.8357,
-      "delta": 81440.6778,
+      "delta": 81440.67779999999,
       "delta_pct_del_total": 0.912803823492679
     },
     {
@@ -28,7 +28,7 @@
       "lineas_afectadas": 110,
       "ventas": 509153.4195,
       "delta": 7779.67349999999,
-      "delta_pct_del_total": 0.08719617650732105
+      "delta_pct_del_total": 0.08719617650732106
     }
   ],
   "opciones": [

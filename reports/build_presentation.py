@@ -15,8 +15,9 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
-from build_report import (AUTOR, RULES, AV, CAPS, CROSS, CZ, DD, DEC, DEC_HIGH, DL, GB, GROUPS, HERE, HYP, L, MOD, MODES, PROF,
-                          Q, RULE, S, SEGK, SIM, SIMSUB, WORST, X, money, parts, pct, sens)
+from build_report import (ATS, AUC_RANGE, AUTOR, BEST, CH, COST, ERR, REAL_MARGIN, REP, RULES, AV, CAPS, CROSS, CZ, DD, DEC,
+                          DEC_HIGH, DL, GB, GROUPS, HERE, HYP, L, MOD, MODES, PROF, Q, RULE, S, SEGK, SIM, SIM_MARGIN, SIMSUB,
+                          THR_SENS, WORST, X, money, parts, pct, sens)
 
 FONT = "Montserrat"
 BLACK, YELLOW, WHITE = RGBColor(0x11, 0x11, 0x11), RGBColor(0xF5, 0xC4, 0x00), RGBColor(0xFF, 0xFF, 0xFF)
@@ -30,6 +31,7 @@ prs = Presentation()
 prs.slide_width, prs.slide_height = Inches(W), Inches(H)
 BLANK = prs.slide_layouts[6]
 PAGE = [1]
+OPENERS, STATEMENTS = set(), set()   # láminas que abren bloque y láminas de impacto
 
 
 # ---------------------------------------------------------------- helpers
@@ -228,11 +230,11 @@ HY = {h["id"]: h for h in HYP["hipotesis"]}
 SHORT = {
     "H1": f"{Q['combinaciones_con_un_solo_descuento']} de {Q['combinaciones_estado_subcategoria']} combinaciones estado y subcategoría tienen un solo descuento",
     "H2": f"rho = {HY['H2']['stats']['rho']:.3f}, p = {HY['H2']['stats']['p']:.2f}. Misma cantidad con 0% y con 80%",
-    "H3": "Pérdida de 17.5% a 19.3% por segmento, p = 0.19, V = 0.02",
-    "H4": "Pérdida de 17.5% a 19.3% por trimestre, p = 0.29",
-    "H5": f"{DL['pruebas_significativas']} de {len(DL['pruebas_chi2'])} pruebas significativas, AUC de 0.46 a 0.52",
-    "H6": "Inactivos 28% de pedidos tarde contra 33% de los activos",
-    "H7": "Ventas contra margen rho = 0.04. Descuento contra margen rho = -0.59",
+    "H3": f"Pérdida de {pct(HY['H3']['stats']['min'])} a {pct(HY['H3']['stats']['max'])} por segmento, p = {HY['H3']['stats']['p']:.2f}, V = {HY['H3']['stats']['v']:.2f}",
+    "H4": f"Pérdida de {pct(HY['H4']['stats']['min'])} a {pct(HY['H4']['stats']['max'])} por trimestre, p = {HY['H4']['stats']['p']:.2f}",
+    "H5": f"{DL['pruebas_significativas']} de {len(DL['pruebas_chi2'])} pruebas significativas, AUC de {AUC_RANGE}",
+    "H6": f"Inactivos {pct(HY['H6']['stats']['inactivos'], 0)} de pedidos tarde contra {pct(HY['H6']['stats']['activos'], 0)} de los activos, p una cola = {HY['H6']['stats']['p_una_cola']:.2f}",
+    "H7": f"Ventas contra margen rho = {HY['H7']['stats']['rho_ventas']:.2f}. Descuento contra margen rho = {HY['H7']['stats']['rho_descuento']:.2f}",
     "H8": f"F1 {GB['f1']:.3f} contra {RULE['f1']:.3f}, intervalos de 95% sin traslape",
 }
 import csv  # noqa: E402
@@ -283,6 +285,7 @@ notes(s, "Empezamos por la conclusión. La decisión es corregir una tabla de de
 
 # ---------------------------------------------------------------- 3 problema
 s = new_slide()
+OPENERS.add(PAGE[0])
 header(s, "01 · Comprensión del negocio", "Rolulabo vende más de $2 millones, pero casi una de cada cinco líneas pierde dinero")
 cards = [("12.5%", "margen sobre $2.3M de ventas entre 2014 y 2017", CARD),
          (pct(Q["lineas_con_perdida_pct"]), "de las líneas de venta cerró con pérdida", YELLOW),
@@ -298,6 +301,29 @@ illus(s, "discount", 8.9, 4.95, 3.83, 1.85, align="right")
 text(s, LM, 5.2, 7.9, 1.2, "Además, uno de cada tres pedidos llega después de lo prometido y la empresa trata igual a todos sus clientes. El objetivo es elevar la utilidad por transacción sin quitarle a Comercial el descuento como palanca de venta.", size=16)
 footer(s, "Fuente. Sample Superstore, 9,994 líneas, 5,009 pedidos, 793 clientes")
 notes(s, "Tres síntomas. Pérdidas por línea, entregas fuera de tiempo y una política comercial que no distingue clientes. Las pérdidas se detectan hasta el cierre contable.")
+
+# ---------------------------------------------------------------- planteamiento y ODS
+s = new_slide()
+header(s, "01 · Planteamiento", "Un objetivo medible, con dueño en cada área y ligado al ODS 8")
+sem_p95 = min(r["cumplimiento"] for r in DL["sensibilidad_promesa"] if r["escenario"] == "p95")
+table(s, LM, 2.1, [3.2, 1.35, 1.55, 1.4], [
+    ["KPI del objetivo", "Línea base", "Meta a un año", "Dueño"],
+    ["Líneas con pérdida", pct(Q["lineas_con_perdida_pct"]), "Menos de 5%", "Finanzas"],
+    ["Margen neto", pct(REAL_MARGIN), "Más de 20%", "Dirección"],
+    ["Promesa de entrega cumplida", pct(1 - DD["global_fuera_de_tiempo_pct"]), "Más de 95%", "Operaciones"],
+    ["Pedidos por cliente contra control", "Base", "Caída menor a 10%", "Comercial"]],
+    size=13, row_h=0.52, align_right_from=None, bold_first_col=True)
+text(s, LM, 4.95, 7.5, 1.7, [
+    "**A quién beneficia.** Comercial y Finanzas deciden los descuentos, Operaciones la promesa de entrega, Marketing el presupuesto por cliente y Dirección aprueba la política.",
+    f"**Por qué importa.** Las pérdidas se ven hasta el cierre contable. En simulación, los topes llevarían el margen de 2017 a {pct(SIM_MARGIN)}."], size=14, after=10)
+boxed(s, 8.55, 2.1, W - LM - 8.55, 4.55, YELLOW, [
+    "**ODS 8**", "**Trabajo decente y crecimiento económico, meta 8.2**",
+    "La meta busca elevar la productividad con modernización tecnológica e innovación. El proyecto sube la utilidad por transacción con datos que la empresa ya tiene.",
+    "La relación es indirecta y a nivel empresa. No usamos ODS ambientales porque los datos no traen consumo de recursos."], size=13, pad=0.3, after=8)
+r = s.shapes[-1]
+r.text_frame.paragraphs[0].runs[0].font.size = Pt(40)
+footer(s, "Línea base de reports/metrics, margen de 2017 y el resto de 2014 a 2017. El piloto de la decisión verifica las metas")
+notes(s, "La rúbrica pide un objetivo medible y ligarlo a un ODS solo si la relación es real. Nuestro objetivo son cuatro KPIs con dueño. El ODS 8.2 aplica porque mejoramos productividad de una empresa con analítica. Decimos con honestidad que la relación es indirecta y por qué no usamos ODS ambientales.")
 
 # ---------------------------------------------------------------- 4 metodologia
 s = new_slide()
@@ -338,20 +364,49 @@ tb = table(s, LM, 2.1, [4.5, 3.3, 1.4], [
 footer(s, "La historia de Operaciones se replanteó porque el AUC fue 0.5. Se entrega una promesa realista en su lugar")
 notes(s, "Trabajamos como un equipo de producto. Cada área es un usuario con una historia y un criterio de aceptación. La de Operaciones no se cumplió y lo decimos tal cual, se replanteó con base en evidencia.")
 
+# ---------------------------------------------------------------- datos y calidad
+s = new_slide()
+OPENERS.add(PAGE[0])
+header(s, "02 · Datos y calidad", "Datos públicos y limpios, con sus atípicos y sesgos a la vista")
+table(s, LM, 2.1, [3.7, 2.3], [
+    ["Validación", "Resultado"],
+    ["Fuente", "Superstore, Kaggle"],
+    ["Líneas y columnas", f"{Q['filas_crudas']:,} y 21"],
+    ["Valores faltantes", str(Q["nulos_totales"])],
+    ["Duplicados exactos", f"{Q['duplicados_exactos_eliminados']}, eliminado"],
+    ["Pedidos inconsistentes", str(Q["pedidos_inconsistentes"])],
+    ["Product ID para dos productos", f"{Q['product_id_reutilizados']}, llave ID y nombre"],
+    ["Costo constante por producto", "Sí, pérdida determinista"]],
+    size=13, row_h=0.5, align_right_from=None, bold_first_col=True)
+at = ATS["atipicos_iqr"]
+boxed(s, 7.0, 2.1, W - LM - 7.0, 1.95, CARD, [
+    "**ATÍPICOS**",
+    f"{pct(at['sales']['atipicos_pct'])} de las ventas y {pct(at['profit']['atipicos_pct'])} de las utilidades por línea están fuera del rango de Tukey. Son ventas reales y no se eliminan. Precio en logaritmo, modelos de árboles y margen recortado en p1 y p99."],
+    size=13, pad=0.3, after=6)
+boxed(s, 7.0, 4.25, W - LM - 7.0, 2.35, BLACK, [
+    "**SESGOS**",
+    f"Representatividad, West {pct(REP['region']['West'], 0)} de las líneas y South {pct(REP['region']['South'], 0)}. Confusión, el descuento es fijo por estado y subcategoría. Selección, solo hay ventas cerradas y no se ve a quien no compró. Datos sintéticos."],
+    size=13, color=WHITE, pad=0.3, after=6)
+r = s.shapes[-1]
+r.text_frame.paragraphs[0].runs[0].font.color.rgb = YELLOW
+footer(s, "Validaciones en src/etl.py, resultado en reports/metrics/data_quality.json. Fuente kaggle.com/datasets/vivek468/superstore-dataset-final")
+notes(s, "Antes de modelar validamos los datos. Casi no hay que limpiar, pero hay dos hallazgos que importan. La pérdida es determinista porque el costo es fijo por producto, y el descuento es una tabla por estado. Los atípicos son ventas reales, por eso se manejan con transformaciones y no se borran. Los sesgos limitan qué podemos afirmar, sobre todo el de selección, que impide medir elasticidad.")
+
 # ---------------------------------------------------------------- 6 hipotesis
 s = new_slide()
-header(s, "02 · Comprensión de los datos", f"{HYP['refutadas']} de 8 creencias del negocio resultaron falsas al probarlas con datos")
+header(s, "Comprensión de los datos · Hipótesis", f"{HYP['refutadas']} de 8 creencias del negocio resultaron falsas al probarlas con datos")
 rows = [["", "Creencia del negocio", "Evidencia", "Resultado"]]
 for hid in ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8"]:
     rows.append([hid, HY[hid]["creencia"], SHORT[hid], HY[hid]["resultado"]])
 tb = table(s, LM, 1.95, [0.6, 5.1, 5.0, 1.43], rows, size=11, row_h=0.52, align_right_from=None, bold_first_col=True)
 for i in range(1, 9):
     chip(tb.cell(i, 3), rows[i][3])
-footer(s, "Pruebas. Spearman, Kruskal-Wallis, chi-cuadrada con V de Cramér, Mann-Whitney, Bonferroni y bootstrap. src/hypotheses.py")
+footer(s, "Cada veredicto sale de un criterio fijado antes, alfa 0.05. Spearman, Kruskal-Wallis, chi-cuadrada, Mann-Whitney, Bonferroni y bootstrap")
 notes(s, "Antes de modelar escribimos lo que el negocio daba por cierto y lo probamos. Una hipótesis refutada vale tanto como una confirmada porque evita invertir en la solución equivocada. La única que se confirmó es que el modelo sí le gana a la regla.")
 
 # ---------------------------------------------------------------- 7 politica (dark)
 s = new_slide(BLACK)
+STATEMENTS.add(PAGE[0])
 header(s, "Insight 1 · H1 refutada", "La pérdida es una política, no un error del vendedor", dark=True)
 for i, (lab, big, sub) in enumerate([
         ("EL DESCUENTO ES UNA TABLA", "656 de 656 combinaciones de estado y subcategoría tienen un solo descuento", "El vendedor no decide, hereda. Illinois, Texas, Pennsylvania y Ohio promedian de 32% a 39%."),
@@ -368,6 +423,7 @@ notes(s, "Este es el giro del proyecto. Pensábamos que los vendedores daban des
 
 # ---------------------------------------------------------------- 8 chart loss (dark)
 s = new_slide(BLACK)
+STATEMENTS.add(PAGE[0])
 header(s, "Insight 1 · Evidencia", "Arriba de 20% de descuento casi todas las líneas pierden dinero", dark=True)
 cats = [pct(d, 0) for d in DISC]
 vals = [qty[d][2] / qty[d][0] for d in DISC]
@@ -391,8 +447,9 @@ notes(s, "La objeción natural a los topes es que vamos a vender menos. Los dato
 
 # ---------------------------------------------------------------- 10 modelos
 s = new_slide()
-header(s, "03 · Modelado y evaluación", "El gradient boosting supera a la regla de negocio en F1 y PR-AUC")
-text(s, LM, 1.95, 9.0, 0.6, "Solo variables que el vendedor conoce al capturar. Entrenamiento 2014 a 2016, prueba 2017. Hiperparámetros y umbral con validación cruzada temporal.", size=13, color=GRAY)
+OPENERS.add(PAGE[0])
+header(s, "03 · Modelado y evaluación", f"El {BEST.lower()} supera a la regla de negocio en F1 y PR-AUC")
+text(s, LM, 1.95, 9.2, 0.6, "Sin utilidad, margen ni costo para evitar fuga. Entrenamiento 2014 a 2016, prueba 2017. Hiperparámetros y umbral con validación cruzada temporal.", size=13, color=GRAY)
 mr = lambda n, lab: [lab, f"{MOD[n]['pr_auc']:.3f}", f"{MOD[n]['f1']:.3f}", f"{MOD[n]['precision']:.3f}", f"{MOD[n]['recall']:.3f}", pct(MOD[n]['perdida_detectada_pct'], 0)]
 illus(s, "predictive-analytics", 9.95, 2.5, 2.78, 4.2)
 table(s, LM, 2.6, [3.3, 1.1, 1.1, 1.2, 1.1, 1.2], [
@@ -401,9 +458,10 @@ table(s, LM, 2.6, [3.3, 1.1, 1.1, 1.2, 1.1, 1.2], [
     mr("Regresion logistica", "Regresión logística"),
     mr("Arbol de decision", "Árbol de decisión"),
     mr("Random forest", "Random forest"),
-    mr("Gradient boosting", "Gradient boosting, elegido")], size=12, row_h=0.55, highlight=(5,))
-footer(s, f"IC 95% de F1 por bootstrap. Modelo {L['ic95_modelo_elegido']['f1_ic95'][0]:.3f} a {L['ic95_modelo_elegido']['f1_ic95'][1]:.3f}, regla {L['ic95_regla']['f1_ic95'][0]:.3f} a {L['ic95_regla']['f1_ic95'][1]:.3f}")
-notes(s, "La línea base importante es la regla de negocio, no el azar. El gradient boosting se eligió por PR-AUC en validación cruzada, sin ver la prueba, y también gana en prueba. Validación 0.952, prueba 0.967, sin sobreajuste. Los intervalos no se traslapan.")
+    mr(BEST, f"{BEST}, elegido"),
+    mr("Regla costo histórico", "Regla con costo histórico, sin ML")], size=12, row_h=0.5, highlight=(5,), dark_rows=(6,))
+footer(s, f"IC 95% de F1 por bootstrap. Modelo {L['ic95_modelo_elegido']['f1_ic95'][0]:.3f} a {L['ic95_modelo_elegido']['f1_ic95'][1]:.3f}, regla {L['ic95_regla']['f1_ic95'][0]:.3f} a {L['ic95_regla']['f1_ic95'][1]:.3f}. La última fila es referencia, usa el costo del producto")
+notes(s, f"La línea base importante es la regla de negocio, no el azar. El {BEST.lower()} se eligió por PR-AUC en validación cruzada, sin ver la prueba, y también gana en prueba. Validación {GB['cv_pr_auc']:.3f}, prueba {GB['pr_auc']:.3f}, sin sobreajuste. Los intervalos no se traslapan. La última fila es honesta, una regla que usa el costo de cada producto le gana a todos los modelos porque la pérdida es determinista. La explicamos en la lámina de errores.")
 
 # ---------------------------------------------------------------- 11 donde
 s = new_slide()
@@ -420,6 +478,25 @@ for i, (big, lab, fill, col) in enumerate([
 text(s, LM, 5.25, CW, 0.9, f"Importancia por permutación. Descuento {L['importancia_permutacion']['discount']:.2f}, subcategoría {L['importancia_permutacion']['sub_category']:.2f}, precio {L['importancia_permutacion']['log_list_price']:.2f}. Región, segmento y envío no aportan, la pérdida depende del producto y del descuento.", size=15)
 footer(s, "Fuente. reports/metrics/loss_model.json, prueba 2017")
 notes(s, "Con 20% pierden Storage, Bookcases, Supplies y Tables, pero no Paper, Binders ni Art. Eso es lo que la regla no puede capturar.")
+
+# ---------------------------------------------------------------- errores y robustez
+s = new_slide()
+header(s, "Evaluación · Errores y robustez", "Dónde falla el modelo, qué tan firme es y cuándo no hace falta")
+cols3 = [("DÓNDE SE EQUIVOCA", str(ERR["falsos_negativos"]),
+          f"pérdidas no detectadas, el {pct(ERR['falsos_negativos_en_20_pct'], 0)} con 20% de descuento. Suman el {pct(ERR['falsos_negativos_monto_pct'])} del monto perdido. Las {ERR['falsos_positivos']} falsas alarmas tenían {money(ERR['falsos_positivos_utilidad'])} de utilidad.", CARD, BLACK, GRAY),
+         ("QUÉ TAN FIRME ES", f"{THR_SENS['f1_min_umbral_mas_menos_010']:.3f} a {THR_SENS['f1_max_umbral_mas_menos_010']:.3f}",
+          f"F1 si el umbral se mueve 0.10. Intervalo bootstrap de {L['ic95_modelo_elegido']['f1_ic95'][0]:.3f} a {L['ic95_modelo_elegido']['f1_ic95'][1]:.3f}. Los mismos números en cada corrida, una prueba automática lo exige.", CARD, BLACK, GRAY),
+         ("CUÁNDO NO HACE FALTA", f"{COST['f1']:.3f}",
+          f"F1 de una regla con el costo histórico de cada producto, sin ML. El {pct(CH['lineas_con_historial_pct'], 0)} de las líneas de 2017 tiene historial. Si el sistema expone el costo, se usa la regla.", BLACK, YELLOW, SOFT)]
+for i, (lab, big, sub, bg, c1, c2) in enumerate(cols3):
+    xx = LM + i * (cw + 0.3)
+    rect(s, xx, 2.1, cw, 3.65, bg)
+    text(s, xx + 0.35, 2.35, cw - 0.7, 0.3, lab, size=11, bold=True, color=c1 if bg == BLACK else GRAY)
+    text(s, xx + 0.35, 2.75, cw - 0.7, 0.9, big, size=40 if len(big) < 8 else 30, bold=True, color=c1 if bg == BLACK else BLACK)
+    text(s, xx + 0.35, 3.75, cw - 0.7, 1.9, sub, size=13, color=c2)
+text(s, LM, 6.0, CW, 0.8, "**Lectura.** El modelo sirve donde no hay costo, como segundo método para fijar topes y para confirmar sin costo que la pérdida depende del descuento y la subcategoría. La decisión no depende del clasificador.", size=14)
+footer(s, "Errores y sensibilidad en reports/metrics/loss_model.json, prueba 2017")
+notes(s, f"Esta lámina responde la pregunta difícil. Un modelo puede tener excelente precisión y no ser lo más útil. Como la pérdida es determinista, una tabla con el costo de cada producto detecta casi todo. Lo decimos nosotros antes de que nos lo pregunten. El modelo se equivoca sobre todo con 20% de descuento y en montos chicos. Y la conclusión no depende del umbral exacto, el F1 casi no se mueve. En productos sin historial solo hubo {CH['perdidas_sin_historial']} pérdidas, muy pocas para afirmar que ahí el modelo gane.")
 
 # ---------------------------------------------------------------- 12 topes
 s = new_slide()
@@ -472,18 +549,18 @@ tb = table(s, LM, 4.65, [1.9, 1.6, 1.4, 1.8, 1.9], [["Semáforo 2017", "Líneas"
            [[k, f"{sem[k]['lineas']:,}", f"{sem[k]['lineas_por_mes']:.0f}", pct(sem[k]["tasa_perdida"], 0), pct(sem[k]["monto_perdida_pct"])] for k in ("Rojo", "Amarillo", "Verde")],
            size=13, row_h=0.45, bold_first_col=True)
 footer(s, f"Revisión humana en {pct(RULES['decisiones_humanas_pct'], 0)} de las líneas, unas {RULES['decisiones_humanas_por_mes']:.0f} al mes, que cubren el {pct(RULES['perdida_cubierta_por_revision_pct'])} del monto perdido")
-notes(s, "Este punto es central. El modelo no decide nada. Da un score, una regla escrita lo traduce en semáforo y una persona decide. La carga es razonable, unas 78 líneas al mes, y ahí está el 99% del dinero perdido. Cada decisión queda registrada en el dashboard con responsable y justificación, lo que permite auditar excepciones. La misma lógica aplica a la política de descuentos, que aprueba Finanzas, y a la extensión nacional, que decide Dirección.")
+notes(s, f"Este punto es central. El modelo no decide nada. Da un score, una regla escrita lo traduce en semáforo y una persona decide. La carga es razonable, unas {RULES['decisiones_humanas_por_mes']:.0f} líneas al mes, y ahí está el {pct(RULES['perdida_cubierta_por_revision_pct'], 0)} del dinero perdido. Cada decisión queda registrada en el dashboard con responsable y justificación, lo que permite auditar excepciones. La misma lógica aplica a la política de descuentos, que aprueba Finanzas, y a la extensión nacional, que decide Dirección.")
 
 # ---------------------------------------------------------------- 14 entregas
 s = new_slide()
 header(s, "Insight 4 · H5 y H6 refutadas", "El retraso no se puede predecir, el problema está en la promesa")
-boxed(s, LM, 2.1, 4.2, 2.1, BLACK, ["0 de 24", "pruebas chi-cuadrada significativas con Bonferroni. AUC de 0.46 a 0.52 dentro de cada modalidad"], size=14, color=SOFT, pad=0.3)
+boxed(s, LM, 2.1, 4.2, 2.1, BLACK, [f"{DL['pruebas_significativas']} de {len(DL['pruebas_chi2'])}", f"pruebas chi-cuadrada significativas con Bonferroni. AUC de {AUC_RANGE} dentro de cada modalidad"], size=14, color=SOFT, pad=0.3)
 r = s.shapes[-1]
 r.text_frame.paragraphs[0].runs[0].font.size = Pt(44)
 r.text_frame.paragraphs[0].runs[0].font.bold = True
 r.text_frame.paragraphs[0].runs[0].font.color.rgb = YELLOW
 icon(s, "Truck", "y", LM + 4.2 - 0.8, 2.3, 0.5)
-text(s, LM, 4.4, 4.2, 1.1, "Tampoco explica el abandono. Los clientes inactivos tuvieron menos retrasos (28%) que los activos (33%). Mejorar envíos no recupera clientes.", size=13)
+text(s, LM, 4.4, 4.2, 1.1, f"Tampoco explica el abandono. Los clientes inactivos tuvieron menos retrasos ({pct(HY['H6']['stats']['inactivos'], 0)}) que los activos ({pct(HY['H6']['stats']['activos'], 0)}). Mejorar envíos no recupera clientes.", size=13)
 illus(s, "delivery-truck", LM, 5.55, 4.2, 1.25, align="left")
 table(s, 5.3, 2.1, [2.0, 1.35, 1.35, 1.4, 1.33], [["Modalidad", "Promesa hoy", "Cumple hoy", "Promesa nueva", "Cumpliría"]] +
       [[m, f"{DL['promesa_supuesta'][m]} días", pct(sens(m, 'actual'), 0), f"{int(-(-DD[m]['dias_p95'] // 1))} días", pct(sens(m, 'p95'), 0)] for m in MODES],
@@ -519,7 +596,7 @@ header(s, "Síntesis", "Seis insights, cada uno con su acción")
 ins = [("La pérdida es una política", "Reescribir la tabla de descuentos de 10 estados"),
        ("El descuento no compra volumen", "Aplicar topes con un piloto que mida el efecto real"),
        ("Vender mucho no es ser rentable", "Ofrecer servicio y no precio a los Cazadores"),
-       ("El modelo ve la zona gris del 20%", "Usar el evaluador de línea en ese rango"),
+       ("El modelo ve la zona gris del 20%", "Usarlo donde no hay costo del producto"),
        ("El retraso es un problema de promesa", "Prometer 3, 5 y 7 días y registrar entregas"),
        ("La segmentación oficial no sirve", "Presupuestar marketing con los cuatro grupos")]
 iw, ih = (CW - 0.6) / 3, 2.1
@@ -535,6 +612,7 @@ notes(s, "Aquí juntamos todo. Seis insights, cada uno con una acción concreta 
 
 # ---------------------------------------------------------------- 17 opciones
 s = new_slide()
+OPENERS.add(PAGE[0])
 header(s, "04 · Decisión de negocio", "Evaluamos tres opciones y recomendamos la C")
 opts = DEC["opciones"]
 table(s, LM, 2.05, [5.4, 2.6, 4.13], [["Opción", "Utilidad 2017 simulada", "Riesgo"]] +
@@ -546,6 +624,7 @@ notes(s, "La opción B da un poco más en papel, pero apuesta todo a un supuesto
 
 # ---------------------------------------------------------------- 18 decision (yellow)
 s = new_slide(YELLOW)
+STATEMENTS.add(PAGE[0])
 rect(s, LM, 0.6, 0.32, 0.09, BLACK)
 text(s, LM + 0.45, 0.5, 9, 0.3, "DECISIÓN", size=11, bold=True)
 text(s, LM, 0.9, CW, 1.6, "Topes de descuento en los 10 estados de descuento alto, en dos olas, a partir del siguiente trimestre", size=32, bold=True, spacing=1.05)
@@ -565,6 +644,7 @@ notes(s, "Esta es la decisión que le pedimos a Dirección. Es concreta, tiene r
 
 # ---------------------------------------------------------------- 19 BI
 s = new_slide()
+OPENERS.add(PAGE[0])
 header(s, "05 · Despliegue", "La solución vive como producto de BI con modelos integrados")
 layers = [("Fuente", "Ventas del ERP, hoy el CSV"), ("ETL en Python", "Validación, limpieza y variables"),
           ("Modelo estrella", "fact_lineas y 4 dimensiones"), ("Modelos ML", "scikit-learn versionados"),
@@ -589,21 +669,22 @@ notes(s, "No entregamos un notebook aislado. Entregamos un flujo de BI con ML. E
 # ---------------------------------------------------------------- 20 limites
 s = new_slide()
 header(s, "Limitaciones y reproducibilidad", "Los límites están acotados y todo se regenera con un comando")
-text(s, LM, 2.1, 6.3, 4.5, [
+text(s, LM, 2.1, 6.5, 4.6, [
     "**Datos sintéticos.** La utilidad sale de una fórmula con costo fijo. Con fletes y devoluciones las métricas bajarían.",
+    f"**El costo explica la pérdida.** Con el costo del producto una regla llega a F1 {COST['f1']:.3f}, el modelo no es indispensable.",
     "**Volumen por línea.** No vemos a quien no compró, por eso el piloto con grupo de control.",
     "**Promesa supuesta.** La recomendación usa la distribución real de días, no la tasa.",
-    "**Grupos con frontera difusa.** Silueta 0.22, los perfiles son tendencias.",
-    "**Un país, cuatro años.** No se valida en otro mercado."], size=14, after=12)
-boxed(s, 7.4, 2.1, 5.33, 4.4, BLACK, ["**Se regenera en 30 segundos**", "uv sync", "uv run python src/run_all.py",
-                                       "uv run streamlit run app/dashboard.py", "Todo en Python. Semilla 42, supuestos en src/config.py, métricas en JSON y notebook ejecutado."],
+    f"**Grupos con frontera difusa.** Silueta {SEGK[4]['silueta']:.2f}, los perfiles son tendencias.",
+    "**Un país, cuatro años.** No se valida en otro mercado."], size=13, after=9)
+boxed(s, 7.4, 2.1, 5.33, 4.4, BLACK, ["**Se regenera en 35 segundos**", "uv sync", "uv run python src/run_all.py",
+                                       "uv run pytest -q", "Versiones fijas en uv.lock y una prueba que exige los mismos números en cada corrida. El notebook corre en Google Colab."],
       size=14, color=WHITE, pad=0.35, after=12)
 r = s.shapes[-1]
 r.text_frame.paragraphs[0].runs[0].font.color.rgb = YELLOW
 for k in (1, 2, 3):
     for run in r.text_frame.paragraphs[k].runs:
         run.font.name = "Courier New"
-footer(s, "Detalle en la sección 3.2 del reporte")
+footer(s, "Detalle en la sección 3.2 del reporte técnico")
 notes(s, "Reconocemos que las métricas de clasificación son altas porque el dataset es sintético. El método se traslada, el nivel de desempeño no. Todo el pipeline se puede correr en vivo si el profesor lo pide.")
 
 # ---------------------------------------------------------------- 21 cierre
@@ -616,18 +697,16 @@ rect(s, 7.55, 1.25, 5.18, 4.45, WHITE)
 illus(s, "questions", 7.8, 1.5, 4.68, 3.95)
 text(s, LM, 4.05, 6.5, 1.2, "Menos descuento donde no se paga, una promesa de entrega honesta y una estrategia distinta para cada grupo de clientes.", size=20, color=SOFT)
 text(s, LM, 5.5, CW, 0.4, f"Elaborado por {AUTOR}", size=14, bold=True, color=YELLOW)
-text(s, LM, 6.3, CW, 0.7, "Uso de IA. El equipo usó Claude (Anthropic) como asistente para estructurar código, revisar la metodología y redactar borradores. Las decisiones, la ejecución y la interpretación son del equipo. Datos, Sample Superstore, Kaggle.", size=11, color=MID)
+text(s, LM, 6.3, CW, 0.7, "Herramientas e IA. Python, scikit-learn y uv. Claude (Anthropic) como asistente para código, revisión metodológica y borradores. Las decisiones, la ejecución y la interpretación son del equipo, y las verificaciones están en la Declaración de herramientas. Datos, Sample Superstore, Kaggle.", size=11, color=MID)
 notes(s, "Cerrar con la idea central y abrir a preguntas. Tener a la mano el dashboard y el notebook.")
 
 # ---------------------------------------------------------------- movimiento
 from pptx_motion import animate, transition  # noqa: E402
 
-SECTION_OPENERS = {3, 6, 10, 18, 20}   # inicio de cada bloque CRISP-DM
-STATEMENTS = {7, 8, 19}                 # láminas de impacto
 for n, sl in enumerate(prs.slides, 1):
     if n == 1:
         transition(sl, "fade_black")
-    elif n in SECTION_OPENERS:
+    elif n in OPENERS:
         transition(sl, "push")
     elif n in STATEMENTS:
         transition(sl, "wipe")

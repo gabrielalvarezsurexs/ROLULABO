@@ -18,6 +18,7 @@ import json
 import pandas as pd
 
 from config import METRICS
+from config import read_csv
 
 
 # Reglas del semáforo para una línea de venta. Se usan igual en el dashboard.
@@ -53,9 +54,11 @@ REGLAS_NEGOCIO = [
 
 def run() -> dict:
     loss = json.loads((METRICS / "loss_model.json").read_text(encoding="utf-8"))
-    umbral = loss["modelos"]["Gradient boosting"]["umbral"]
-    caps = pd.read_csv(METRICS / "topes_descuento.csv").set_index("sub_category")["tope_recomendado"]
-    t = pd.read_csv(METRICS / "prueba_2017_scores.csv")
+    # El umbral es el del modelo elegido por validacion, el mismo que genero
+    # los scores de prueba_2017_scores.csv.
+    umbral = loss["modelos"][loss["modelo_elegido"]]["umbral"]
+    caps = read_csv(METRICS / "topes_descuento.csv").set_index("sub_category")["tope_recomendado"]
+    t = read_csv(METRICS / "prueba_2017_scores.csv")
     t["tope"] = t["sub_category"].map(caps)
     t["semaforo"] = [semaforo(d, s, c, umbral)["semaforo"] for d, s, c in zip(t["discount"], t["p_loss"], t["tope"])]
     perd = -t["profit"].where(t["profit"] < 0, 0)

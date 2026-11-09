@@ -2,9 +2,10 @@
 
     uv run python reports/build_entregables.py
 
-Corre en orden las imágenes, el reporte y la presentación. Después exporta
-ambos a PDF con LibreOffice (comando soffice) o, en Windows, con Word y
-PowerPoint instalados (requiere pywin32). Si no hay ninguno, omite los PDF.
+Corre en orden las imágenes, el reporte ejecutivo, el reporte técnico, la
+declaración de herramientas y la presentación. Después exporta todo a PDF
+con LibreOffice (comando soffice) o, en Windows, con Word y PowerPoint
+instalados (requiere pywin32). Si no hay ninguno, omite los PDF.
 Requiere haber corrido antes uv run python src/run_all.py.
 """
 import shutil
@@ -15,13 +16,13 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 OUT = ROOT / "entregables"
-PASOS = ["build_assets.py", "build_report.py", "build_presentation.py"]
-DOCX = OUT / "Reporte_Rolulabo.docx"
+PASOS = ["build_assets.py", "build_executive.py", "build_report.py", "build_declaracion.py", "build_presentation.py"]
+DOCS = [OUT / "Reporte_Ejecutivo_Rolulabo.docx", OUT / "Reporte_Tecnico_Rolulabo.docx", OUT / "Declaracion_Herramientas_Rolulabo.docx"]
 PPTX = OUT / "Presentacion_Rolulabo.pptx"
 
 
 def pdf_libreoffice(soffice):
-    for path in [DOCX, PPTX]:
+    for path in DOCS + [PPTX]:
         print(f"> PDF de {path.name} con LibreOffice")
         subprocess.run([soffice, "--headless", "--convert-to", "pdf", "--outdir", str(OUT), str(path)],
                        check=True, capture_output=True)
@@ -40,10 +41,11 @@ def pdf_office():
     word.Visible = False
     word.DisplayAlerts = 0
     try:
-        print(f"> PDF de {DOCX.name} con Word")
-        doc = word.Documents.Open(str(DOCX), ReadOnly=True)
-        doc.ExportAsFixedFormat(str(DOCX.with_suffix(".pdf")), 17)  # 17 = PDF
-        doc.Close(False)
+        for path in DOCS:
+            print(f"> PDF de {path.name} con Word")
+            doc = word.Documents.Open(str(path), ReadOnly=True)
+            doc.ExportAsFixedFormat(str(path.with_suffix(".pdf")), 17)  # 17 = PDF
+            doc.Close(False)
     finally:
         word.Quit()
 

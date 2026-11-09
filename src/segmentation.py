@@ -27,13 +27,14 @@ from sklearn.metrics import adjusted_rand_score, davies_bouldin_score, silhouett
 from sklearn.preprocessing import StandardScaler
 
 from config import K_RANGE, METRICS, MODELS, PROCESSED, SEED
+from config import read_csv
 import viz
 
 FEATURES = ["recency", "log_frequency", "log_monetary", "margin", "avg_discount"]
 
 
 def load() -> pd.DataFrame:
-    c = pd.read_csv(PROCESSED / "customers.csv")
+    c = read_csv(PROCESSED / "customers.csv")
     c["log_frequency"] = np.log1p(c["frequency"])
     c["log_monetary"] = np.log1p(c["monetary"])
     # Margen recortado para que pocos clientes extremos no dominen la distancia.
@@ -45,7 +46,9 @@ def choose_k(X) -> list[dict]:
     rows = []
     for k in K_RANGE:
         km = KMeans(n_clusters=k, n_init=20, random_state=SEED).fit(X)
-        rows.append({"k": k, "inercia": float(km.inertia_),
+        # La inercia se redondea porque su ultimo digito cambia con el numero
+        # de hilos de OpenMP. Las etiquetas y metricas no cambian.
+        rows.append({"k": k, "inercia": round(float(km.inertia_), 4),
                      "silueta": float(silhouette_score(X, km.labels_)),
                      "davies_bouldin": float(davies_bouldin_score(X, km.labels_))})
     return rows

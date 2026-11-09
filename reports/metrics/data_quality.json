@@ -21,6 +21,64 @@
   ],
   "productos_costo_no_constante": 0,
   "regla_equilibrio_exactitud": 1.0,
+  "atipicos_y_sesgos": {
+    "atipicos_iqr": {
+      "sales": {
+        "atipicos": 1167,
+        "atipicos_pct": 0.11678174722305613,
+        "min": 0.444,
+        "max": 22638.48,
+        "mediana": 54.48
+      },
+      "quantity": {
+        "atipicos": 170,
+        "atipicos_pct": 0.017011908335835085,
+        "min": 1.0,
+        "max": 14.0,
+        "mediana": 3.0
+      },
+      "list_price": {
+        "atipicos": 1025,
+        "atipicos_pct": 0.10257180026018213,
+        "min": 0.9899999999999999,
+        "max": 7546.16,
+        "mediana": 19.98
+      },
+      "profit": {
+        "atipicos": 1881,
+        "atipicos_pct": 0.1882317622335635,
+        "min": -6599.978,
+        "max": 8399.976,
+        "mediana": 8.671
+      }
+    },
+    "ventas_top_1pct_lineas": 0.1961459303623428,
+    "tratamiento": "No se eliminan. Precio en logaritmo, modelos de árboles y margen recortado en p1 y p99 para la segmentación",
+    "representatividad": {
+      "region": {
+        "Central": 0.23246272390673473,
+        "East": 0.2848994296007205,
+        "South": 0.16211347943560492,
+        "West": 0.3205243670569399
+      },
+      "segmento": {
+        "Consumer": 0.519463624537176,
+        "Corporate": 0.3022115480836586,
+        "Home Office": 0.1783248273791654
+      },
+      "anio": {
+        "2014": 0.19933953767637347,
+        "2015": 0.2103472430701491,
+        "2016": 0.25888121685179627,
+        "2017": 0.3314320024016812
+      },
+      "categoria": {
+        "Furniture": 0.21214850395276694,
+        "Office Supplies": 0.6030221154808366,
+        "Technology": 0.18482938056639647
+      }
+    }
+  },
   "modelo_estrella": {
     "fact_lineas": 9993,
     "dim_geografia": 632,

@@ -11,12 +11,13 @@ import pandas as pd
 from scipy.stats import chi2_contingency
 
 from config import METRICS, PROCESSED
+from config import read_csv
 
 
 def run() -> dict:
-    lines = pd.read_csv(PROCESSED / "lines.csv")
-    orders = pd.read_csv(PROCESSED / "orders.csv")
-    cust = pd.read_csv(PROCESSED / "customers_clustered.csv")[["customer_id", "cluster", "cluster_name"]]
+    lines = read_csv(PROCESSED / "lines.csv")
+    orders = read_csv(PROCESSED / "orders.csv")
+    cust = read_csv(PROCESSED / "customers_clustered.csv")[["customer_id", "cluster", "cluster_name"]]
 
     state_disc = lines.groupby("state")["discount"].mean()
     high_states = state_disc[state_disc > 0.25].index.tolist()

@@ -5,7 +5,21 @@ pipeline sea reproducible y los supuestos queden documentados en un solo lugar.
 """
 from pathlib import Path
 
+import pandas as pd
+
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def read_csv(path, **kw):
+    """Lee un CSV con los flotantes exactos en cualquier versión de pandas.
+
+    pandas 2 lee por omisión con un último dígito distinto al de pandas 3, y
+    esa diferencia mínima cambia los cortes del gradient boosting y el umbral.
+    Con lectura exacta el pipeline da los mismos números en ambas versiones.
+    """
+    if int(pd.__version__.split(".")[0]) < 3:
+        kw.setdefault("float_precision", "round_trip")
+    return pd.read_csv(path, **kw)
 
 RAW_CSV = ROOT / "data" / "raw" / "superstore.csv"
 PROCESSED = ROOT / "data" / "processed"

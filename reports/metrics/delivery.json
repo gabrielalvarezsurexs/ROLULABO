@@ -373,7 +373,7 @@
     {
       "modalidad": "Same Day",
       "modelo": "Gradient boosting",
-      "auc_prueba": 0.17619047619047618,
+      "auc_prueba": 0.16904761904761903,
       "pedidos_prueba": 89,
       "positivos_prueba": 5
     },
@@ -387,7 +387,7 @@
     {
       "modalidad": "First Class",
       "modelo": "Gradient boosting",
-      "auc_prueba": 0.4903488668194551,
+      "auc_prueba": 0.4920804685510568,
       "pedidos_prueba": 284,
       "positivos_prueba": 119
     },
@@ -401,7 +401,7 @@
     {
       "modalidad": "Second Class",
       "modelo": "Gradient boosting",
-      "auc_prueba": 0.5212770145258434,
+      "auc_prueba": 0.5160020470023226,
       "pedidos_prueba": 324,
       "positivos_prueba": 133
     },
@@ -415,14 +415,14 @@
     {
       "modalidad": "Standard Class",
       "modelo": "Gradient boosting",
-      "auc_prueba": 0.49589667952499805,
+      "auc_prueba": 0.49299410029498525,
       "pedidos_prueba": 990,
       "positivos_prueba": 312
     },
     {
       "modalidad": "Todas (incluye modalidad)",
       "modelo": "Gradient boosting",
-      "auc_prueba": 0.5552321651455178,
+      "auc_prueba": 0.5572026371470521,
       "pedidos_prueba": 1687,
       "positivos_prueba": 569
     }

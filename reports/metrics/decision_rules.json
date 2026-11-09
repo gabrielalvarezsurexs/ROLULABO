@@ -1,5 +1,5 @@
 {
-  "umbral_score": 0.365787236120668,
+  "umbral_score": 0.45,
   "semaforo_2017": [
     {
       "semaforo": "Rojo",
@@ -13,28 +13,28 @@
     },
     {
       "semaforo": "Amarillo",
-      "lineas": 13,
-      "lineas_pct": 0.00392512077294686,
-      "lineas_por_mes": 1.0833333333333333,
-      "lineas_con_perdida": 5,
-      "tasa_perdida": 0.38461538461538464,
-      "monto_perdida": 64.867,
-      "monto_perdida_pct": 0.0012048957384122928
+      "lineas": 4,
+      "lineas_pct": 0.0012077294685990338,
+      "lineas_por_mes": 0.3333333333333333,
+      "lineas_con_perdida": 3,
+      "tasa_perdida": 0.75,
+      "monto_perdida": 50.322,
+      "monto_perdida_pct": 0.000934724333611596
     },
     {
       "semaforo": "Verde",
-      "lineas": 2374,
-      "lineas_pct": 0.7167874396135265,
-      "lineas_por_mes": 197.83333333333334,
-      "lineas_con_perdida": 13,
-      "tasa_perdida": 0.005475989890480202,
-      "monto_perdida": 360.2194,
-      "monto_perdida_pct": 0.006691026561324449
+      "lineas": 2383,
+      "lineas_pct": 0.7195048309178744,
+      "lineas_por_mes": 198.58333333333334,
+      "lineas_con_perdida": 15,
+      "tasa_perdida": 0.00629458665547629,
+      "monto_perdida": 374.7644,
+      "monto_perdida_pct": 0.006961197966125146
     }
   ],
-  "decisiones_humanas_por_mes": 78.16666666666667,
-  "decisiones_humanas_pct": 0.2832125603864734,
-  "perdida_cubierta_por_revision_pct": 0.9933089734386755,
+  "decisiones_humanas_por_mes": 77.41666666666667,
+  "decisiones_humanas_pct": 0.28049516908212563,
+  "perdida_cubierta_por_revision_pct": 0.9930388020338748,
   "reglas": [
     {
       "nivel": "Línea de venta",

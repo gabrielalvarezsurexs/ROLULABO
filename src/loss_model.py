@@ -10,8 +10,11 @@ Pasos
     1. Particion temporal. Entrenamiento 2014-2016, prueba 2017.
     2. Validacion cruzada temporal dentro de entrenamiento (expanding window
        por anio) para elegir hiperparametros y umbral de decision.
-    3. Comparacion contra una linea base de regla simple (descuento > 20%).
-    4. Interpretacion con importancia por permutacion y un arbol poco profundo.
+    3. Comparacion contra tres lineas base. Proporcion de la clase, regla del
+       negocio (descuento > 20%) y regla con el costo historico de cada
+       producto, que no es aprendizaje de maquina y marca el techo con costo.
+    4. Interpretacion con importancia por permutacion y un arbol poco profundo,
+       analisis de errores y sensibilidad del F1 al umbral.
     5. Topes de descuento por subcategoria, calculados solo con 2014-2016.
     6. Simulacion de la politica de topes sobre 2017.
 """
@@ -35,6 +38,7 @@ from sklearn.tree import DecisionTreeClassifier, export_text
 
 from config import (CAP_PERCENTILE, DISCOUNT_GRID, METRICS, MODELS, PROCESSED,
                     SEED, TEST_YEAR, VOLUME_LOSS_SCENARIOS)
+from config import read_csv
 import viz
 
 CAT_FEATURES = ["sub_category", "category", "region", "segment", "ship_mode"]
@@ -47,7 +51,7 @@ TARGET = "is_loss"
 
 
 def load() -> pd.DataFrame:
-    df = pd.read_csv(PROCESSED / "lines.csv", parse_dates=["order_date"])
+    df = read_csv(PROCESSED / "lines.csv", parse_dates=["order_date"])
     df["log_list_price"] = np.log1p(df["list_price"])
     return df
 
@@ -90,10 +94,19 @@ def temporal_folds(train: pd.DataFrame):
         yield tr, va
 
 
+THRESHOLD_GRID = np.round(np.arange(0.05, 0.96, 0.05), 2)
+
+
 def best_threshold(y, p) -> float:
-    prec, rec, thr = precision_recall_curve(y, p)
-    f1 = 2 * prec * rec / np.clip(prec + rec, 1e-12, None)
-    return float(thr[np.argmax(f1[:-1])])
+    """Umbral que maximiza F1 en validacion, buscado en una rejilla de 0.05.
+
+    El F1 es casi plano cerca del optimo. Buscar el maximo exacto sobre la
+    curva precision-recall hace que el umbral brinque (0.37 a 0.45) con
+    diferencias minimas de punto flotante entre versiones de librerias. La
+    rejilla da un umbral estable y facil de comunicar con el mismo F1.
+    """
+    f1s = [f1_score(y, (p >= t).astype(int)) for t in THRESHOLD_GRID]
+    return float(THRESHOLD_GRID[int(np.argmax(f1s))])
 
 
 def scores(y, p, thr) -> dict:
@@ -136,9 +149,9 @@ def select_models(train: pd.DataFrame) -> dict:
             y, p = np.concatenate(oof_y), np.concatenate(oof_p)
             ap = average_precision_score(y, p)
             if best is None or ap > best["cv_pr_auc"]:
-                best = {"params": params, "cv_pr_auc": float(ap),
-                        "umbral": best_threshold(y, p),
-                        "cv_f1": float(f1_score(y, (p >= best_threshold(y, p)).astype(int)))}
+                thr = best_threshold(y, p)
+                best = {"params": params, "cv_pr_auc": float(ap), "umbral": thr,
+                        "cv_f1": float(f1_score(y, (p >= thr).astype(int)))}
         results[name] = best
         print(f"  {name}: CV PR-AUC {best['cv_pr_auc']:.3f} params {best['params']}")
     return results
@@ -156,6 +169,64 @@ def bootstrap_ci(y, p, thr, n=1000) -> dict:
         aps.append(average_precision_score(y[b], p[b]))
     return {"f1_ic95": [float(np.percentile(f1s, 2.5)), float(np.percentile(f1s, 97.5))],
             "pr_auc_ic95": [float(np.percentile(aps, 2.5)), float(np.percentile(aps, 97.5))]}
+
+
+def cost_history_rule(train: pd.DataFrame, test: pd.DataFrame):
+    """Linea base informada que no es aprendizaje de maquina.
+
+    Toma el descuento de equilibrio de cada producto observado en 2014-2016
+    (el costo unitario es constante por producto) y marca perdida si el
+    descuento de la linea lo supera. Si el producto no tiene historial aplica
+    la regla de 20%. Solo usa informacion del pasado, asi que no hay fuga,
+    pero supone que el sistema conoce el costo de cada producto.
+
+    Regresa un score continuo (descuento menos equilibrio), la prediccion y
+    la mascara de lineas con historial.
+    """
+    be = train.groupby("product_key")["breakeven_discount"].median()
+    be_t = test["product_key"].map(be)
+    seen = be_t.notna().values
+    margin = np.where(seen, test["discount"].values - be_t.fillna(0).values, test["discount"].values - 0.20)
+    return margin, (margin >= 1e-9).astype(int), seen
+
+
+def threshold_sensitivity(y, p, thr) -> dict:
+    """F1, precision y recall del modelo elegido en una rejilla de umbrales.
+
+    Sirve para mostrar que el F1 es casi plano alrededor del umbral elegido,
+    por eso el umbral puede moverse entre versiones de librerias sin que
+    cambie la conclusion.
+    """
+    rows = []
+    for t in sorted(set(np.round(np.arange(0.20, 0.71, 0.05), 2)) | {round(thr, 3)}):
+        yhat = (p >= t).astype(int)
+        rows.append({"umbral": float(t), "f1": float(f1_score(y, yhat)),
+                     "precision": float(precision_score(y, yhat, zero_division=0)),
+                     "recall": float(recall_score(y, yhat))})
+    near = [r["f1"] for r in rows if abs(r["umbral"] - thr) <= 0.10 + 1e-9]
+    return {"rejilla": rows, "f1_min_umbral_mas_menos_010": float(min(near)),
+            "f1_max_umbral_mas_menos_010": float(max(near))}
+
+
+def error_analysis(test: pd.DataFrame, yhat: np.ndarray) -> dict:
+    """Donde se equivoca el modelo elegido en 2017."""
+    y = test[TARGET].values
+    fn, fp = (yhat == 0) & (y == 1), (yhat == 1) & (y == 0)
+    top = lambda m: {k: int(v) for k, v in test.loc[m, "sub_category"].value_counts().head(5).items()}
+    by_disc = lambda m: {f"{k:.0%}": int(v) for k, v in test.loc[m, "discount"].value_counts().sort_index().items()}
+    perdida = -test.loc[test["profit"] < 0, "profit"].sum()
+    return {
+        "falsos_negativos": int(fn.sum()),
+        "falsos_negativos_monto": float(-test.loc[fn, "profit"].sum()),
+        "falsos_negativos_monto_pct": float(-test.loc[fn, "profit"].sum() / perdida),
+        "falsos_negativos_por_descuento": by_disc(fn),
+        "falsos_negativos_por_subcategoria": top(fn),
+        "falsos_negativos_en_20_pct": float((test.loc[fn, "discount"] == 0.20).mean()) if fn.any() else 0.0,
+        "falsos_positivos": int(fp.sum()),
+        "falsos_positivos_utilidad": float(test.loc[fp, "profit"].sum()),
+        "falsos_positivos_por_descuento": by_disc(fp),
+        "falsos_positivos_por_subcategoria": top(fp),
+    }
 
 
 def discount_caps(train: pd.DataFrame, model: Pipeline, thr: float) -> pd.DataFrame:
@@ -253,7 +324,7 @@ def simulate_policy(test: pd.DataFrame, caps: pd.DataFrame) -> tuple[dict, pd.Da
     return res, by_sub.sort_values("delta", ascending=False)
 
 
-def figures(df, y_test, p_best, best_name, rule_pred, caps):
+def figures(df, y_test, p_best, best_name, rule_pred, caps, cost_pred):
     import matplotlib.pyplot as plt
 
     # Figura 1. Tasa de perdida por nivel de descuento.
@@ -274,6 +345,8 @@ def figures(df, y_test, p_best, best_name, rule_pred, caps):
     ax.plot(rc, pr, color=viz.BLACK, lw=1.6, label=best_name)
     ax.scatter([recall_score(y_test, rule_pred)], [precision_score(y_test, rule_pred)],
                color=viz.MID, edgecolor=viz.BLACK, zorder=3, s=40, label="Regla descuento > 20%")
+    ax.scatter([recall_score(y_test, cost_pred)], [precision_score(y_test, cost_pred)],
+               color="white", edgecolor=viz.BLACK, marker="s", zorder=3, s=40, label="Regla costo histórico")
     ax.set_xlabel("Recall")
     ax.set_ylabel("Precisión")
     ax.set_xlim(0, 1.02)
@@ -331,14 +404,40 @@ def run() -> dict:
         out["modelos"][name] = {**scores(y_te, p, thr), **business_scores(test, (p >= thr).astype(int)),
                                 "cv_pr_auc": sel[name]["cv_pr_auc"], "params": sel[name]["params"]}
 
+    # Linea base informada con el costo historico de cada producto. Va al
+    # final de la tabla porque no es un modelo, es la referencia de lo que se
+    # logra si el sistema conoce el costo.
+    cost_score, cost_pred, seen = cost_history_rule(train, test)
+    out["modelos"]["Regla costo histórico"] = {**scores(y_te, cost_score, 1e-9), **business_scores(test, cost_pred)}
+
     # El modelo final se elige por PR-AUC de validacion cruzada, no por prueba.
     best_name = max(sel, key=lambda k: sel[k]["cv_pr_auc"])
     best, thr = fitted[best_name], sel[best_name]["umbral"]
     p_best = probs[best_name]
+    yhat_best = (p_best >= thr).astype(int)
     out["modelo_elegido"] = best_name
     out["ic95_modelo_elegido"] = bootstrap_ci(y_te, p_best, thr)
     out["ic95_regla"] = bootstrap_ci(y_te, test["discount"].values, 0.20 + 1e-9)
-    cm = confusion_matrix(y_te, (p_best >= thr).astype(int))
+    out["ic95_regla_costo"] = bootstrap_ci(y_te, cost_score, 1e-9)
+    out["sensibilidad_umbral"] = threshold_sensitivity(y_te, p_best, thr)
+    out["analisis_errores"] = error_analysis(test, yhat_best)
+
+    # Donde aporta el modelo frente a la regla de costo. Productos sin
+    # historial en 2014-2016, para los que no hay costo aprendido.
+    rule20 = (test["discount"] > 0.20).astype(int).values
+    f1m = lambda m, pred: float(f1_score(y_te[m], pred[m])) if y_te[m].sum() > 0 else None
+    out["costo_historico"] = {
+        "lineas_con_historial": int(seen.sum()),
+        "lineas_con_historial_pct": float(seen.mean()),
+        "lineas_sin_historial": int((~seen).sum()),
+        "perdidas_sin_historial": int(y_te[~seen].sum()),
+        "f1_regla_costo_con_historial": f1m(seen, cost_pred),
+        "f1_modelo_con_historial": f1m(seen, yhat_best),
+        "f1_regla20_con_historial": f1m(seen, rule20),
+        "f1_modelo_sin_historial": f1m(~seen, yhat_best),
+        "f1_regla20_sin_historial": f1m(~seen, rule20),
+    }
+    cm = confusion_matrix(y_te, yhat_best)
     out["matriz_confusion"] = {"tn": int(cm[0, 0]), "fp": int(cm[0, 1]), "fn": int(cm[1, 0]), "tp": int(cm[1, 1])}
 
     # Donde gana el modelo a la regla. Segmento de descuento exacto 20%.
@@ -373,7 +472,7 @@ def run() -> dict:
         descuento=("discount", "first"), utilidad=("profit", "sum"), lineas=("row_id", "size")).reset_index()
     heat.to_csv(METRICS / "estado_subcategoria.csv", index=False)
 
-    figures(df, y_te, p_best, best_name, rule_pred, caps)
+    figures(df, y_te, p_best, best_name, rule_pred, caps, cost_pred)
 
     joblib.dump({"model": best, "threshold": thr, "features": FEATURES, "name": best_name},
                 MODELS / "loss_model.joblib")

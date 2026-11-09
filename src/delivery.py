@@ -26,6 +26,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from config import METRICS, PROCESSED, SEED, SLA_DAYS, TEST_YEAR
+from config import read_csv
 import viz
 
 MODES = ["Same Day", "First Class", "Second Class", "Standard Class"]
@@ -35,7 +36,7 @@ NUM = ["month", "dow", "n_lines", "log_sales", "avg_discount"]
 
 
 def load() -> pd.DataFrame:
-    o = pd.read_csv(PROCESSED / "orders.csv", parse_dates=["order_date", "ship_date"])
+    o = read_csv(PROCESSED / "orders.csv", parse_dates=["order_date", "ship_date"])
     o["log_sales"] = np.log1p(o["sales"])
     return o
 

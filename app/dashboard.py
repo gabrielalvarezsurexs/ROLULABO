@@ -18,7 +18,7 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from config import DISCOUNT_GRID, METRICS, MODELS, PROCESSED, ROOT as PROJ, SLA_DAYS  # noqa: E402
+from config import DISCOUNT_GRID, METRICS, MODELS, PROCESSED, ROOT as PROJ, SLA_DAYS, read_csv  # noqa: E402
 from decision_rules import semaforo  # noqa: E402
 
 LOG = PROJ / "data" / "decisiones" / "decisiones_log.csv"
@@ -47,7 +47,7 @@ st.markdown("""
 
 
 def fmt_money(v):
-    return f"-${-v:,.0f}" if v < 0 else f"${v:,.0f}"
+    return f"-${-v:,.0f}" if v < 0 and round(-v) > 0 else f"${abs(v):,.0f}"
 
 
 def kpi(col, label, value, sub=None):
@@ -70,13 +70,13 @@ def load_data():
     return {
         "q": j("data_quality.json"), "loss": j("loss_model.json"), "deliv": j("delivery.json"),
         "seg": j("segmentation.json"), "cross": j("cross.json"),
-        "caps": pd.read_csv(METRICS / "topes_descuento.csv"),
-        "sim_sub": pd.read_csv(METRICS / "simulacion_por_subcategoria.csv"),
-        "heat": pd.read_csv(METRICS / "estado_subcategoria.csv"),
-        "lines": pd.read_csv(PROCESSED / "lines.csv", parse_dates=["order_date"]),
-        "orders": pd.read_csv(PROCESSED / "orders.csv", parse_dates=["order_date"]),
-        "cust": pd.read_csv(PROCESSED / "customers_clustered.csv"),
-        "cruce": pd.read_csv(METRICS / "cruce_clusters.csv"),
+        "caps": read_csv(METRICS / "topes_descuento.csv"),
+        "sim_sub": read_csv(METRICS / "simulacion_por_subcategoria.csv"),
+        "heat": read_csv(METRICS / "estado_subcategoria.csv"),
+        "lines": read_csv(PROCESSED / "lines.csv", parse_dates=["order_date"]),
+        "orders": read_csv(PROCESSED / "orders.csv", parse_dates=["order_date"]),
+        "cust": read_csv(PROCESSED / "customers_clustered.csv"),
+        "cruce": read_csv(METRICS / "cruce_clusters.csv"),
         "hyp": j("hypotheses.json"), "dec": j("decision.json"), "rules": j("decision_rules.json"),
     }
 
@@ -370,6 +370,15 @@ with tabs[6]:
     st.dataframe(tab.style.format("{:.3f}"), width="stretch")
     st.markdown(f"Modelo elegido por validación temporal: **{lm['modelo_elegido']}**. "
                 f"IC 95% de F1 por bootstrap {lm['ic95_modelo_elegido']['f1_ic95'][0]:.3f} a {lm['ic95_modelo_elegido']['f1_ic95'][1]:.3f}.")
+    ch = lm["costo_historico"]
+    st.markdown(f'<p class="nota">La última fila es una referencia sin aprendizaje de máquina. Usa el costo histórico de cada producto y llega a F1 '
+                f'{lm["modelos"]["Regla costo histórico"]["f1"]:.3f} porque la pérdida es determinista. El {ch["lineas_con_historial_pct"]:.1%} de las líneas de 2017 '
+                f'tiene historial. Si el sistema expone el costo, conviene usar esa regla y dejar el modelo para productos sin costo.</p>', unsafe_allow_html=True)
+    sens = pd.DataFrame(lm["sensibilidad_umbral"]["rejilla"])
+    fig = px.line(sens, x="umbral", y=["f1", "precision", "recall"], markers=True,
+                  color_discrete_sequence=[INK, GREY, YELLOW], labels={"value": "", "umbral": "Umbral", "variable": ""})
+    fig.add_vline(x=M["threshold"], line_dash="dot", line_color=INK, annotation_text="umbral elegido")
+    st.plotly_chart(layout(fig.update_layout(title="Sensibilidad al umbral, prueba 2017"), 300), width="stretch")
     imp = pd.Series(lm["importancia_permutacion"]).sort_values()
     fig = px.bar(imp, orientation="h", color_discrete_sequence=[INK], labels={"value": "Caída en PR-AUC", "index": ""})
     st.plotly_chart(layout(fig.update_layout(title="Importancia por permutación", showlegend=False), 320), width="stretch")
