@@ -24,17 +24,19 @@ Equipo: Gabriel Álvarez Mendoza (0261445), Eduardo Gutiérrez, Emiliano Luna y 
 
 ## Comandos
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate                 # Windows
-pip install -r requirements.txt
+Paquetes y entorno con **uv**, nunca pip ni `python -m venv`. Dependencias en `pyproject.toml` (pytest y jupyter en el grupo `dev`), versiones fijas en `uv.lock`, Python 3.12 en `.python-version`. No hay `requirements.txt`.
 
-python src/run_all.py                  # pipeline completo, 7 pasos, 30 a 50 s
-pytest -q                              # 8 pruebas, necesitan data/processed (correr run_all antes)
-streamlit run app/dashboard.py         # http://localhost:8501
-python reports/build_entregables.py    # imágenes, Word, PowerPoint y PDF
-python reports/build_report.py --html  # opcional, HTML para importar como Google Doc
+```bash
+uv sync                                       # crea o actualiza .venv
+uv add paquete / uv remove paquete            # cambiar dependencias (actualiza pyproject y uv.lock)
+uv run python src/run_all.py                  # pipeline completo, 7 pasos, 30 a 50 s
+uv run pytest -q                              # 8 pruebas, necesitan data/processed (correr run_all antes)
+uv run streamlit run app/dashboard.py         # http://localhost:8501
+uv run python reports/build_entregables.py    # imágenes, Word, PowerPoint y PDF
+uv run python reports/build_report.py --html  # opcional, HTML para importar como Google Doc
 ```
+
+Para herramientas de un solo uso que no son del proyecto: `uv run --no-project --with paquete python script.py`. CI (`.github/workflows/pipeline.yml`) usa `uv sync --locked`, así que si cambia `pyproject.toml` hay que commitear también `uv.lock`.
 
 Los PDF salen con LibreOffice si existe `soffice`. Si no, en Windows se exportan con Word y PowerPoint por COM (pywin32). Las fuentes Montserrat y Roboto Mono deben estar instaladas, si no Word las sustituye y el mapa de `build_assets.py` sale con otra letra.
 

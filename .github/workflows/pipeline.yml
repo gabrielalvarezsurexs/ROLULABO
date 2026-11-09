@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -r requirements.txt
-      - run: python src/run_all.py
-      - run: pytest -q
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: uv run python src/run_all.py
+      - run: uv run pytest -q

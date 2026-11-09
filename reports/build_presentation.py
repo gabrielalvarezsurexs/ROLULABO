@@ -595,8 +595,8 @@ text(s, LM, 2.1, 6.3, 4.5, [
     "**Promesa supuesta.** La recomendación usa la distribución real de días, no la tasa.",
     "**Grupos con frontera difusa.** Silueta 0.22, los perfiles son tendencias.",
     "**Un país, cuatro años.** No se valida en otro mercado."], size=14, after=12)
-boxed(s, 7.4, 2.1, 5.33, 4.4, BLACK, ["**Se regenera en 30 segundos**", "pip install -r requirements.txt", "python src/run_all.py",
-                                       "streamlit run app/dashboard.py", "Todo en Python. Semilla 42, supuestos en src/config.py, métricas en JSON y notebook ejecutado."],
+boxed(s, 7.4, 2.1, 5.33, 4.4, BLACK, ["**Se regenera en 30 segundos**", "uv sync", "uv run python src/run_all.py",
+                                       "uv run streamlit run app/dashboard.py", "Todo en Python. Semilla 42, supuestos en src/config.py, métricas en JSON y notebook ejecutado."],
       size=14, color=WHITE, pad=0.35, after=12)
 r = s.shapes[-1]
 r.text_frame.paragraphs[0].runs[0].font.color.rgb = YELLOW

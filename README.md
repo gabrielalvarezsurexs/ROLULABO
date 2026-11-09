@@ -39,17 +39,13 @@ Ningún modelo decide solo.
 
 ## Cómo correrlo
 
-Requiere Python 3.10 o superior.
+Las dependencias se manejan con [uv](https://docs.astral.sh/uv/). Las versiones exactas están en `uv.lock` y la versión de Python en `.python-version` (3.12). uv descarga esa versión de Python si no la tienes.
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-source .venv/bin/activate       # macOS o Linux
-
-pip install -r requirements.txt
-python src/run_all.py           # pipeline completo, unos 30 segundos
-pytest -q                       # pruebas
-streamlit run app/dashboard.py  # dashboard en http://localhost:8501
+uv sync                                # crea .venv e instala todo, incluidas pytest y jupyter
+uv run python src/run_all.py           # pipeline completo, de 30 a 50 segundos
+uv run pytest -q                       # pruebas
+uv run streamlit run app/dashboard.py  # dashboard en http://localhost:8501
 ```
 
 `src/run_all.py` genera `data/processed/`, que el dashboard necesita, y vuelve a entrenar los modelos con semilla fija.
@@ -57,9 +53,11 @@ streamlit run app/dashboard.py  # dashboard en http://localhost:8501
 Para regenerar el reporte y la presentación desde las métricas:
 
 ```bash
-python reports/build_entregables.py     # imágenes, Word, PowerPoint y PDF (LibreOffice, o Word y PowerPoint en Windows)
-python reports/build_report.py --html   # opcional, HTML para importar como Google Doc
+uv run python reports/build_entregables.py     # imágenes, Word, PowerPoint y PDF (LibreOffice, o Word y PowerPoint en Windows)
+uv run python reports/build_report.py --html   # opcional, HTML para importar como Google Doc
 ```
+
+Para agregar o quitar una dependencia se usa `uv add paquete` o `uv remove paquete`, nunca pip, para que `pyproject.toml` y `uv.lock` queden al día.
 
 Los documentos usan Montserrat y Roboto Mono. Si no están instaladas, Word y PowerPoint las sustituyen.
 

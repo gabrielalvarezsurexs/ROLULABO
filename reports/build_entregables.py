@@ -1,11 +1,11 @@
 """Regenera todos los entregables en entregables/ a partir de las métricas.
 
-    python reports/build_entregables.py
+    uv run python reports/build_entregables.py
 
 Corre en orden las imágenes, el reporte y la presentación. Después exporta
 ambos a PDF con LibreOffice (comando soffice) o, en Windows, con Word y
 PowerPoint instalados (requiere pywin32). Si no hay ninguno, omite los PDF.
-Requiere haber corrido antes python src/run_all.py.
+Requiere haber corrido antes uv run python src/run_all.py.
 """
 import shutil
 import subprocess
@@ -60,7 +60,7 @@ def pdf_office():
 
 def main():
     if not (ROOT / "reports" / "metrics" / "decision.json").exists():
-        sys.exit("Faltan métricas. Corre primero python src/run_all.py")
+        sys.exit("Faltan métricas. Corre primero uv run python src/run_all.py")
     OUT.mkdir(exist_ok=True)
     for script in PASOS:
         print(f"> {script}")

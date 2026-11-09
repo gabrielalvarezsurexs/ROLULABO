@@ -2,8 +2,8 @@
 
 Ejecutar desde la raiz del proyecto, despues de correr el pipeline.
 
-    python src/run_all.py
-    streamlit run app/dashboard.py
+    uv run python src/run_all.py
+    uv run streamlit run app/dashboard.py
 """
 import json
 import sys
@@ -88,7 +88,7 @@ def load_model():
 
 missing = [p for p in [METRICS / "loss_model.json", MODELS / "loss_model.joblib"] if not p.exists()]
 if missing:
-    st.error("Faltan resultados. Corre primero  python src/run_all.py  desde la raiz del proyecto.")
+    st.error("Faltan resultados. Corre primero  uv run python src/run_all.py  desde la raiz del proyecto.")
     st.stop()
 
 D = load_data()
