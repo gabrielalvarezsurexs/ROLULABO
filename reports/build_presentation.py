@@ -257,7 +257,7 @@ text(s, LM, 2.1, CW, 1.4, "Rolulabo", size=80, bold=True, color=WHITE)
 rect(s, LM, 3.85, 1.6, 0.14, YELLOW)
 text(s, LM, 4.2, 6.6, 1.2, "Vendemos más, pero cada venta deja menos de lo que podría. Diagnóstico y decisión con BI y aprendizaje de máquina", size=20, color=SOFT)
 s.shapes.add_picture(str(HERE / "assets" / "portada.png"), Inches(7.75), Inches(1.35), height=Inches(4.75))
-text(s, LM, 6.55, 8, 0.4, "Gabriel Álvarez · Eduardo Gutiérrez · Emiliano Luna · Rodrigo Naranjo", size=13, color=SOFT)
+text(s, LM, 6.55, 8, 0.4, "Gabriel Álvarez · Eduardo Gutiérrez · Emiliano Luna · Rodrigo Naranjo Hernández", size=13, color=SOFT)
 text(s, W - LM - 5, 6.55, 5, 0.4, "Universidad Panamericana · Noviembre 2026", size=13, color=SOFT, align=PP_ALIGN.RIGHT)
 notes(s, "Presentación del equipo. Rolulabo es una cadena ficticia de artículos de oficina, muebles y tecnología en Estados Unidos. Datos de 2014 a 2017. La pregunta de fondo es por qué las ventas crecen 52% y el margen se queda estancado. La imagen muestra ventas por trimestre en gris y el margen en amarillo.")
 

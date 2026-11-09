@@ -8,7 +8,7 @@ authors = [
     { name = "Gabriel Álvarez Mendoza" },
     { name = "Eduardo Gutiérrez" },
     { name = "Emiliano Luna" },
-    { name = "Rodrigo Naranjo" },
+    { name = "Rodrigo Naranjo Hernández" },
 ]
 dependencies = [
     "pandas>=2.0",

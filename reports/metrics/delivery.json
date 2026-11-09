@@ -202,7 +202,7 @@
       "variable": "region",
       "chi2": 12.76767090987779,
       "gl": 6,
-      "p_valor": 0.046877341722971366,
+      "p_valor": 0.04687734172297139,
       "v_cramer": 0.0901217402168794,
       "significativo_bonferroni": false
     },
@@ -229,7 +229,7 @@
       "variable": "month",
       "chi2": 20.569841787975836,
       "gl": 22,
-      "p_valor": 0.5474407841652231,
+      "p_valor": 0.5474407841652229,
       "v_cramer": 0.11439030154037808,
       "significativo_bonferroni": false
     },
@@ -238,7 +238,7 @@
       "variable": "dow",
       "chi2": 11.762262664194887,
       "gl": 12,
-      "p_valor": 0.46495668576644233,
+      "p_valor": 0.4649566857664421,
       "v_cramer": 0.08650060915593538,
       "significativo_bonferroni": false
     },
@@ -256,7 +256,7 @@
       "variable": "region",
       "chi2": 9.393184468048739,
       "gl": 9,
-      "p_valor": 0.4017993162987373,
+      "p_valor": 0.40179931629873694,
       "v_cramer": 0.05702071447173986,
       "significativo_bonferroni": false
     },
@@ -265,7 +265,7 @@
       "variable": "segment",
       "chi2": 6.556253531513205,
       "gl": 6,
-      "p_valor": 0.36383815792277513,
+      "p_valor": 0.3638381579227751,
       "v_cramer": 0.05834447393178324,
       "significativo_bonferroni": false
     },
@@ -283,7 +283,7 @@
       "variable": "month",
       "chi2": 29.600663343880512,
       "gl": 33,
-      "p_valor": 0.6371410273795863,
+      "p_valor": 0.6371410273795866,
       "v_cramer": 0.101222474721153,
       "significativo_bonferroni": false
     },
@@ -328,7 +328,7 @@
       "variable": "main_category",
       "chi2": 6.563661214804112,
       "gl": 6,
-      "p_valor": 0.36308845741414636,
+      "p_valor": 0.36308845741414625,
       "v_cramer": 0.033113472191269776,
       "significativo_bonferroni": false
     },
@@ -355,7 +355,7 @@
       "variable": "year",
       "chi2": 10.054226252487558,
       "gl": 9,
-      "p_valor": 0.3461131587993399,
+      "p_valor": 0.34611315879934035,
       "v_cramer": 0.03346265079066886,
       "significativo_bonferroni": false
     }

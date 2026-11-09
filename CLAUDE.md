@@ -6,7 +6,7 @@ Guía para trabajar en este repo con Claude Code.
 
 Rolulabo es el proyecto integrador de Aprendizaje de Máquina (Facultad de Ingeniería, Universidad Panamericana, entrega semana del 9 de noviembre de 2026). BI con aprendizaje de máquina sobre el dataset Superstore (9,994 filas, 2014 a 2017, EE. UU.), presentado como una cadena ficticia llamada Rolulabo. Sigue CRISP-DM en tres iteraciones ágiles y termina en una decisión de negocio que toma una persona, no el modelo (score, regla y decisión humana).
 
-Equipo: Gabriel Álvarez Mendoza (0261445), Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo.
+Equipo: Gabriel Álvarez Mendoza (0261445), Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández (0250016).
 
 ## Cómo trabajar con Gabriel
 

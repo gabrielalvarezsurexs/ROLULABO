@@ -14,7 +14,7 @@
   "lineas_en_estados_alto_descuento_pct": 0.38797158010607424,
   "perdida_en_estados_alto_descuento_pct": 0.9326760181388011,
   "diferencia_retraso_entre_grupos_pp": 0.06394285164054786,
-  "chi2_retraso_vs_grupo_p": 0.1856476330438292,
+  "chi2_retraso_vs_grupo_p": 0.18564763304382859,
   "tabla": [
     {
       "cluster_name": "Alto valor rentable",

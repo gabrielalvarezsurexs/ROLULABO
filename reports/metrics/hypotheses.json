@@ -48,7 +48,7 @@
       "resultado": "Refutada",
       "implicacion": "No hay un problema estacional. La política de descuento pierde dinero todo el año.",
       "stats": {
-        "p": 0.28600331762156317,
+        "p": 0.2860033176215633,
         "min": 0.17506252232940336,
         "max": 0.19254365266635207
       }
@@ -90,7 +90,7 @@
       "implicacion": "Vender mucho no es ser rentable. El margen del cliente lo decide el descuento que recibe.",
       "stats": {
         "rho_ventas": 0.037914837751060394,
-        "p_ventas": 0.2862470396772299,
+        "p_ventas": 0.28624703967723,
         "rho_descuento": -0.586452995727717,
         "p_descuento": 1.9408578965115234e-74
       }

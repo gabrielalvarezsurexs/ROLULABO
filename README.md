@@ -2,7 +2,7 @@
 
 Proyecto integrador de Aprendizaje de Máquina (COM194), Facultad de Ingeniería, Universidad Panamericana.
 
-**Equipo.** Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo.
+**Equipo.** Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández (0250016).
 
 BI con aprendizaje de máquina sobre Rolulabo, una cadena ficticia de artículos de oficina, muebles y tecnología. El proyecto sigue CRISP-DM en tres iteraciones ágiles y termina en una decisión de negocio que toma una persona, no el modelo. Se relaciona con el ODS 8, meta 8.2, productividad económica mediante modernización tecnológica, con una relación indirecta y a nivel empresa.
 

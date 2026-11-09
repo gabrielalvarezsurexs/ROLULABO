@@ -59,8 +59,8 @@
       }
     },
     "Arbol de decision": {
-      "roc_auc": 0.986190864209366,
-      "pr_auc": 0.9436273259192156,
+      "roc_auc": 0.9861950582370705,
+      "pr_auc": 0.9436259167397867,
       "f1": 0.8591065292096219,
       "precision": 0.9191176470588235,
       "recall": 0.8064516129032258,
@@ -77,8 +77,8 @@
       }
     },
     "Random forest": {
-      "roc_auc": 0.9879499592580165,
-      "pr_auc": 0.9564366636577394,
+      "roc_auc": 0.9879547524325362,
+      "pr_auc": 0.9565126487843678,
       "f1": 0.8636363636363636,
       "precision": 0.8142857142857143,
       "recall": 0.9193548387096774,
@@ -87,8 +87,8 @@
       "perdida_total_prueba": 53836.193400000004,
       "perdida_detectada": 52749.9418,
       "perdida_detectada_pct": 0.979823023668683,
-      "utilidad_en_falsos_positivos": 3586.6215,
-      "cv_pr_auc": 0.936538515481945,
+      "utilidad_en_falsos_positivos": 3601.4769,
+      "cv_pr_auc": 0.9366826984694239,
       "params": {
         "max_depth": 10,
         "min_samples_leaf": 1

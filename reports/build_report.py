@@ -547,13 +547,13 @@ PORTADA = {
     "facultad": "Facultad de Ingeniería",
     "materia": "Aprendizaje de Máquina",
     "alumnos": ["Gabriel Álvarez Mendoza - 0261445", "Eduardo Gutiérrez",
-                "Emiliano Luna", "Rodrigo Naranjo"],
+                "Emiliano Luna", "Rodrigo Naranjo Hernández - 0250016"],
     "actividad": "Proyecto Rolulabo",
     "fecha": "09/11/2026",
 }
 SUBTITLE = "Rentabilidad, entregas y clientes con aprendizaje de máquina"
 COVER = ["Proyecto integrador de Aprendizaje de Máquina", "Universidad Panamericana, campus Mixcoac", "",
-         "**Equipo**", "Gabriel Álvarez Mendoza", "Eduardo Gutiérrez", "Emiliano Luna", "Rodrigo Naranjo", "", "Noviembre de 2026"]
+         "**Equipo**", "Gabriel Álvarez Mendoza", "Eduardo Gutiérrez", "Emiliano Luna", "Rodrigo Naranjo Hernández", "", "Noviembre de 2026"]
 
 BOLD = re.compile(r"(\*\*[^*]+\*\*)")
 
@@ -783,7 +783,7 @@ def build_docx(out: Path, blocks=None, index=True, title=TITLE, actividad=None):
             par.add_run().add_picture(str(FIG / file), width=Inches(width))
             add_runs(doc.add_paragraph(), caption, size=8.5)
     doc.core_properties.title = title
-    doc.core_properties.author = "Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna, Rodrigo Naranjo"
+    doc.core_properties.author = "Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna, Rodrigo Naranjo Hernández"
     doc.save(out)
 
 

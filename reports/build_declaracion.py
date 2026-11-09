@@ -39,7 +39,7 @@ def content():
     ref = json.loads((HERE.parent / "tests" / "referencia.json").read_text(encoding="utf-8"))
     return [
         ("h1u", "Declaración de herramientas e inteligencia artificial"),
-        P("Este documento declara las herramientas de software y los asistentes de inteligencia artificial que se usaron en el proyecto Rolulabo, y las verificaciones con las que el equipo comprobó que los resultados son correctos y reproducibles. Integrantes, Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo."),
+        P("Este documento declara las herramientas de software y los asistentes de inteligencia artificial que se usaron en el proyecto Rolulabo, y las verificaciones con las que el equipo comprobó que los resultados son correctos y reproducibles. Integrantes, Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández."),
         H1("1. Herramientas de software"),
         P(f"Todo el proyecto está escrito en Python {platform.python_version()}. Las dependencias se instalan con uv y sus versiones exactas quedan fijas en uv.lock, por eso cualquier persona obtiene los mismos números."),
         T(["Herramienta", "Versión", "Uso"], [[p, v(p), u] for p, u in PAQUETES] + [
