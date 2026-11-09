@@ -116,10 +116,11 @@ def run() -> dict:
 
     # H8. Un modelo supera a una regla simple.
     gb, rule = loss["modelos"]["Gradient boosting"], loss["modelos"]["Regla descuento > 20%"]
+    d20 = loss["descuento_20"]
     H.append({
         "id": "H8", "creencia": "Un modelo de aprendizaje de máquina detecta pérdidas mejor que una regla de negocio simple",
         "prueba": "F1 y PR-AUC en 2017 con intervalos bootstrap de 95%",
-        "evidencia": f"F1 {gb['f1']:.3f} contra {rule['f1']:.3f}, intervalos sin traslape. Detecta 117 de 169 pérdidas con 20% de descuento que la regla no ve",
+        "evidencia": f"F1 {gb['f1']:.3f} contra {rule['f1']:.3f}, intervalos sin traslape. Detecta {d20['modelo_detecta']} de {d20['perdidas']} pérdidas con 20% de descuento que la regla no ve",
         "resultado": "Confirmada",
         "implicacion": "El modelo vale la pena para evaluar líneas antes de cerrarlas.",
     })

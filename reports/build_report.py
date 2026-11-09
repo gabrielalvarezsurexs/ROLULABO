@@ -511,10 +511,10 @@ MONO_LIGHT = "Roboto Mono Light"
 PORTADA = {
     "facultad": "Facultad de Ingeniería",
     "materia": "Aprendizaje de Máquina",
-    "alumnos": ["Gabriel Álvarez Mendoza - 0261445", "Eduardo Gutiérrez - [expediente]",
-                "Emiliano Luna - [expediente]", "Rodrigo Naranjo - [expediente]"],
+    "alumnos": ["Gabriel Álvarez Mendoza - 0261445", "Eduardo Gutiérrez",
+                "Emiliano Luna", "Rodrigo Naranjo"],
     "actividad": "Proyecto Rolulabo",
-    "fecha": "[dd]/11/2026",
+    "fecha": "09/11/2026",
 }
 SUBTITLE = "Rentabilidad, entregas y clientes con aprendizaje de máquina"
 COVER = ["Proyecto integrador de Aprendizaje de Máquina", "Universidad Panamericana, campus Mixcoac", "",

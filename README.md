@@ -57,11 +57,13 @@ streamlit run app/dashboard.py  # dashboard en http://localhost:8501
 Para regenerar el reporte y la presentación desde las métricas:
 
 ```bash
-python reports/build_entregables.py     # imágenes, Word, PowerPoint y PDF si hay LibreOffice
+python reports/build_entregables.py     # imágenes, Word, PowerPoint y PDF (LibreOffice, o Word y PowerPoint en Windows)
 python reports/build_report.py --html   # opcional, HTML para importar como Google Doc
 ```
 
 Los documentos usan Montserrat y Roboto Mono. Si no están instaladas, Word y PowerPoint las sustituyen.
+
+Los modelos y métricas versionados salieron de una corrida en Linux. En Windows el gradient boosting puede salir ligeramente distinto por diferencias de punto flotante (F1 0.891 en vez de 0.890). Las conclusiones no cambian, pero los entregables citan la corrida de referencia.
 
 ## Estructura
 
@@ -101,7 +103,7 @@ rolulabo/
 CRISP-DM en tres iteraciones. Cada una cierra con un entregable que funciona y con la revisión de hipótesis.
 
 1. Negocio y datos. ETL validado, EDA y prueba de hipótesis. La caída de H1 cambió el problema de capacitar vendedores a corregir una tabla de descuentos.
-2. Modelos. Tres modelos con partición temporal (2014 a 2016 entrenamiento, 2017 prueba) contra línea base. La caída de H5 replanteó la historia de Operaciones.
+2. Modelos. Cuatro modelos con partición temporal (2014 a 2016 entrenamiento, 2017 prueba) contra la regla actual y una línea base. La caída de H5 replanteó la historia de Operaciones.
 3. Decisión y despliegue. Simulación de política, score y reglas, dashboard y decisión con criterios de éxito.
 
 ## Datos

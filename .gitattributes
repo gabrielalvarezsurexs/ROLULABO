@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Binarios explícitos para que git no les toque los finales de línea
+*.joblib binary
+*.docx binary
+*.pptx binary
+*.pdf binary
+*.png binary

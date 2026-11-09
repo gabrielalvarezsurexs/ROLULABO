@@ -179,3 +179,18 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# Rolulabo
+# Salidas que se regeneran con python src/run_all.py
+data/processed/
+# Bitácora de decisiones que escribe el dashboard en cada uso
+data/decisiones/
+# HTML intermedio para importar como Google Doc (build_report.py --html)
+reports/Reporte_Rolulabo.html
+# Editor y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# Archivos de bloqueo de Office
+~$*
+.~lock.*#
