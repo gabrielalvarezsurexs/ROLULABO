@@ -8,11 +8,11 @@ Rolulabo es el proyecto integrador de Aprendizaje de Máquina (Facultad de Ingen
 
 Equipo: Gabriel Álvarez Mendoza (0261445), Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández (0250016).
 
-## Cómo trabajar con Gabriel
+## Cómo trabajar con el equipo
 
 - Responder en español casual mexicano, directo y conciso. Sin "nomás" ni modismos nacos. Nada de relleno.
 - Programa principalmente en Python.
-- Todo documento (reporte, presentación, dashboard, README) cierra con "Elaborado por Gabriel Álvarez Mendoza".
+- Todo documento (reporte, presentación, dashboard, README) cierra con "Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández".
 
 ### Estilo de los entregables
 
@@ -84,4 +84,4 @@ La rúbrica pide notebook en Colab, dataset, reporte ejecutivo de 2 a 4 páginas
 
 ---
 
-Elaborado por Gabriel Álvarez Mendoza
+Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández

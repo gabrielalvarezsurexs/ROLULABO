@@ -132,4 +132,4 @@ Se usó Claude (Anthropic) como asistente para estructurar el código, revisar l
 
 ---
 
-Elaborado por Gabriel Álvarez Mendoza
+Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández

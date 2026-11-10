@@ -22,7 +22,7 @@ from config import DISCOUNT_GRID, METRICS, MODELS, PROCESSED, ROOT as PROJ, SLA_
 from decision_rules import semaforo  # noqa: E402
 
 LOG = PROJ / "data" / "decisiones" / "decisiones_log.csv"
-AUTOR = "Gabriel Álvarez Mendoza"
+AUTOR = "Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández"
 
 st.set_page_config(page_title="Rolulabo", layout="wide")
 
