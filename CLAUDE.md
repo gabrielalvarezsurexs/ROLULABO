@@ -12,7 +12,7 @@ Equipo: Gabriel Álvarez Mendoza (0261445), Eduardo Gutiérrez, Emiliano Luna y 
 
 - Responder en español casual mexicano, directo y conciso. Sin "nomás" ni modismos nacos. Nada de relleno.
 - Programa principalmente en Python.
-- Todo documento (reporte, presentación, dashboard, README) cierra con "Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández".
+- Ningún documento lleva "Elaborado por" al final. Es trabajo del equipo y los integrantes ya aparecen en la portada.
 
 ### Estilo de los entregables
 
@@ -81,7 +81,3 @@ La rúbrica pide notebook en Colab, dataset, reporte ejecutivo de 2 a 4 páginas
 - `entregables/Presentacion_Rolulabo.pptx` (25 láminas con transiciones y animaciones) y `.pdf` de respaldo sin animaciones.
 - `app/dashboard.py`, 7 pestañas, con bitácora de decisiones humanas en `data/decisiones/decisiones_log.csv`.
 - `notebooks/rolulabo_analisis.ipynb`, ejecutado, con secciones A a E de la rúbrica. En Colab la primera celda clona el repo e instala scikit-learn y scipy de `uv.lock`. Se reconstruye ejecutándolo con `uv run jupyter nbconvert --to notebook --execute --inplace notebooks/rolulabo_analisis.ipynb`.
-
----
-
-Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández

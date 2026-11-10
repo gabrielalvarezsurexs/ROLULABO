@@ -10,7 +10,7 @@ import json
 import platform
 from importlib.metadata import PackageNotFoundError, version
 
-from build_report import AUTOR, COST, GB, H1, HERE, HYP, P, RULE, T, build_docx, f3
+from build_report import COST, GB, H1, HERE, HYP, P, RULE, T, build_docx, f3
 
 PAQUETES = [
     ("pandas", "Lectura, limpieza y agregación de datos"),
@@ -70,7 +70,6 @@ def content():
             ["Integración continua", "GitHub Actions instala con uv.lock, corre el pipeline y las pruebas en cada cambio", "Configurada"]],
           [1.45, 3.0, 2.05], numeric=False, size=8.5),
         P("Al auditar el proyecto se encontraron y corrigieron tres problemas. Los números de referencia no se reproducían con las versiones fijadas, el umbral de decisión del semáforo estaba escrito para un modelo específico y algunos veredictos de hipótesis eran texto fijo. También se agregó la línea base con costo histórico, que acota el papel del clasificador y se reporta en los entregables."),
-        P(f"**Elaborado por {AUTOR}**"),
     ]
 
 

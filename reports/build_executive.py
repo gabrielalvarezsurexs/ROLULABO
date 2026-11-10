@@ -7,7 +7,7 @@ reporte técnico (portada de la Facultad, Montserrat, tablas tipo booktabs).
 Cubre los puntos A a E de la rúbrica del proyecto integrador. Todas las cifras
 se leen de reports/metrics.
 """
-from build_report import (ATS, AUC_RANGE, AUTOR, CH, COST, CZ, DD, DEC, DEC_HIGH, DL, ERR, GB, H1, HERE, HY, HYP, L,
+from build_report import (ATS, AUC_RANGE, CH, COST, CZ, DD, DEC, DEC_HIGH, DL, ERR, GB, H1, HERE, HY, HYP, L,
                           MOD, ODS_TEXT, P, Q, REAL_MARGIN, REP, RULE, RULES, S, SEGK, SIM, SIM_MARGIN, T, THR_SENS,
                           build_docx, f3, money, pct)
 
@@ -61,7 +61,6 @@ def executive_content():
         P(f"El objetivo se cumple en simulación sobre 2017. Con topes, las líneas con pérdida bajan de {pct(Q['lineas_con_perdida_pct'])} a {pct(perd_sim)}, el margen sube de {pct(REAL_MARGIN)} a {pct(SIM_MARGIN)} con volumen constante, y con la promesa al percentil 95 el cumplimiento queda arriba de {pct(cumple_p95, 0)} en todas las modalidades. Falta confirmarlo con el piloto, porque el efecto en volumen no se puede observar en estos datos."),
         P("Las limitaciones son claras. Los datos son sintéticos y la utilidad sale de un costo fijo, por eso las métricas son altas. El método se traslada a una empresa real, el nivel de desempeño no. No se observa a quien no compró, la promesa de entrega es un supuesto y hay un solo país. Los resultados son confiables como evidencia de método, reproducibles y validados contra líneas base. La política se debe vigilar con reentrenamiento trimestral y alertas si las líneas con pérdida pasan de 5%."),
         P("**Herramientas.** Python, scikit-learn, uv y Claude de Anthropic como asistente. El detalle y las verificaciones están en la Declaración de herramientas."),
-        P(f"**Elaborado por {AUTOR}**"),
     ]
 
 

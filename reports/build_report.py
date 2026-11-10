@@ -115,7 +115,6 @@ HYP = j("hypotheses.json")
 HY = {h["id"]: h for h in HYP["hipotesis"]}
 AUC_RANGE = f"{HY['H5']['stats']['auc_min']:.2f} a {HY['H5']['stats']['auc_max']:.2f}"
 RULES = j("decision_rules.json")
-AUTOR = "Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández"
 DEC = j("decision.json")
 DEC_HIGH = next(g for g in DEC["por_grupo"] if g["grupo"].startswith("10"))
 SIM_MARGIN = SIM["escenarios"][0]["utilidad"] / SIM["escenarios"][0]["ventas"]
@@ -152,7 +151,7 @@ def _base_content():
             ["Comprensión del negocio", "Qué decisión hay que apoyar y cómo se mide el éxito", "Planteamiento, KPIs, historias de usuario", "Secciones 3 y 4"],
             ["Comprensión de los datos", "Qué datos hay y qué creencias del negocio sostienen o no", "EDA y prueba de 8 hipótesis", "src/hypotheses.py"],
             ["Preparación de datos", "Los datos son confiables y están listos para modelar y para BI", "ETL validado y modelo estrella", "src/etl.py"],
-            ["Modelado", "Qué técnica responde cada pregunta analítica", "Tres modelos con validación temporal", "src/loss_model.py y otros"],
+            ["Modelado", "Qué técnica responde cada pregunta analítica", "Cuatro clasificadores de pérdida, modelos de entregas y K-Means", "src/loss_model.py y otros"],
             ["Evaluación", "El modelo supera a la línea base y qué vale para el negocio", "Métricas, intervalos y simulación de política", "reports/metrics"],
             ["Despliegue", "Cómo llega el resultado a quien decide", "Score, regla y decisión humana, dashboard y monitoreo", "app/dashboard.py"]],
           [1.45, 2.05, 1.75, 1.25], numeric=False, size=8),
@@ -168,7 +167,7 @@ def _base_content():
         H2("2.2 Iteraciones"),
         T(["Iteración", "Fases", "Entregable", "Qué cambió al cerrar"], [
             ["1. Negocio y datos", "Negocio, datos, preparación", "ETL validado, EDA, hipótesis probadas", "H1 cayó. El problema pasó de capacitar vendedores a corregir una tabla de descuentos"],
-            ["2. Modelos", "Modelado, evaluación", "Tres modelos contra línea base", "H5 cayó. La historia de Operaciones se replanteó como ajuste de promesa"],
+            ["2. Modelos", "Modelado, evaluación", "Cuatro modelos contra tres líneas base", "H5 cayó. La historia de Operaciones se replanteó como ajuste de promesa"],
             ["3. Decisión y despliegue", "Evaluación, despliegue", "Simulación, dashboard, decisión", "H2 cayó. El riesgo de perder volumen con topes resultó bajo"]],
           [1.35, 1.4, 1.75, 2.0], numeric=False, size=8),
         P("Definición de terminado para cualquier entregable. Se regenera con un comando desde el CSV crudo, se compara contra una línea base y está ligado a una decisión de un área."),
@@ -401,8 +400,6 @@ def _base_content():
         P("Rousseeuw, P. J. (1987). Silhouettes. A graphical aid to the interpretation and validation of cluster analysis. Journal of Computational and Applied Mathematics, 20, 53 a 65."),
         P("Saito, T. y Rehmsmeier, M. (2015). The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. PLOS ONE, 10(3)."),
         P("Schwaber, K. y Sutherland, J. (2020). The Scrum Guide. scrumguides.org."),
-        P(""),
-        P(f"**Elaborado por {AUTOR}**"),
     ]
     return c
 

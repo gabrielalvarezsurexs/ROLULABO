@@ -386,4 +386,4 @@ with tabs[6]:
     st.json(D["q"])
 
 st.divider()
-st.caption(f"Rolulabo · Proyecto integrador de Aprendizaje de Máquina · Elaborado por {AUTOR}")
+st.caption(f"Rolulabo · Proyecto integrador de Aprendizaje de Máquina · Equipo {AUTOR}")

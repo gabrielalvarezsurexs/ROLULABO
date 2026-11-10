@@ -15,7 +15,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
-from build_report import (ATS, AUC_RANGE, AUTOR, BEST, CH, COST, ERR, REAL_MARGIN, REP, RULES, AV, CAPS, CROSS, CZ, DD, DEC,
+from build_report import (ATS, AUC_RANGE, BEST, CH, COST, ERR, REAL_MARGIN, REP, RULES, AV, CAPS, CROSS, CZ, DD, DEC,
                           DEC_HIGH, DL, GB, GROUPS, HERE, HYP, L, MOD, MODES, PROF, Q, RULE, S, SEGK, SIM, SIM_MARGIN, SIMSUB,
                           THR_SENS, WORST, X, money, parts, pct, sens)
 
@@ -329,7 +329,7 @@ notes(s, "La rúbrica pide un objetivo medible y ligarlo a un ODS solo si la rel
 s = new_slide()
 header(s, "Metodología", "Seguimos CRISP-DM en tres iteraciones ágiles, cada una con un entregable que funciona")
 phases = [("Negocio", "KPIs e historias de usuario"), ("Datos", "EDA y 8 hipótesis probadas"),
-          ("Preparación", "ETL validado y modelo estrella"), ("Modelado", "Tres modelos, validación temporal"),
+          ("Preparación", "ETL validado y modelo estrella"), ("Modelado", "Cuatro modelos, validación temporal"),
           ("Evaluación", "Contra línea base y simulación"), ("Despliegue", "Dashboard por área y monitoreo")]
 bw = (CW - 5 * 0.15) / 6
 for i, (ph, dl) in enumerate(phases):
@@ -343,7 +343,7 @@ for i, (ph, dl) in enumerate(phases):
 tb = table(s, LM, 4.25, [2.4, 2.3, 3.1, 4.33], [
     ["Iteración", "Fases", "Entregable", "Qué cambió al cerrar"],
     ["1. Negocio y datos", "1, 2, 3", "ETL validado, EDA, hipótesis", "H1 cayó. Ya no es capacitar vendedores, es corregir una tabla"],
-    ["2. Modelos", "4, 5", "Tres modelos contra línea base", "H5 cayó. Operaciones pasó de priorizar pedidos a ajustar la promesa"],
+    ["2. Modelos", "4, 5", "Cuatro modelos contra tres líneas base", "H5 cayó. Operaciones pasó de priorizar pedidos a ajustar la promesa"],
     ["3. Decisión y despliegue", "5, 6", "Simulación, dashboard, decisión", "H2 cayó. El riesgo de perder volumen con topes resultó bajo"]],
     size=11, row_h=0.5, align_right_from=None, bold_first_col=True)
 footer(s, "Definición de terminado. Se regenera con un comando, se compara contra una línea base y está ligado a una decisión")
@@ -582,7 +582,7 @@ for i, g in enumerate(GROUPS):
     rect(s, xx, 2.1, gw, 4.45, bg)
     icon(s, {"Alto valor rentable": "Crown", "Cazadores de descuento": "Tag", "Compradores ocasionales": "ShoppingBag", "Inactivos": "Moon"}[g],
          "y" if bg == BLACK else "k", xx + gw - 0.8, 2.35, 0.5)
-    text(s, xx + 0.3, 2.35, gw - 1.2, 0.8, g, size=17, bold=True, color=tc)
+    text(s, xx + 0.3, 2.35, gw - 1.15, 0.8, g, size=16, bold=True, color=tc)
     text(s, xx + 0.3, 3.15, gw - 0.6, 0.8, str(p["clientes"]), size=44, bold=True, color=numc)
     text(s, xx + 0.3, 3.95, gw - 0.6, 0.3, "clientes", size=12, color=sc)
     text(s, xx + 0.3, 4.45, gw - 0.6, 2.0, [f"Margen {pct(p['margin'])}", f"Descuento {pct(p['avg_discount'])}",
@@ -696,7 +696,6 @@ rect(s, LM, 3.7, 1.6, 0.14, YELLOW)
 rect(s, 7.55, 1.25, 5.18, 4.45, WHITE)
 illus(s, "questions", 7.8, 1.5, 4.68, 3.95)
 text(s, LM, 4.05, 6.5, 1.2, "Menos descuento donde no se paga, una promesa de entrega honesta y una estrategia distinta para cada grupo de clientes.", size=20, color=SOFT)
-text(s, LM, 5.5, CW, 0.4, f"Elaborado por {AUTOR}", size=14, bold=True, color=YELLOW)
 text(s, LM, 6.3, CW, 0.7, "Herramientas e IA. Python, scikit-learn y uv. Claude (Anthropic) como asistente para código, revisión metodológica y borradores. Las decisiones, la ejecución y la interpretación son del equipo, y las verificaciones están en la Declaración de herramientas. Datos, Sample Superstore, Kaggle.", size=11, color=MID)
 notes(s, "Cerrar con la idea central y abrir a preguntas. Tener a la mano el dashboard y el notebook.")
 

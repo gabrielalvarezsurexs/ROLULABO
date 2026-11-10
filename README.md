@@ -129,7 +129,3 @@ Sample Superstore, versión completa con Discount, Quantity y Profit. https://ww
 ## Uso de herramientas de IA
 
 Se usó Claude (Anthropic) como asistente para estructurar el código, revisar la metodología, auditar el proyecto contra la rúbrica y redactar borradores. El equipo revisó, ejecutó y validó cada resultado. Las decisiones de planteamiento, alcance e interpretación son del equipo. El detalle de herramientas y verificaciones está en la [Declaración de herramientas](entregables/Declaracion_Herramientas_Rolulabo.pdf).
-
----
-
-Elaborado por Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández
