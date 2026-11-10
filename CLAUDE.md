@@ -32,6 +32,7 @@ uv add paquete / uv remove paquete            # cambiar dependencias (actualiza 
 uv run python src/run_all.py                  # pipeline completo, 7 pasos, unos 35 s
 uv run pytest -q                              # 10 pruebas, necesitan data/processed (correr run_all antes)
 uv run streamlit run app/dashboard.py         # http://localhost:8501
+uv run python reports/build_dashboard_data.py # regenera dashboard/data.js (dashboard estático para exponer)
 uv run python reports/build_entregables.py    # imágenes, Word, PowerPoint y PDF de los 4 documentos
 uv run python reports/build_report.py --html  # opcional, HTML del reporte técnico para Google Doc
 ```
@@ -79,5 +80,6 @@ La rúbrica pide notebook en Colab, dataset, reporte ejecutivo de 2 a 4 páginas
 - `entregables/Reporte_Tecnico_Rolulabo.docx` y `.pdf` (anexo, A4, unas 22 páginas, portada con formato UP en Roboto Mono).
 - `entregables/Declaracion_Herramientas_Rolulabo.docx` y `.pdf`.
 - `entregables/Presentacion_Rolulabo.pptx` (25 láminas con transiciones y animaciones) y `.pdf` de respaldo sin animaciones.
+- `dashboard/index.html`, dashboard estático para exponer, sin internet. HTML, CSS y JS con D3 y Observable Plot en `dashboard/vendor/`. Lee `dashboard/data.js`, que genera `reports/build_dashboard_data.py` en formato columnar con la utilidad con topes y el semáforo calculados con las mismas fórmulas del pipeline. Compara Hoy (gris) contra Con topes (amarillo #F5C400). Los hallazgos del final se editan en `dashboard/finale.js`.
 - `app/dashboard.py`, 7 pestañas, con bitácora de decisiones humanas en `data/decisiones/decisiones_log.csv`.
 - `notebooks/rolulabo_analisis.ipynb`, ejecutado, con secciones A a E de la rúbrica. En Colab la primera celda clona el repo e instala scikit-learn y scipy de `uv.lock`. Se reconstruye ejecutándolo con `uv run jupyter nbconvert --to notebook --execute --inplace notebooks/rolulabo_analisis.ipynb`.

@@ -21,7 +21,8 @@ BI con aprendizaje de máquina sobre Rolulabo, una cadena ficticia de artículos
 | Declaración de herramientas | [`entregables/Declaracion_Herramientas_Rolulabo.pdf`](entregables/Declaracion_Herramientas_Rolulabo.pdf) y [`.docx`](entregables/Declaracion_Herramientas_Rolulabo.docx) |
 | Anexo, reporte técnico | [`entregables/Reporte_Tecnico_Rolulabo.pdf`](entregables/Reporte_Tecnico_Rolulabo.pdf) y [`.docx`](entregables/Reporte_Tecnico_Rolulabo.docx) |
 | Modelos entrenados | [`models/loss_model.joblib`](models/loss_model.joblib) y [`models/segmentation.joblib`](models/segmentation.joblib) |
-| Dashboard | [`app/dashboard.py`](app/dashboard.py), Streamlit |
+| Dashboard para exponer | [`dashboard/index.html`](dashboard/index.html), página estática que funciona sin internet |
+| Dashboard por área | [`app/dashboard.py`](app/dashboard.py), Streamlit |
 
 ## Resultados clave
 
@@ -59,6 +60,15 @@ uv run streamlit run app/dashboard.py  # dashboard en http://localhost:8501
 
 `src/run_all.py` genera `data/processed/`, que el dashboard necesita, y vuelve a entrenar los modelos con semilla fija.
 
+El dashboard para exponer es una página estática en `dashboard/`, con D3, Observable Plot y Montserrat guardados ahí mismo, así que funciona sin internet. Compara la política de descuento de hoy contra la propuesta con topes, en siete capítulos con filtros por periodo, región, categoría y estado. Basta abrir `dashboard/index.html` en el navegador, o servirlo:
+
+```bash
+uv run python -m http.server 8000 -d dashboard   # http://localhost:8000
+uv run python reports/build_dashboard_data.py    # regenera dashboard/data.js si cambian los datos
+```
+
+Atajos en la URL: `#nointro=1` salta la intro, `#fin=1` abre los hallazgos finales, `#only=c3` muestra un solo capítulo para capturas y `#th=light` usa el tema claro.
+
 Para regenerar los documentos desde las métricas:
 
 ```bash
@@ -84,6 +94,7 @@ Con otra versión de scikit-learn el umbral puede moverse aunque las conclusione
 ```
 rolulabo/
 ├── app/dashboard.py             Dashboard Streamlit, una pestaña por área
+├── dashboard/                   Dashboard estático para exponer (index.html, data.js generado)
 ├── data/raw/superstore.csv      Datos originales, no se modifican
 ├── entregables/                 Reportes, presentación y declaración en Word, PowerPoint y PDF
 ├── models/                      Modelos entrenados

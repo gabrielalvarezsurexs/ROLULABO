@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es-MX" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rolulabo, topes de descuento</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+  // En la expo nada falla en silencio: cualquier error se pinta arriba de la página.
+  addEventListener("error", e => {
+    const b = document.getElementById("err");
+    if (!b) return;
+    b.style.display = "block";
+    b.textContent = "Error: " + (e.message || e.target?.src || "recurso no cargado") + (e.lineno ? " (" + (e.filename || "").split("/").pop() + ":" + e.lineno + ")" : "");
+  }, true);
+</script>
+</head>
+<body>
+<div id="err" role="alert"></div>
+
+<!-- ======================================================= intro -->
+<div id="intro" hidden>
+  <div class="in-box">
+    <div class="caps" aria-hidden="true">
+      <i style="--h:40px"></i><i style="--h:96px"></i><i style="--h:70px"></i><i style="--h:108px"></i><i style="--h:52px"></i><i style="--h:88px"></i><i style="--h:64px"></i><b></b>
+    </div>
+    <div class="in-kicker">Sample Superstore · Kaggle · Aprendizaje de Máquina 2026</div>
+    <div class="in-title">Rolu<em>labo</em></div>
+    <div class="in-line"><span class="ka">Hoy</span> contra <span class="kb">Con topes</span> · <span id="in-n">9,993</span> líneas de venta</div>
+    <button class="go" id="go">Entrar</button>
+  </div>
+</div>
+
+<!-- ======================================================= hero -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">R</div>
+      <div class="kicker">Rolulabo · Proyecto integrador de Aprendizaje de Máquina · Universidad Panamericana</div>
+      <button class="btn-s" id="theme" aria-label="Cambiar tema">Claro</button>
+    </div>
+    <h1>Menos descuento donde pierde, más utilidad.</h1>
+    <p class="dek" id="dek"></p>
+    <div class="profiles" id="profiles"></div>
+    <p id="printfilters"></p>
+  </div>
+</header>
+
+<!-- ======================================================= filtros -->
+<nav class="bar" aria-label="Filtros">
+  <div class="wrap">
+    <div class="grp" role="group" aria-label="Escenario visible">
+      <button class="chip" data-ent="both" aria-pressed="true">Ambos</button>
+      <button class="chip" data-ent="a" aria-pressed="false" style="--c:var(--a)"><span class="dot"></span>Hoy</button>
+      <button class="chip" data-ent="b" aria-pressed="false" style="--c:var(--b)"><span class="dot"></span>Con topes</button>
+    </div>
+    <div class="grp">
+      <select id="f-per" aria-label="Periodo">
+        <option value="2017">2017, prueba</option>
+        <option value="all">2014 a 2017</option>
+        <option value="train">2014 a 2016</option>
+        <option value="2016">2016</option>
+        <option value="2015">2015</option>
+        <option value="2014">2014</option>
+      </select>
+      <select id="f-rg" aria-label="Región"></select>
+      <select id="f-ca" aria-label="Categoría"></select>
+    </div>
+    <div class="grp">
+      <span class="lbl">Topes</span>
+      <div class="seg" role="group" aria-label="Alcance de los topes">
+        <button data-pol="c" aria-pressed="true" title="Opción C, la recomendada">10 estados</button>
+        <button data-pol="b" aria-pressed="false" title="Opción B">Todo el país</button>
+      </div>
+    </div>
+    <div class="grp">
+      <input id="f-st" list="states" placeholder="Estado…" aria-label="Estado">
+      <datalist id="states"></datalist>
+      <button class="btn-s" id="f-st-x" hidden>Quitar</button>
+    </div>
+    <div class="toc" id="toc"></div>
+  </div>
+</nav>
+
+<!-- ======================================================= capítulos -->
+<main class="wrap">
+  <section id="c0" data-name="Cara a cara">
+    <div class="ch-num"><b>00</b> · Cara a cara · ¿Qué cambia con topes de descuento?</div>
+    <h2 id="h0"></h2>
+    <p class="ctx" id="x0"></p>
+    <div class="grid">
+      <div class="s7"><div id="versus"></div></div>
+      <div class="s5"><ol class="insights" id="insights"></ol></div>
+    </div>
+  </section>
+
+  <section id="c1" data-name="Origen">
+    <div class="ch-num"><b>01</b> · Origen · ¿Por qué no sube la utilidad?</div>
+    <h2 id="h1"></h2>
+    <p class="ctx" id="x1"></p>
+    <div class="grid">
+      <figure class="s7" id="f-mes"></figure>
+      <figure class="s5" id="f-desc"></figure>
+    </div>
+  </section>
+
+  <section id="c2" data-name="Mapa">
+    <div class="ch-num"><b>02</b> · Mapa · ¿Dónde se pierde el dinero?</div>
+    <h2 id="h2"></h2>
+    <p class="ctx" id="x2"></p>
+    <div class="grid">
+      <figure class="s7" id="f-map"></figure>
+      <figure class="s5" id="f-sub"></figure>
+    </div>
+  </section>
+
+  <section id="c3" data-name="Modelo">
+    <div class="ch-num"><b>03</b> · Modelo · ¿Se puede anticipar la pérdida?</div>
+    <h2 id="h3"></h2>
+    <p class="ctx" id="x3"></p>
+    <div class="grid">
+      <figure class="s6" id="f-mod"></figure>
+      <figure class="s6" id="f-det"></figure>
+      <figure class="s12" id="f-sem"></figure>
+    </div>
+  </section>
+
+  <section id="c4" data-name="Topes">
+    <div class="ch-num"><b>04</b> · Topes · ¿Cuánto descuento como máximo?</div>
+    <h2 id="h4"></h2>
+    <p class="ctx" id="x4"></p>
+    <div class="grid">
+      <figure class="s7" id="f-topes"></figure>
+      <div class="s5">
+        <figure id="f-vol"></figure>
+        <div class="cards" id="opciones" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="c5" data-name="Entregas">
+    <div class="ch-num"><b>05</b> · Entregas · ¿Se cumple lo que se promete?</div>
+    <h2 id="h5"></h2>
+    <p class="ctx" id="x5"></p>
+    <div class="grid">
+      <figure class="s6" id="f-prom"></figure>
+      <figure class="s6" id="f-dias"></figure>
+    </div>
+  </section>
+
+  <section id="c6" data-name="Clientes">
+    <div class="ch-num"><b>06</b> · Clientes · ¿Quién se lleva el descuento?</div>
+    <h2 id="h6"></h2>
+    <p class="ctx" id="x6"></p>
+    <div class="grid">
+      <figure class="s7" id="f-grp"></figure>
+      <div class="s5 cards" id="grupos"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap colofon">
+  <h2>Cómo se calcula</h2>
+  <p>Cada fila es una línea de venta de Sample Superstore (Kaggle), presentada como la cadena ficticia Rolulabo. Se quitó un duplicado exacto y quedan 9,993 líneas de 2014 a 2017. <b>Hoy</b> es la utilidad registrada. <b>Con topes</b> recalcula cada línea con el descuento máximo por subcategoría, como cantidad × (precio de lista × (1 − descuento) − costo unitario), con el costo fijo por producto y el volumen constante. Los topes se fijaron solo con 2014 a 2016. "10 estados" aplica los topes únicamente en los estados de descuento alto (opción C, la recomendada) y "Todo el país" en todos (opción B).</p>
+  <p>El modelo es gradient boosting entrenado con 2014 a 2016 y evaluado en 2017, sin utilidad, margen ni costo entre sus variables. La regla actual marca pérdida cuando el descuento supera 20%. El semáforo es rojo si el descuento pasa el tope, amarillo si el score supera el umbral y verde en otro caso, y quien decide es una persona. Un pedido está fuera de tiempo si tarda más días que la promesa supuesta por modalidad. Los grupos de clientes son de K-Means con k = 4.</p>
+  <p class="noprint">Datos generados el <span id="gen"></span> con reports/build_dashboard_data.py. Equipo, Gabriel Álvarez Mendoza, Eduardo Gutiérrez, Emiliano Luna y Rodrigo Naranjo Hernández.</p>
+</footer>
+<div id="sentinel"></div>
+
+<div id="tip" role="tooltip"></div>
+<canvas id="boom" aria-hidden="true"></canvas>
+<div id="finale" role="dialog" aria-modal="true" aria-labelledby="fin-t"></div>
+<div id="thanks" role="dialog" aria-label="Gracias"></div>
+
+<script src="vendor/d3.v7.9.0.min.js"></script>
+<script src="vendor/plot.v0.6.16.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="intro.js"></script>
+<script src="finale.js"></script>
+<script src="transitions.js"></script>
+</body>
+</html>
